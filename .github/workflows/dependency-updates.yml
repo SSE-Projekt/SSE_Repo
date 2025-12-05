@@ -1,0 +1,51 @@
+name: Auto Dependency Updates
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # daily at 03:00
+  workflow_dispatch:
+
+
+jobs:
+  update-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+
+      - name: Update frontend dependencies
+        run: |
+          cd frontend
+          npm update
+
+
+      - name: Commit Node updates
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update frontend dependencies"
+
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+
+      - name: Update Maven dependencies
+        run: |
+          cd backend
+          mvn versions:use-latest-releases
+
+
+      - name: Commit Maven updates
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update backend dependencies"
