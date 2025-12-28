@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import Anmeldung from './components/Anmeldung.vue'
-import Registrierung from './components/Registrierung.vue'
+import Anmeldung from './components/viewComponents/Anmeldung.vue'
+import Registrierung from './components/viewComponents/Registrierung.vue'
 
 // Zustand, um zu steuern, was angezeigt wird: 'home', 'login' oder 'register'
 const view = ref('home')
