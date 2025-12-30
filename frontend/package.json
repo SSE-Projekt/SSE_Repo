@@ -12,10 +12,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.25"
+    "@mdi/js": "^7.4.47",
+    "@mdi/svg": "^7.4.47",
+    "dompurify": "^3.3.1",
+    "marked": "^17.0.1",
+    "uuid": "^13.0.0",
+    "vue": "^3.5.25",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "@vitejs/plugin-vue": "^6.0.2",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
     "vite": "^7.2.4",
     "vite-plugin-vue-devtools": "^8.0.5"
   }
