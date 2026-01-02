@@ -1,4 +1,6 @@
 <template>
+
+
   <div class="registration-box">
     <h2>Registrierung</h2>
     <p class="subtitle">Erstellen Sie ein sicheres Konto.</p>
@@ -84,6 +86,16 @@
 </template>
 
 <script setup>
+
+//Native Auto-Escaping von Vue.js: Standardmäßig schützt Vue.js die Anwendung automatisch vor XSS-Injektionen.
+//Wenn ich doppelte geschweifte Klammern {{ }} verwende, um Meldungen (wie meine Fehlermeldungen) anzuzeigen, behandelt
+// Vue den Inhalt als Klartext und nicht als HTML. Wenn ein Benutzer <script>alert(1)
+//script eingibt, zeigt Vue diese Zeichen wörtlich auf dem Bildschirm an, anstatt das Skript auszuführen.-
+
+//Validierung durch reguläre Ausdrücke (Regex): Mein E-Mail-Feld wird durch einen strengen Regex-Ausdruck
+// (emailRegex) gefiltert. Diese Validierung lehnt standardmäßig Sonderzeichen ab, die für XSS-Angriffe
+// unerlässlich sind, wie z. B. spitze Klammern < > oder Anführungszeichen " '. Der Angriff wird somit
+// blockiert, bevor er überhaupt verarbeitet wird.
 import { ref, computed } from 'vue';
 
 const email = ref('');
@@ -130,6 +142,8 @@ const validateEmail = () => {
   }
 };
 
+
+
 const handleRegister = async () => {
   errorMessage.value = '';
   successMessage.value = '';
@@ -138,13 +152,35 @@ const handleRegister = async () => {
     validateEmail();
     if (emailError.value || !isPasswordSecure.value) return;
 
-    console.log("Inscription de :", email.value, "Rôle :", role.value);
-    // Ici, vous ferez votre appel fetch() vers votre serveur local
-    successMessage.value = "Registrierung erfolgreich! Bitte prüfen Sie Ihre E-Mails.";
+    // 🔒 Sanitize des données utilisateur
+    const safeEmail = sanitize(email.value);
+    const safeRole = sanitize(role.value);
+
+    console.log("Inscription de :", safeEmail, "Rôle :", safeRole);
+
+    // zukünftiger sicherer Abruf
+    /*
+    await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: safeEmail,
+        password: password.value, // Backend-seitig gehasht
+        role: safeRole
+      })
+    })
+    */
+
+    successMessage.value = "Registrierung erfolgreich! ";
+    //wenn es von backend kommt
+    //successMessage.value = sanitize("Registrierung erfolgreich!");
   } catch (err) {
     errorMessage.value = "Ein Fehler ist aufgetreten.";
+    //wenn es von backend kommt
+    //errorMessage.value = sanitize("Ein Fehler ist aufgetreten.");
   }
 };
+
 </script>
 
 <style scoped>
