@@ -48,6 +48,7 @@
 // Vue den Inhalt als Klartext und nicht als HTML. Wenn ein Benutzer <script>alert(1)
 //script eingibt, zeigt Vue diese Zeichen wörtlich auf dem Bildschirm an, anstatt das Skript auszuführen.-
 
+
 //Validierung durch reguläre Ausdrücke (Regex): Mein E-Mail-Feld wird durch einen strengen Regex-Ausdruck
 // (emailRegex) gefiltert. Diese Validierung lehnt standardmäßig Sonderzeichen ab, die für XSS-Angriffe
 // unerlässlich sind, wie z. B. spitze Klammern < > oder Anführungszeichen " '. Der Angriff wird somit
