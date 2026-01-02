@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="min-h-screen bg-[#fafafa]">
     <main class="max-w-4xl mx-auto px-4 py-16">
       <div class="text-center mb-12">
