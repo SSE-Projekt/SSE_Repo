@@ -46,7 +46,13 @@ const saveNote = () => {
 
   // 1. SCHNITTSTELLE SICHERN: Eingabebereinigung gegen XSS
   // Entfernt gefährliche HTML-Tags und Attribute (z.B. <script>, onload)
-  const cleanContent = DOMPurify.sanitize(rawContent);
+  // XSS SCHUTZ mit Erlaubnis für iFrames (für YouTube)
+  // Wir erlauben iframes, damit die spätere Ersetzung funktionieren kann
+  const cleanContent = DOMPurify.sanitize(rawContent, {
+    ADD_TAGS: ["iframe"],
+    ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"]
+  });
+
   if (!cleanContent) {
     // Feld leeren
     emit('error')

@@ -51,31 +51,80 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { marked } from 'marked';
 import { getIcon } from '@/utils/getIcon';
+import DOMPurify from 'dompurify';
 
-// Die ID kommt direkt aus dem Router dank props: true
 const props = defineProps({
   id: String
 });
 
 const router = useRouter();
 
-// HINWEIS: In einer echten App würdest du hier die Notiz aus deinem
-// Store (Pinia) oder via API-Call anhand der props.id laden.
-// Hier als Beispiel ein lokaler Mock-Check:
 const notesStore = JSON.parse(localStorage.getItem('notes') || '[]');
 const currentNote = computed(() => notesStore.find(n => n.id === props.id));
 
 const renderedContent = computed(() => {
-  return currentNote.value ? marked.parse(currentNote.value.content) : '';
-});
-
-// In NoteDetailView.vue
-import DOMPurify from 'dompurify';
-
-const renderedContents = computed(() => {
   if (!currentNote.value?.content) return '';
-  // Doppelte Sicherheit: Sowohl beim Speichern als auch beim Rendern sanitizen
-  const html = marked.parse(currentNote.value.content);
-  return DOMPurify.sanitize(html.trim());
+
+  const renderer = new marked.Renderer();
+
+  // Wir nutzen die modernere Methode, um den Renderer anzupassen
+  renderer.image = ({ href, title, text }) => {
+    // Falls href ein Objekt ist (manche marked Versionen), extrahieren wir den String
+    const urlValue = typeof href === 'object' ? href.href : href;
+
+    if (urlValue && urlValue.startsWith('embed:')) {
+      const urlStr = urlValue.replace('embed:', '');
+
+      try {
+        let videoId = '';
+
+        // Robustere Extraktion der Video ID ohne zwingend das URL-Objekt (falls URL fehlerhaft)
+        if (urlStr.includes('youtube.com/watch?v=')) {
+          videoId = urlStr.split('v=')[1].split('&')[0];
+        } else if (urlStr.includes('youtu.be/')) {
+          videoId = urlStr.split('youtu.be/')[1].split('?')[0];
+        } else if (urlStr.includes('youtube.com/embed/')) {
+          videoId = urlStr.split('embed/')[1].split('?')[0];
+        }
+
+        if (videoId && /^[a-zA-Z0-9_-]+$/.test(videoId)) {
+          return `
+            <div class="video-container my-6 shadow-lg rounded-2xl overflow-hidden border border-gray-100" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0;">
+                <iframe
+                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                  src="https://www.youtube-nocookie.com/embed/${videoId}"
+                  title="${text || 'YouTube Video'}"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+                </iframe>
+            </div>`;
+        }
+      } catch (e) {
+        console.error("Video ID extraction failed", e);
+      }
+    }
+
+    // Fallback für normale Bilder
+    return `<img src="${urlValue}" alt="${text || ''}" title="${title || ''}" class="rounded-xl mx-auto shadow-sm" />`;
+  };
+
+  // HTML generieren mit dem angepassten Renderer
+  // Wichtig: In neueren marked Versionen wird es so übergeben:
+  const rawHtml = marked.parse(currentNote.value.content, { renderer: renderer });
+
+  // DOMPurify Konfiguration
+  return DOMPurify.sanitize(rawHtml, {
+    ADD_TAGS: ["iframe"],
+    ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling", "loading", "style"], // style erlaubt für das responsive Layout
+  });
 });
 </script>
+
+<style scoped>
+/* Gewährleistet, dass eingebettete Videos die Breite nicht sprengen */
+.video-container {
+  width: 100%;
+  clear: both;
+}
+</style>
