@@ -50,16 +50,38 @@
             />
           </div>
 
-          <div v-if="password.length > 0" class="mt-2 space-y-2">
-            <div class="flex gap-1 h-1.5">
-              <div :class="['h-full flex-1 rounded-full transition-all duration-500', password.length < 8 ? 'bg-rose-400' : (isPasswordSecure ? 'bg-emerald-500' : 'bg-amber-400')]"></div>
-              <div :class="['h-full flex-1 rounded-full transition-all duration-500', isPasswordSecure ? 'bg-emerald-500' : 'bg-gray-200']"></div>
-              <div :class="['h-full flex-1 rounded-full transition-all duration-500', isPasswordSecure ? 'bg-emerald-500' : 'bg-gray-200']"></div>
-            </div>
-            <p :class="['text-xs font-medium', strengthClass]">
-              Stärke: {{ passwordStrengthText }}
-            </p>
-          </div>
+<!--          <div v-if="password.length > 0" class="mt-2 space-y-2">-->
+<!--            <div class="flex gap-1 h-1.5">-->
+<!--              <div :class="['h-full flex-1 rounded-full transition-all duration-500', password.length < 8 ? 'bg-rose-400' : (isPasswordSecure ? 'bg-emerald-500' : 'bg-amber-400')]"></div>-->
+<!--              <div :class="['h-full flex-1 rounded-full transition-all duration-500', isPasswordSecure ? 'bg-emerald-500' : 'bg-gray-200']"></div>-->
+<!--              <div :class="['h-full flex-1 rounded-full transition-all duration-500', isPasswordSecure ? 'bg-emerald-500' : 'bg-gray-200']"></div>-->
+<!--            </div>-->
+<!--            <p :class="['text-xs font-medium', strengthClass]">-->
+<!--              Stärke: {{ passwordStrengthText }}-->
+<!--            </p>-->
+<!--          </div>-->
+          <ul class="password-requirements">
+            <li :class="{ 'met': requirements.length }">
+              <span class="icon">{{ requirements.length ? '✔' : '○' }}</span>
+              Mindestens 8 Zeichen
+            </li>
+            <li :class="{ 'met': requirements.uppercase }">
+              <span class="icon">{{ requirements.uppercase ? '✔' : '○' }}</span>
+              Ein Großbuchstabe (A-Z)
+            </li>
+            <li :class="{ 'met': requirements.lowercase }">
+              <span class="icon">{{ requirements.lowercase ? '✔' : '○' }}</span>
+              Ein Kleinbuchstabe (a-z)
+            </li>
+            <li :class="{ 'met': requirements.number }">
+              <span class="icon">{{ requirements.number ? '✔' : '○' }}</span>
+              Eine Zahl (0-9)
+            </li>
+            <li :class="{ 'met': requirements.special }">
+              <span class="icon">{{ requirements.special ? '✔' : '○' }}</span>
+              Ein Sonderzeichen (!@#$...)
+            </li>
+          </ul>
         </div>
 
         <div class="space-y-1.5">
@@ -118,7 +140,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { getIcon } from '@/utils/getIcon';
+import { getIcon } from '@/utils/getIcon.js';
 
 const email = ref('');
 const emailError = ref('');
@@ -127,27 +149,49 @@ const role = ref('read');
 const errorMessage = ref('');
 const successMessage = ref('');
 const passwordStrengthText = ref('Zu kurz');
-const isPasswordSecure = ref(false);
+// const isPasswordSecure = ref(false);
 
-const strengthClass = computed(() => {
-  if (password.value.length === 0) return '';
-  if (!isPasswordSecure.value) return 'text-rose-600';
-  return 'text-emerald-600';
+// const strengthClass = computed(() => {
+//   if (password.value.length === 0) return '';
+//   if (!isPasswordSecure.value) return 'text-rose-600';
+//   return 'text-emerald-600';
+// });
+const requirements = ref({
+  length: false,
+  uppercase: false,
+  lowercase: false,
+  number: false,
+  special: false
 });
+
+const isPasswordSecure = ref(false);
 
 const checkPasswordStrength = () => {
   const p = password.value;
-  if (p.length < 8) {
-    passwordStrengthText.value = 'Zu kurz (min 8 Zeichen)';
-    isPasswordSecure.value = false;
-  } else if (/[A-Z]/.test(p) && /[0-9]/.test(p) && /[^A-Za-z0-9]/.test(p)) {
-    passwordStrengthText.value = 'Starkes Passwort';
-    isPasswordSecure.value = true;
-  } else {
-    passwordStrengthText.value = 'Mittel (füge Zahlen/Sonderzeichen hinzu)';
-    isPasswordSecure.value = false;
-  }
+
+  // Tests individuels
+  requirements.value.length = p.length >= 8;
+  requirements.value.uppercase = /[A-Z]/.test(p);
+  requirements.value.lowercase = /[a-z]/.test(p);
+  requirements.value.number = /[0-9]/.test(p);
+  requirements.value.special = /[^A-Za-z0-9]/.test(p);
+
+  // Validation globale : toutes les conditions doivent être vraies
+  isPasswordSecure.value = Object.values(requirements.value).every(v => v === true);
 };
+// const checkPasswordStrength = () => {
+//   const p = password.value;
+//   if (p.length < 8) {
+//     passwordStrengthText.value = 'Zu kurz (min 8 Zeichen)';
+//     isPasswordSecure.value = false;
+//   } else if (/[A-Z]/.test(p) && /[0-9]/.test(p) && /[^A-Za-z0-9]/.test(p)) {
+//     passwordStrengthText.value = 'Starkes Passwort';
+//     isPasswordSecure.value = true;
+//   } else {
+//     passwordStrengthText.value = 'Mittel (füge Zahlen/Sonderzeichen hinzu)';
+//     isPasswordSecure.value = false;
+//   }
+// };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validateEmail = () => {

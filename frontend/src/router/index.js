@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Anmeldung from '@/components/viewComponents/Anmeldung.vue'
-import Registrierung from '@/components/viewComponents/Registrierung.vue'
+import Anmeldung from '@/view/Anmeldung.vue'
+import Registrierung from '@/view/Registrierung.vue'
 import Start from '@/view/homeView.vue'
 import MyNotes from '@/view/myNotesView.vue'
 import NoteDetailView from '@/view/noteDetailView.vue'
