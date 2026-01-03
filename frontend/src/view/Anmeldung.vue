@@ -83,7 +83,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { getIcon } from '@/utils/getIcon';
+import { getIcon } from '@/utils/getIcon.js';
 
 const emit = defineEmits(['login-success']);
 
