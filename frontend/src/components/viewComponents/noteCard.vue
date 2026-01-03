@@ -23,7 +23,6 @@
       </div>
 
       <div
-          @click="openDetails"
           class="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-semibold flex items-center gap-1"
       >
         Details ansehen
@@ -36,20 +35,39 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { marked } from 'marked';
-import { getIcon } from '@/utils/getIcon';
+import {computed} from 'vue';
+import {useRouter} from 'vue-router';
+import {marked} from 'marked';
+import {getIcon} from '@/utils/getIcon';
 
 const props = defineProps(['note']);
 const router = useRouter();
 
-// Markdown-Inhalt für die Vorschau rendern
 const renderedContent = computed(() => {
-  return props.note?.content ? marked.parse(props.note.content) : '';
+  if (!props.note?.content) return '';
+
+  const renderer = new marked.Renderer();
+
+  // Spezial-Renderer für die Karten-Vorschau
+  renderer.image = ({href, title, text}) => {
+    const urlValue = typeof href === 'object' ? href.href : href;
+
+    // Wenn es ein Video-Embed ist
+    if (urlValue && urlValue.startsWith('embed:')) {
+      // Wir rendern in der Vorschau kein Video, sondern einen schicken Link-Platzhalter
+      return `<span class="text-blue-600 underline decoration-blue-400 font-medium flex items-center gap-1">
+                <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.33,6.33 20.67,5.67 19.83,5.44C18.28,5 12,5 12,5C12,5 5.72,5 4.17,5.44C3.33,5.67 2.67,6.33 2.44,7.17C2,8.72 2,12 2,12C2,12 2,15.28 2.44,16.83C2.67,17.67 3.33,18.33 4.17,18.56C5.72,19 12,19 12,19C12,19 18.28,19 19.83,18.56C20.67,18.33 21.33,17.67 21.56,16.83C22,15.28 22,12 22,12C22,12 22,8.72 21.56,7.17Z" /></svg>
+                Video: ${text || 'YouTube Link'}
+              </span>`;
+    }
+
+    // Normales Bild in der Vorschau ebenfalls als Text-Link anzeigen (um Platz zu sparen)
+    return `<span class="text-gray-500 italic">[Bild: ${text || 'Ohne Titel'}]</span>`;
+  };
+
+  return marked.parse(props.note.content, {renderer});
 });
 
-// Navigation zur Detailansicht über die ID
 const openDetails = () => {
   if (props.note?.id) {
     router.push(`/notes/${props.note.id}`);
@@ -58,7 +76,6 @@ const openDetails = () => {
 </script>
 
 <style scoped>
-/* Kürzt den Text nach 3 Zeilen ab, falls er zu lang ist */
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
