@@ -4,9 +4,35 @@
       <div class="text-center mb-12">
         <h1 class="text-3xl font-bold mb-2 text-gray-900">Notes</h1>
         <p class="text-gray-500">Capture your thoughts in Markdown</p>
+
+        <SearchBar
+            v-model="searchQuery"
+            v-model:filterValue="filter"
+            :notes="existingNotes"
+            @update:modelValue="updateUrl"
+            @update:filterValue="updateUrl"
+        />
+        <div class="mt-16">
+          <div v-if="searchQuery">
+            <h2 class="text-xl font-semibold mb-6 text-gray-800">Suchergebnisse</h2>
+
+            <div v-if="filteredNotes.length > 0">
+              <note-card v-for="(n, idx) in filteredNotes" :key="idx" :note="n" />
+            </div>
+
+            <div v-else class="text-center py-12 text-gray-400 bg-white rounded-2xl border border-dashed border-gray-200">
+              Keine Notizen zu "{{ searchQuery }}" gefunden.
+            </div>
+          </div>
+        </div>
       </div>
 
-      <entry-card @add-note="addNewNote()" @success="handleSuccess()" @error="handleError('Dein Eintrag stellt ein reales Sicherheitsrisiko dar')" @warn="handleWarn('Dein Eintrag stellt ein potentielles Sicherheitsrisiko dar, kann nicht gespeichert werden')" />
+      <entry-card
+          @add-note="addNewNote"
+          @success="handleSuccess"
+          @error="handleError"
+          @warn="handleWarn"
+      />
 
       <div class="mt-16">
         <h2 class="text-xl font-semibold mb-6 text-gray-800">Recent Notes</h2>
@@ -18,21 +44,29 @@
         </div>
       </div>
     </main>
+
     <SnackBar
         v-model:show="snackbar.show"
         :message="snackbar.message"
         :type="snackbar.type"
-        :timeout="3000"
     />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import SearchBar from "@/components/viewComponents/SearchBar.vue";
 import EntryCard from "@/components/viewComponents/entryCard.vue";
 import NoteCard from "@/components/viewComponents/noteCard.vue";
 import SnackBar from "@/components/viewComponents/snackBar.vue";
-import { reactive } from 'vue';
+
+const route = useRoute();
+const router = useRouter();
+
+const searchQuery = ref('');
+const filter = ref('all');
+const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
 
 const snackbar = reactive({
   show: false,
@@ -40,6 +74,47 @@ const snackbar = reactive({
   type: 'success'
 });
 
+// --- URL Logik ---
+onMounted(() => {
+  if (route.query.q) searchQuery.value = route.query.q;
+  if (route.query.type) filter.value = route.query.type;
+});
+
+const updateUrl = () => {
+  router.replace({
+    query: {
+      q: searchQuery.value || undefined,
+      type: filter.value !== 'all' ? filter.value : undefined
+    }
+  });
+};
+
+// --- Filterlogik (angepasst an isPrivate) ---
+const filteredNotes = computed(() => {
+  return existingNotes.value.filter(note => {
+    // 1. Vorbereitung der Texte für die Recherche
+    const content = (note.content || '').toLowerCase();
+    const query = (searchQuery.value || '').toLowerCase();
+    const matchesSearch = content.includes(query);
+
+    // 2. Filterlogik
+    let matchesFilter = false;
+
+    if (filter.value === 'all') {
+      matchesFilter = true;
+    } else if (filter.value === 'public') {
+      // Wenn isPrivate falsch ist (oder noch nicht existiert), ist es öffentlich.
+      matchesFilter = note.isPrivate === false;
+    } else if (filter.value === 'private') {
+      // Wenn isPrivate wahr ist
+      matchesFilter = note.isPrivate === true;
+    }
+
+    return matchesSearch && matchesFilter;
+  });
+});
+
+// --- Handlers ---
 const handleSuccess = () => {
   snackbar.message = 'Notiz erfolgreich gespeichert!';
   snackbar.type = 'success';
@@ -47,7 +122,7 @@ const handleSuccess = () => {
 };
 
 const handleWarn = (msg) => {
-  snackbar.message = msg || 'Problem beim Speichern!';
+  snackbar.message = msg || 'Sicherheitsrisiko erkannt!';
   snackbar.type = 'warn';
   snackbar.show = true;
 };
@@ -58,9 +133,17 @@ const handleError = (msg) => {
   snackbar.show = true;
 };
 
-const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
 const addNewNote = () => {
+  // Liste aus dem lokalen Speicher aktualisieren
   existingNotes.value = JSON.parse(localStorage.getItem('notes') || '[]');
-}
-
+};
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>
