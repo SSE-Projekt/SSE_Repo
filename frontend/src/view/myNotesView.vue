@@ -2,8 +2,8 @@
   <div class="min-h-screen bg-[#fafafa]">
     <main class="max-w-4xl mx-auto px-4 py-16">
       <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold mb-2 text-gray-900">Notes</h1>
-        <p class="text-gray-500">Capture your thoughts in Markdown</p>
+        <h1 class="text-3xl font-bold mb-2 text-gray-900">My Notes</h1>
+        <p class="text-gray-500">Here are all my notes.</p>
 
         <SearchBar
             v-model="searchQuery"
@@ -35,17 +35,12 @@
       />
 
       <div class="mt-16">
-        <h2 class="text-xl font-semibold mb-6 text-gray-800">
-          {{ searchQuery ? 'Suchergebnisse' : 'Recent Notes' }}
-        </h2>
-
-        <div v-if="filteredNotes.length > 0">
-          <note-card v-for="(n, idx) in filteredNotes" :key="n.id || idx" :note="n" />
+        <h2 class="text-xl font-semibold mb-6 text-gray-800">Recent Notes</h2>
+        <div v-if="existingNotes.length > 0">
+          <note-card v-for="(n, idx) in existingNotes" :key="idx" :note="n" />
         </div>
-
         <div v-else class="text-center py-12 text-gray-400 bg-white rounded-2xl border border-dashed border-gray-200">
-          <p v-if="searchQuery">Keine Notizen zu "{{ searchQuery }}" gefunden.</p>
-          <p v-else>Keine Notizen in dieser Kategorie vorhanden.</p>
+          No notes yet. Start writing above!
         </div>
       </div>
     </main>
@@ -94,24 +89,24 @@ const updateUrl = () => {
   });
 };
 
-// --- Logique de Filtrage (Adaptée à isPrivate) ---
+// --- Filterlogik (angepasst an isPrivate) ---
 const filteredNotes = computed(() => {
   return existingNotes.value.filter(note => {
-    // 1. Préparation des textes pour la recherche
+    // 1. Vorbereitung der Texte für die Recherche
     const content = (note.content || '').toLowerCase();
     const query = (searchQuery.value || '').toLowerCase();
     const matchesSearch = content.includes(query);
 
-    // 2. Logique du filtre (Basée sur la clé 'isPrivate' de ton EntryCard)
+    // 2. Filterlogik
     let matchesFilter = false;
 
     if (filter.value === 'all') {
       matchesFilter = true;
     } else if (filter.value === 'public') {
-      // Si isPrivate est faux (ou n'existe pas encore), c'est public
+      // Wenn isPrivate falsch ist (oder noch nicht existiert), ist es öffentlich.
       matchesFilter = note.isPrivate === false;
     } else if (filter.value === 'private') {
-      // Si isPrivate est vrai
+      // Wenn isPrivate wahr ist
       matchesFilter = note.isPrivate === true;
     }
 
@@ -139,13 +134,12 @@ const handleError = (msg) => {
 };
 
 const addNewNote = () => {
-  // Rafraîchir la liste depuis le localStorage
+  // Liste aus dem lokalen Speicher aktualisieren
   existingNotes.value = JSON.parse(localStorage.getItem('notes') || '[]');
 };
 </script>
 
 <style scoped>
-/* Transition simple pour les listes si besoin */
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.3s ease;
 }
