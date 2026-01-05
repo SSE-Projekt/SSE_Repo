@@ -50,36 +50,21 @@
             />
           </div>
 
-<!--          <div v-if="password.length > 0" class="mt-2 space-y-2">-->
-<!--            <div class="flex gap-1 h-1.5">-->
-<!--              <div :class="['h-full flex-1 rounded-full transition-all duration-500', password.length < 8 ? 'bg-rose-400' : (isPasswordSecure ? 'bg-emerald-500' : 'bg-amber-400')]"></div>-->
-<!--              <div :class="['h-full flex-1 rounded-full transition-all duration-500', isPasswordSecure ? 'bg-emerald-500' : 'bg-gray-200']"></div>-->
-<!--              <div :class="['h-full flex-1 rounded-full transition-all duration-500', isPasswordSecure ? 'bg-emerald-500' : 'bg-gray-200']"></div>-->
-<!--            </div>-->
-<!--            <p :class="['text-xs font-medium', strengthClass]">-->
-<!--              Stärke: {{ passwordStrengthText }}-->
-<!--            </p>-->
-<!--          </div>-->
-          <ul class="password-requirements">
-            <li :class="{ 'met': requirements.length }">
-              <span class="icon">{{ requirements.length ? '✔' : '○' }}</span>
-              Mindestens 8 Zeichen
+          <ul class="password-requirements mt-2 text-xs space-y-1 text-gray-500">
+            <li :class="{ 'text-emerald-600 font-medium': requirements.length }">
+              {{ requirements.length ? '✔' : '○' }} Mindestens 8 Zeichen
             </li>
-            <li :class="{ 'met': requirements.uppercase }">
-              <span class="icon">{{ requirements.uppercase ? '✔' : '○' }}</span>
-              Ein Großbuchstabe (A-Z)
+            <li :class="{ 'text-emerald-600 font-medium': requirements.uppercase }">
+              {{ requirements.uppercase ? '✔' : '○' }} Ein Großbuchstabe (A-Z)
             </li>
-            <li :class="{ 'met': requirements.lowercase }">
-              <span class="icon">{{ requirements.lowercase ? '✔' : '○' }}</span>
-              Ein Kleinbuchstabe (a-z)
+            <li :class="{ 'text-emerald-600 font-medium': requirements.lowercase }">
+              {{ requirements.lowercase ? '✔' : '○' }} Ein Kleinbuchstabe (a-z)
             </li>
-            <li :class="{ 'met': requirements.number }">
-              <span class="icon">{{ requirements.number ? '✔' : '○' }}</span>
-              Eine Zahl (0-9)
+            <li :class="{ 'text-emerald-600 font-medium': requirements.number }">
+              {{ requirements.number ? '✔' : '○' }} Eine Zahl (0-9)
             </li>
-            <li :class="{ 'met': requirements.special }">
-              <span class="icon">{{ requirements.special ? '✔' : '○' }}</span>
-              Ein Sonderzeichen (!@#$...)
+            <li :class="{ 'text-emerald-600 font-medium': requirements.special }">
+              {{ requirements.special ? '✔' : '○' }} Ein Sonderzeichen (!@#$...)
             </li>
           </ul>
         </div>
@@ -89,18 +74,35 @@
           <div class="grid grid-cols-2 gap-3">
             <button
                 type="button"
-                @click="role = 'read'"
+                @click="role = 'read'; agreement = false"
                 :class="['py-2.5 px-4 rounded-xl text-sm font-medium border transition-all', role === 'read' ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50']"
             >
               Leser
             </button>
             <button
                 type="button"
-                @click="role = 'write'"
+                @click="role = 'write'; agreement = false"
                 :class="['py-2.5 px-4 rounded-xl text-sm font-medium border transition-all', role === 'write' ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50']"
             >
               Autor
             </button>
+          </div>
+
+          <div class="mt-3 p-3 bg-gray-50 rounded-xl border border-gray-100 text-xs text-gray-600 leading-relaxed">
+            <p v-if="role === 'read'"><strong>Leser:</strong> Du kannst öffentliche und dir geteilte Notizen lesen, aber keine neuen globalen Inhalte veröffentlichen.</p>
+            <p v-else><strong>Autor:</strong> Du hast volle Rechte zum Erstellen und Teilen privaten Notizen und  Veröffentlichen von öffentlichen Notizen für die Community.</p>
+          </div>
+
+          <div class="flex items-center gap-2 mt-4 px-1">
+            <input
+                type="checkbox"
+                id="agreement"
+                v-model="agreement"
+                class="w-4 h-4 accent-black cursor-pointer"
+            >
+            <label for="agreement" class="text-xs text-gray-600 cursor-pointer">
+              Ich bin mit den Berechtigungen der Rolle <strong>{{ role === 'read' ? 'Leser' : 'Autor' }}</strong> einverstanden.
+            </label>
           </div>
         </div>
 
@@ -116,7 +118,7 @@
 
         <button
             type="submit"
-            :disabled="!isPasswordSecure || !!emailError || !email"
+            :disabled="!isPasswordSecure || !!emailError || !email || !agreement"
             class="w-full py-3.5 bg-black hover:bg-gray-800 text-white rounded-xl font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed mt-4"
         >
           Registrieren
@@ -146,16 +148,10 @@ const email = ref('');
 const emailError = ref('');
 const password = ref('');
 const role = ref('read');
+const agreement = ref(false); // État pour la case à cocher
 const errorMessage = ref('');
 const successMessage = ref('');
-const passwordStrengthText = ref('Zu kurz');
-// const isPasswordSecure = ref(false);
 
-// const strengthClass = computed(() => {
-//   if (password.value.length === 0) return '';
-//   if (!isPasswordSecure.value) return 'text-rose-600';
-//   return 'text-emerald-600';
-// });
 const requirements = ref({
   length: false,
   uppercase: false,
@@ -168,30 +164,14 @@ const isPasswordSecure = ref(false);
 
 const checkPasswordStrength = () => {
   const p = password.value;
-
-  // Tests individuels
   requirements.value.length = p.length >= 8;
   requirements.value.uppercase = /[A-Z]/.test(p);
   requirements.value.lowercase = /[a-z]/.test(p);
   requirements.value.number = /[0-9]/.test(p);
   requirements.value.special = /[^A-Za-z0-9]/.test(p);
 
-  // Validation globale : toutes les conditions doivent être vraies
   isPasswordSecure.value = Object.values(requirements.value).every(v => v === true);
 };
-// const checkPasswordStrength = () => {
-//   const p = password.value;
-//   if (p.length < 8) {
-//     passwordStrengthText.value = 'Zu kurz (min 8 Zeichen)';
-//     isPasswordSecure.value = false;
-//   } else if (/[A-Z]/.test(p) && /[0-9]/.test(p) && /[^A-Za-z0-9]/.test(p)) {
-//     passwordStrengthText.value = 'Starkes Passwort';
-//     isPasswordSecure.value = true;
-//   } else {
-//     passwordStrengthText.value = 'Mittel (füge Zahlen/Sonderzeichen hinzu)';
-//     isPasswordSecure.value = false;
-//   }
-// };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validateEmail = () => {
@@ -207,7 +187,7 @@ const validateEmail = () => {
 const handleRegister = async () => {
   try {
     validateEmail();
-    if (emailError.value) return;
+    if (emailError.value || !agreement.value) return;
     successMessage.value = "Erfolg! Bitte prüfe deine E-Mails zur Verifizierung.";
     errorMessage.value = '';
   } catch (err) {
