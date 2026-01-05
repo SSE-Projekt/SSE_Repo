@@ -4,6 +4,7 @@ import Search from '@/components/viewComponents/SearchBar.vue'
 import Registrierung from '@/view/Registrierung.vue'
 import Start from '@/view/homeView.vue'
 import MyNotes from '@/view/myNotesView.vue'
+import shareNotes from '@/view/shareNoteView.vue'
 import NoteDetailView from '@/view/noteDetailView.vue'
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
     { path: '/register', component: Registrierung },
     { path: '/notes', component: Start },
     { path: '/my-notes', component: MyNotes },
+    { path: '/share-notes', component: shareNotes },
     { path: '/notes/:id', component: NoteDetailView, props: true}
 ]
 

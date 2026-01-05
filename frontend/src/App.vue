@@ -7,7 +7,7 @@ const route = useRoute()
 
 // Zeige die Topbar nur auf den "App"-Seiten, nicht beim Login/Register
 const showTopbar = computed(() => {
-  return ['/notes', '/my-notes'].includes(route.path) || route.path.startsWith('/notes/')
+  return ['/notes', '/my-notes','/share-notes'].includes(route.path) || route.path.startsWith('/notes/')
 })
 </script>
 

@@ -27,6 +27,17 @@
           My Notes
         </router-link>
       </button>
+
+      <button
+          @click="$emit('change-view', 'share-notes')"
+          :class="activeView === 'my-notes' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
+      >
+        <router-link to="/share-notes" class="nav-item" active-class="active">
+          <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current"><path :d="getIcon('file-document-outline')" /></svg>
+          my share notes
+        </router-link>
+      </button>
     </div>
 
     <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-200 transition">
