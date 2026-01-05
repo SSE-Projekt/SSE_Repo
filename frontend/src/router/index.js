@@ -9,7 +9,7 @@ import NoteDetailView from '@/view/noteDetailView.vue'
 import Forbidden from '@/view/ForbiddenView.vue'
 
 const routes = [
-    { path: '/', redirect: '/home' },
+    { path: '/', redirect: '/login' },
     { path: '/home', redirect: '/notes' },
     { path: '/search', component: Search },
     { path: '/login', component: Anmeldung },
@@ -25,7 +25,7 @@ const routes = [
     { path: '/notes/:id', component: NoteDetailView, props: true},
     { path: '/403', component: Forbidden, name: 'forbidden' },
     // „Catch-all”-Route für nicht vorhandene Seiten
-    { path: '/:pathMatch(.*)*', redirect: '/home' }
+    { path: '/:pathMatch(.*)*', redirect: '/login' }
 ]
 
 const router = createRouter({
@@ -34,17 +34,30 @@ const router = createRouter({
 })
 //DER NAVIGATION GUARD
 router.beforeEach((to, from, next) => {
-    // Wir rufen die gespeicherte Rolle ab (über localStorage oder deinen globalen Status).
-    // Für den Test simulieren wir den Abruf der Rolle:
-    const user = JSON.parse(localStorage.getItem('user') || '{"role": "autor"}');
-    const userRole = user.role;
+    const publicPages = ['/login', '/register'];
+    const authRequired = !publicPages.includes(to.path);
 
-    // Wenn die Route die Rolle „autor” erfordert und der Benutzer nicht „autor” ist
-    if (to.meta.requiresRole === 'autor' && userRole !== 'autor') {
-        next({ name: 'forbidden' });
-    } else {
-        next(); // Erlaubt die Navigation
+    const userJson = localStorage.getItem('user');
+    const user = userJson ? JSON.parse(userJson) : null;
+
+    // 1. SI PAS CONNECTÉ et tente d'aller ailleurs que Login/Register
+    if (authRequired && !user) {
+        // On force l'arrêt sur login
+        return next('/login');
     }
-})
+
+    // 2. SI DÉJÀ CONNECTÉ et tente d'aller sur Login
+    if (user && (to.path === '/login' || to.path === '/register')) {
+        return next('/home');
+    }
+
+    // 3. VÉRIFICATION DES RÔLES
+    if (to.meta.requiresRole === 'autor' && user?.role !== 'autor') {
+        return next({ name: 'forbidden' });
+    }
+
+    // Sinon, on laisse passer
+    next();
+});
 
 export default router

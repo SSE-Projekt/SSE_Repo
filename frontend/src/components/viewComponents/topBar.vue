@@ -6,7 +6,6 @@
     </div>
 
     <div class="flex items-center gap-2 bg-gray-50 p-1 rounded-xl">
-
       <button
           @click="$emit('change-view', 'home')"
           :class="activeView === 'home' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
@@ -42,16 +41,38 @@
       </button>
     </div>
 
-    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-200 transition">
-      <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current"><path :d="getIcon('account')" /></svg>
+    <div class="flex items-center gap-3">
+      <button
+          @click="handleLogout"
+          class="flex items-center justify-center w-10 h-10 text-rose-500 hover:bg-rose-50 rounded-full transition-colors"
+          title="Abmelden"
+      >
+        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+          <path :d="getIcon('logout')" />
+        </svg>
+      </button>
+
+      <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-200 transition" :title="userRole">
+        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current"><path :d="getIcon('account')" /></svg>
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { getIcon } from '@/utils/getIcon';
 
-// Ajout de userRole dans les props
-defineProps(['activeView', 'userRole']);
+const props = defineProps(['activeView', 'userRole']);
 defineEmits(['change-view']);
+
+const router = useRouter();
+
+const handleLogout = () => {
+  // 1. On vide les données de session
+  localStorage.removeItem('user');
+
+  // 2. Redirection brute pour réinitialiser le Guard et l'état de l'app
+  window.location.href = '/#/login';
+};
 </script>
