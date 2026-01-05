@@ -56,8 +56,8 @@ CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$
 begin
-  insert into public.users (id,name,email,rolle)
-  values (new.id,new.raw_user_meta_data->>'full_name', new.email, new.raw_user_meta_data->>'rolle');
+  insert into public.users (id,email,name,rolle)
+  values (new.id, new.email, new.raw_user_meta_data->>'user_name', (new.raw_user_meta_data->>'user_rolle')::smallint);
   return new;
 end;
 $$;
@@ -460,5 +460,7 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 
 
 drop extension if exists "pg_net";
+
+CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
 
