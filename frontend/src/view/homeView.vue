@@ -28,11 +28,16 @@
       </div>
 
       <entry-card
+          v-if="userRole === 'autor'"
           @add-note="addNewNote"
           @success="handleSuccess"
           @error="handleError"
           @warn="handleWarn"
       />
+
+      <div v-else class="max-w-4xl mx-auto mt-12 p-6 bg-blue-50 border border-blue-100 rounded-2xl text-center text-blue-600 text-sm">
+        Sie sind als <strong>Leser</strong> angemeldet. Erstellen von Notizen ist Autoren vorbehalten.
+      </div>
 
       <div class="mt-16">
         <h2 class="text-xl font-semibold mb-6 text-gray-800">Recent Notes</h2>
@@ -67,7 +72,9 @@ const router = useRouter();
 const searchQuery = ref('');
 const filter = ref('all');
 const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
-
+const props = defineProps({
+  userRole: String
+});
 const snackbar = reactive({
   show: false,
   message: '',

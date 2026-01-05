@@ -6,23 +6,25 @@
     </div>
 
     <div class="flex items-center gap-2 bg-gray-50 p-1 rounded-xl">
+
       <button
           @click="$emit('change-view', 'home')"
           :class="activeView === 'home' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
       >
-        <router-link to="/home" class="nav-item" active-class="active">
+        <router-link to="/home" class="nav-item flex items-center gap-2">
           <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current"><path :d="getIcon('home')" /></svg>
           Home
         </router-link>
       </button>
 
       <button
+          v-if="userRole === 'autor'"
           @click="$emit('change-view', 'my-notes')"
           :class="activeView === 'my-notes' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
       >
-        <router-link to="/my-notes" class="nav-item" active-class="active">
+        <router-link to="/my-notes" class="nav-item flex items-center gap-2">
           <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current"><path :d="getIcon('file-document-outline')" /></svg>
           My Notes
         </router-link>
@@ -30,12 +32,12 @@
 
       <button
           @click="$emit('change-view', 'share-notes')"
-          :class="activeView === 'my-notes' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
+          :class="activeView === 'share-notes' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
       >
-        <router-link to="/share-notes" class="nav-item" active-class="active">
-          <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current"><path :d="getIcon('file-document-outline')" /></svg>
-          my share notes
+        <router-link to="/share-notes" class="nav-item flex items-center gap-2">
+          <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current"><path :d="getIcon('share-variant')" /></svg>
+          Shared Notes
         </router-link>
       </button>
     </div>
@@ -49,6 +51,7 @@
 <script setup>
 import { getIcon } from '@/utils/getIcon';
 
-defineProps(['activeView']);
+// Ajout de userRole dans les props
+defineProps(['activeView', 'userRole']);
 defineEmits(['change-view']);
 </script>

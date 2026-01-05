@@ -28,7 +28,7 @@
       </div>
 
       <div class="mt-16">
-        <h2 class="text-xl font-semibold mb-6 text-gray-800">Recent Notes</h2>
+        <h2 class="text-xl font-semibold mb-6 text-gray-800">All Shared Notes</h2>
         <div v-if="existingNotes.length > 0">
           <note-card v-for="(n, idx) in existingNotes" :key="idx" :note="n" />
         </div>
