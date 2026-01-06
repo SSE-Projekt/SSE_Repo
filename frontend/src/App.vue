@@ -8,7 +8,7 @@ const route = useRoute()
 /** * ENTWICKLUNGSMETHODE: Manuelle Änderung der Rolle
  * Ändern „autor” in „leser”, um den Zugriff zu testen.
  */
-const userRole = ref('leser');
+const userRole = ref('autor');
 // Sofortige Synchronisierung mit localStorage für den Router
 // Dadurch muss index.js nicht manuell geändert werden.
 watch(userRole, (newRole) => {

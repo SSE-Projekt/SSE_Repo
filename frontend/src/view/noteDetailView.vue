@@ -11,6 +11,7 @@
 
           <div class="flex items-center gap-2">
             <button
+                v-if="route.query.from === 'my-notes'"
                 @click="openShareModal"
                 class="flex items-center gap-2 px-3 py-1 bg-white border border-gray-200 rounded-full text-xs font-medium text-gray-600 hover:border-black hover:text-black transition-all"
             >
@@ -100,7 +101,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { marked } from 'marked';
 import { getIcon } from '@/utils/getIcon';
 import DOMPurify from 'dompurify';
@@ -114,7 +115,7 @@ const router = useRouter();
 // UI States
 const showShareModal = ref(false);
 const shareSuccess = ref(false);
-
+const route = useRoute();
 // Simulation Auth/Users
 const currentUserEmail = "mon-email@exemple.com";
 const allUsers = ref([
