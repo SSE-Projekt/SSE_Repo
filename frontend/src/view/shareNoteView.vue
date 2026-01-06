@@ -2,8 +2,8 @@
   <div class="min-h-screen bg-[#fafafa]">
     <main class="max-w-4xl mx-auto px-4 py-16">
       <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold mb-2 text-gray-900">Notes</h1>
-        <p class="text-gray-500">Capture your thoughts in Markdown</p>
+        <h1 class="text-3xl font-bold mb-2 text-gray-900">notes shared and collected</h1>
+        <p class="text-gray-500">Here are the notes that have been shared by yourself and received from other users.</p>
 
         <SearchBar
             v-model="searchQuery"
@@ -27,20 +27,8 @@
         </div>
       </div>
 
-      <entry-card
-          v-if="userRole === 'autor'"
-          @add-note="addNewNote"
-          @success="handleSuccess"
-          @error="handleError"
-          @warn="handleWarn"
-      />
-
-      <div v-else class="max-w-4xl mx-auto mt-12 p-6 bg-blue-50 border border-blue-100 rounded-2xl text-center text-blue-600 text-sm">
-        Sie sind als <strong>Leser</strong> angemeldet. Erstellen von Notizen ist Autoren vorbehalten.
-      </div>
-
       <div class="mt-16">
-        <h2 class="text-xl font-semibold mb-6 text-gray-800">Recent Notes</h2>
+        <h2 class="text-xl font-semibold mb-6 text-gray-800">All Shared Notes</h2>
         <div v-if="existingNotes.length > 0">
           <note-card v-for="(n, idx) in existingNotes" :key="idx" :note="n" />
         </div>
@@ -62,7 +50,6 @@
 import { ref, reactive, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import SearchBar from "@/components/viewComponents/SearchBar.vue";
-import EntryCard from "@/components/viewComponents/entryCard.vue";
 import NoteCard from "@/components/viewComponents/noteCard.vue";
 import SnackBar from "@/components/viewComponents/snackBar.vue";
 
@@ -72,9 +59,7 @@ const router = useRouter();
 const searchQuery = ref('');
 const filter = ref('all');
 const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
-const props = defineProps({
-  userRole: String
-});
+
 const snackbar = reactive({
   show: false,
   message: '',
@@ -121,29 +106,6 @@ const filteredNotes = computed(() => {
   });
 });
 
-// --- Handlers ---
-const handleSuccess = () => {
-  snackbar.message = 'Notiz erfolgreich gespeichert!';
-  snackbar.type = 'success';
-  snackbar.show = true;
-};
-
-const handleWarn = (msg) => {
-  snackbar.message = msg || 'Sicherheitsrisiko erkannt!';
-  snackbar.type = 'warn';
-  snackbar.show = true;
-};
-
-const handleError = (msg) => {
-  snackbar.message = msg || 'Fehler beim Speichern!';
-  snackbar.type = 'failed';
-  snackbar.show = true;
-};
-
-const addNewNote = () => {
-  // Liste aus dem lokalen Speicher aktualisieren
-  existingNotes.value = JSON.parse(localStorage.getItem('notes') || '[]');
-};
 </script>
 
 <style scoped>

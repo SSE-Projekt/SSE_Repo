@@ -11,33 +11,68 @@
           :class="activeView === 'home' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
       >
-        <router-link to="/home" class="nav-item" active-class="active">
+        <router-link to="/home" class="nav-item flex items-center gap-2">
           <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current"><path :d="getIcon('home')" /></svg>
           Home
         </router-link>
       </button>
 
       <button
+          v-if="userRole === 'autor'"
           @click="$emit('change-view', 'my-notes')"
           :class="activeView === 'my-notes' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
       >
-        <router-link to="/my-notes" class="nav-item" active-class="active">
+        <router-link to="/my-notes" class="nav-item flex items-center gap-2">
           <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current"><path :d="getIcon('file-document-outline')" /></svg>
           My Notes
         </router-link>
       </button>
+
+      <button
+          @click="$emit('change-view', 'share-notes')"
+          :class="activeView === 'share-notes' ? 'bg-white shadow-sm text-black font-medium' : 'text-gray-500 hover:text-black'"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
+      >
+        <router-link to="/share-notes" class="nav-item flex items-center gap-2">
+          <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current"><path :d="getIcon('share-variant')" /></svg>
+          Shared Notes
+        </router-link>
+      </button>
     </div>
 
-    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-200 transition">
-      <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current"><path :d="getIcon('account')" /></svg>
+    <div class="flex items-center gap-3">
+      <button
+          @click="handleLogout"
+          class="flex items-center justify-center w-10 h-10 text-rose-500 hover:bg-rose-50 rounded-full transition-colors"
+          title="Abmelden"
+      >
+        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+          <path :d="getIcon('logout')" />
+        </svg>
+      </button>
+
+      <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-200 transition" :title="userRole">
+        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current"><path :d="getIcon('account')" /></svg>
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { getIcon } from '@/utils/getIcon';
 
-defineProps(['activeView']);
+const props = defineProps(['activeView', 'userRole']);
 defineEmits(['change-view']);
+
+const router = useRouter();
+
+const handleLogout = () => {
+  // 1. On vide les données de session
+  localStorage.removeItem('user');
+
+  // 2. Redirection brute pour réinitialiser le Guard et l'état de l'app
+  router.push('/login');
+};
 </script>
