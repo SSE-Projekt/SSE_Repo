@@ -68,7 +68,7 @@ defineEmits(['change-view']);
 
 const router = useRouter();
 
-const handleLogout = () => {
+const handleLogout = async () => {
   // 1. On vide les données de session
   localStorage.removeItem('user');
 
