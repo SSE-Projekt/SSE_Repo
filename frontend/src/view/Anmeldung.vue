@@ -9,7 +9,7 @@
     </div>
 
     <div class="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm">
-      <form @submit.prevent="handleLogin" class="space-y-5">
+      <form @submit.prevent="immediateLogin" class="space-y-5">
 
         <div class="space-y-1.5">
           <label for="login-username" class="text-sm font-semibold text-gray-700 ml-1">Nutzername</label>
@@ -82,8 +82,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {ref, watch} from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
+import {useRouter} from 'vue-router';
 
 const emit = defineEmits(['login-success']);
 
@@ -91,6 +92,7 @@ const username = ref('');
 const password = ref('');
 const authError = ref('');
 const isLoading = ref(false);
+const router = useRouter()
 
 const handleLogin = async () => {
   authError.value = '';
@@ -116,6 +118,19 @@ const handleLogin = async () => {
     isLoading.value = false;
   }
 };
+
+const immediateLogin = async () => {
+  const userRole = ref('leser');
+// Sofortige Synchronisierung mit localStorage für den Router
+// Dadurch muss index.js nicht manuell geändert werden.
+  watch(userRole, (newRole) => {
+    localStorage.setItem('user', JSON.stringify({role: newRole}));
+  }, {immediate: true});
+
+  router.push('/home');
+
+}
+
 </script>
 
 <style scoped>

@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
     const publicPages = ['/login', '/register'];
     const authRequired = !publicPages.includes(to.path);
 
-    const userJson = localStorage.getItem('user');
+    const userJson = localStorage.getItem('user')?? null;
     const user = userJson ? JSON.parse(userJson) : null;
 
     // 1. SI PAS CONNECTÉ et tente d'aller ailleurs que Login/Register

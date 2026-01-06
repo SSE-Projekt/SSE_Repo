@@ -37,7 +37,13 @@
       <div class="mt-16">
         <h2 class="text-xl font-semibold mb-6 text-gray-800">Recent Notes</h2>
         <div v-if="existingNotes.length > 0">
-          <note-card v-for="(n, idx) in existingNotes" :key="idx" :note="n" />
+          <note-card
+              v-for="(n, idx) in existingNotes"
+              :key="idx"
+              :note="n"
+              @click="router.push({ path: `/notes/${n.id}`, query: { from: 'my-notes' } })"
+              class="cursor-pointer"
+          />
         </div>
         <div v-else class="text-center py-12 text-gray-400 bg-white rounded-2xl border border-dashed border-gray-200">
           No notes yet. Start writing above!
