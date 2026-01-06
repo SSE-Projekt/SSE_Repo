@@ -73,6 +73,6 @@ const handleLogout = () => {
   localStorage.removeItem('user');
 
   // 2. Redirection brute pour réinitialiser le Guard et l'état de l'app
-  window.location.href = '/#/login';
+  router.push('/login');
 };
 </script>
