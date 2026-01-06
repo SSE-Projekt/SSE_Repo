@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mailpit:
+    image: public.ecr.aws/supabase/mailpit:v1.22.3
+    container_name: supabase_mailpit
+    ports:
+      - "54324:8025"   # Web UI
+      - "1025:1025"    # SMTP
+    networks:
+      - supabase_net
+
+networks:
+  supabase_net:
+    driver: bridge

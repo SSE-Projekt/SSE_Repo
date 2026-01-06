@@ -13,4 +13,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     // um zu prüfen, ob die E-Mail existiert.
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
+    // Zählt User, deren Name mit dem Prefix beginnt
+    long countByNameStartingWith(String prefix);
+
+    Optional<User> findByName(String loginIdentifier);
 }
