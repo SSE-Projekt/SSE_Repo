@@ -74,22 +74,22 @@
           <div class="grid grid-cols-2 gap-3">
             <button
                 type="button"
-                @click="role = 'read'; agreement = false"
-                :class="['py-2.5 px-4 rounded-xl text-sm font-medium border transition-all', role === 'read' ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50']"
+                @click="role = 1; agreement = false"
+                :class="['py-2.5 px-4 rounded-xl text-sm font-medium border transition-all', role === 1 ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50']"
             >
               Leser
             </button>
             <button
                 type="button"
-                @click="role = 'write'; agreement = false"
-                :class="['py-2.5 px-4 rounded-xl text-sm font-medium border transition-all', role === 'write' ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50']"
+                @click="role = 2; agreement = false"
+                :class="['py-2.5 px-4 rounded-xl text-sm font-medium border transition-all', role === 2 ? 'bg-black text-white border-black shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50']"
             >
               Autor
             </button>
           </div>
 
           <div class="mt-3 p-3 bg-gray-50 rounded-xl border border-gray-100 text-xs text-gray-600 leading-relaxed">
-            <p v-if="role === 'read'"><strong>Leser:</strong> Du kannst öffentliche und dir geteilte Notizen lesen, aber keine neuen globalen Inhalte veröffentlichen.</p>
+            <p v-if="role === 1"><strong>Leser:</strong> Du kannst öffentliche und dir geteilte Notizen lesen, aber keine neuen globalen Inhalte veröffentlichen.</p>
             <p v-else><strong>Autor:</strong> Du hast volle Rechte zum Erstellen und Teilen privaten Notizen und  Veröffentlichen von öffentlichen Notizen für die Community.</p>
           </div>
 
@@ -143,14 +143,18 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
+import {useRouter} from "vue-router";
+import axios from 'axios';
+
+const router = useRouter()
 
 const email = ref('');
-const emailError = ref('');
+const emailError = ref(null);
 const password = ref('');
-const role = ref('read');
+const role = ref(0);
 const agreement = ref(false); // État pour la case à cocher
-const errorMessage = ref('');
-const successMessage = ref('');
+const errorMessage = ref(null);
+const successMessage = ref(null);
 
 const requirements = ref({
   length: false,
@@ -188,10 +192,24 @@ const handleRegister = async () => {
   try {
     validateEmail();
     if (emailError.value || !agreement.value) return;
-    successMessage.value = "Erfolg! Bitte prüfe deine E-Mails zur Verifizierung.";
-    errorMessage.value = '';
+    const response = await axios.post('http://localhost:8080/api/auth/signup', {
+      email: email.value,
+      password: password.value,
+      metadata: {
+        user_rolle: role.value
+      }
+    });
+    console.log("Erfolgreich registriert:", response.data);
+    successMessage.value = "Erfolg! Bitte prüfe deine E-Mails zur Verifizierung." + "\n Du findest darin deinen Username. Merke dir ihn für die Anmeldung";
+    errorMessage.value = null;
+    await router.push('/login')
+
   } catch (err) {
-    errorMessage.value = "Registrierung fehlgeschlagen. Bitte erneut versuchen.";
+    errorMessage.value = "Fehler bei der Registrierung: email existiert bereits in Secure Note";
+    successMessage.value = null
+    email.value = null;
+    password.value = null;
+    role.value = 0
   }
 };
 </script>

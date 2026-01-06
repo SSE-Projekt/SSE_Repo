@@ -66,7 +66,9 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Erlaube Frontend-URL (Vue.js läuft auf Port 5173)
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("""
+                http://localhost:5173""", """
+                http://localhost:3000"""));
 
         // Erlaube alle HTTP-Methoden
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));

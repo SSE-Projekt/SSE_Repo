@@ -1,13 +1,12 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import TopBar from "@/components/viewComponents/topBar.vue";
 
 const route = useRoute()
 
-/** * ENTWICKLUNGSMETHODE: Manuelle Änderung der Rolle
- * Ändern „autor” in „leser”, um den Zugriff zu testen.
- */
+const user = JSON.parse(localStorage.getItem('user'))?? null
+
 // Zeige die Topbar nur auf den "App"-Seiten, nicht beim Login/Register
 const showTopbar = computed(() => {
   return ['/notes', '/my-notes','/share-notes'].includes(route.path) || route.path.startsWith('/notes/')
@@ -16,8 +15,8 @@ const showTopbar = computed(() => {
 
 <template>
   <div class="min-h-screen bg-[#fafafa]">
-    <top-bar v-if="showTopbar" :active-view="route.path" :user-role="userRole"/>
+    <top-bar v-if="showTopbar" :active-view="route.path" />
 
-    <router-view :user-role="userRole"/>
+    <router-view :user-role="user.user_metadata.user_rolle"/>
   </div>
 </template>
