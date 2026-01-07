@@ -46,14 +46,17 @@
 
       <div class="p-8 prose prose-slate max-w-none min-h-[300px]" v-html="renderedContent"></div>
 
-      <div class="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
-        <span>ID: {{ id }}</span>
-      </div>
+<!--      <div class="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">-->
+<!--        <span>ID: {{ id }}</span>-->
+<!--      </div>-->
 
       <Transition name="fade">
         <div v-if="showShareModal" class="absolute inset-0 z-20 bg-white/95 flex flex-col p-8 backdrop-blur-sm">
           <div class="flex justify-between items-center mb-8">
             <h2 class="text-xl font-bold text-gray-900">Notiz teilen</h2>
+            <p class="text-[15px] font-mono text-black-500 bg-blue-50 px-2 py-1 rounded mt-1 break-all">
+              {{ shareUrl }}
+            </p>
             <button @click="showShareModal = false" class="p-2 hover:bg-gray-100 rounded-full">
               <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current"><path :d="getIcon('close')" /></svg>
             </button>
@@ -131,19 +134,49 @@ const otherUsers = computed(() => allUsers.value.filter(u => u.email !== current
 const notesStore = JSON.parse(localStorage.getItem('notes') || '[]');
 const currentNote = computed(() => notesStore.find(n => n.id === props.id));
 
+//generierung der URl zur Teilung
+const shareUrl = computed(() => {
+  return window.location.origin + window.location.pathname + '#/my-notes/' + props.id;
+});
+
 // Methods
 const openShareModal = () => {
   showShareModal.value = true;
 };
 
+// const shareWith = (user) => {
+//   console.log(`Note ${props.id} geteilt mit ${user.name}`);
+//   showShareModal.value = false;
+//   shareSuccess.value = true;
+//   setTimeout(() => shareSuccess.value = false, 3000);
+// };
+
 const shareWith = (user) => {
-  console.log(`Note ${props.id} geteilt mit ${user.name}`);
+  // URL
+  const fullNoteLink = window.location.origin + window.location.pathname + '#/notes/' + props.id;
+
+  // Vorbereitung der Object zu schicken
+  const payload = {
+    recipient: user.email,
+    recipientName: user.name,
+    message: `Hier est la note partagée : ${fullNoteLink}`,
+    noteId: props.id,
+    timestamp: new Date().toISOString()
+  };
+
+  // Simulation des Versands (Hier wird es in der Konsole angezeigt,
+  // aber hier würde man eine API wie axios.post(‚/api/share‘, payload) aufrufen.
+  console.log("--- ENVOI DU LIEN ---");
+  console.log(`Vers : ${payload.recipientName} (${payload.recipient})`);
+  console.log(`Contenu : ${payload.message}`);
+  console.log("----------------------");
+
+  // visual feedback
   showShareModal.value = false;
   shareSuccess.value = true;
+
   setTimeout(() => shareSuccess.value = false, 3000);
 };
-
-// Fusion de la logique Markdown + Vidéo
 const renderedContent = computed(() => {
   if (!currentNote.value?.content) return '';
 
@@ -152,7 +185,6 @@ const renderedContent = computed(() => {
   renderer.image = ({ href, title, text }) => {
     const urlValue = typeof href === 'object' ? href.href : href;
 
-    // Logique spécifique Video Embed
     if (urlValue && urlValue.startsWith('embed:')) {
       const urlStr = urlValue.replace('embed:', '');
 
@@ -185,7 +217,6 @@ const renderedContent = computed(() => {
       }
     }
 
-    // Fallback images classiques
     return `<img src="${urlValue}" alt="${text || ''}" title="${title || ''}" class="rounded-xl mx-auto shadow-sm" />`;
   };
 
