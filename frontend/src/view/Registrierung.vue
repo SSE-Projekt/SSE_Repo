@@ -118,7 +118,7 @@
 
         <button
             type="submit"
-            :disabled="!isPasswordSecure || !!emailError || !email || !agreement"
+            :disabled="!isPasswordSecure || emailError || !email || !agreement"
             class="w-full py-3.5 bg-black hover:bg-gray-800 text-white rounded-xl font-bold text-sm transition-all shadow-sm active:scale-[0.98] disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed mt-4"
         >
           Registrieren
