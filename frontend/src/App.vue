@@ -6,7 +6,7 @@ import TopBar from "@/components/viewComponents/topBar.vue";
 const route = useRoute()
 
 const user = JSON.parse(localStorage.getItem('user'))?? null
-
+const userRole = computed(() => user? user.user_metadata.user_rolle : 0)
 // Zeige die Topbar nur auf den "App"-Seiten, nicht beim Login/Register
 const showTopbar = computed(() => {
   return ['/notes', '/my-notes','/share-notes'].includes(route.path) || route.path.startsWith('/notes/')
@@ -17,6 +17,6 @@ const showTopbar = computed(() => {
   <div class="min-h-screen bg-[#fafafa]">
     <top-bar v-if="showTopbar" :active-view="route.path" />
 
-    <router-view :user-role="user? user.user_metadata.user_rolle : 1"/>
+    <router-view :user-role="userRole"/>
   </div>
 </template>
