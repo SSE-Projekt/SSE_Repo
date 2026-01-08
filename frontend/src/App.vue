@@ -17,6 +17,6 @@ const showTopbar = computed(() => {
   <div class="min-h-screen bg-[#fafafa]">
     <top-bar v-if="showTopbar" :active-view="route.path" />
 
-    <router-view :user-role="user.user_metadata.user_rolle?? 1"/>
+    <router-view :user-role="user? user.user_metadata.user_rolle : 1"/>
   </div>
 </template>

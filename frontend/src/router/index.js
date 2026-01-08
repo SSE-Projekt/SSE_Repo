@@ -10,11 +10,10 @@ import Forbidden from '@/view/ForbiddenView.vue'
 
 const routes = [
     { path: '/', redirect: '/login' },
-    { path: '/home', redirect: '/notes' },
     { path: '/search', component: Search },
     { path: '/login', component: Anmeldung },
     { path: '/register', component: Registrierung },
-    { path: '/notes', component: Start },
+    { path: '/home', component: Start },
     {
         path: '/my-notes',
         component: MyNotes,
