@@ -9,7 +9,7 @@
     </div>
 
     <div class="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm">
-      <form @submit.prevent="immediateLogin" class="space-y-5">
+      <form @submit.prevent="handleLogin" class="space-y-5">
 
         <div class="space-y-1.5">
           <label for="login-username" class="text-sm font-semibold text-gray-700 ml-1">Nutzername</label>
@@ -48,9 +48,12 @@
         </div>
 
         <Transition name="fade">
-          <div v-if="authError" class="flex items-center gap-2 p-3 bg-rose-50 border border-rose-100 rounded-xl text-rose-700 text-sm">
-            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current shrink-0"><path :d="getIcon('alert-circle-outline')" /></svg>
-            <span>{{ authError }}</span>
+          <div v-if="errorMessage || successMessage"
+               :class="['flex items-center gap-2 p-3 rounded-xl text-sm border', errorMessage ? 'bg-rose-50 border-rose-100 text-rose-700' : 'bg-emerald-50 border-emerald-100 text-emerald-700']">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current shrink-0">
+              <path :d="getIcon(errorMessage ? 'alert-circle-outline' : 'check-circle-outline')" />
+            </svg>
+            <span>{{ errorMessage || successMessage }}</span>
           </div>
         </Transition>
 
@@ -85,6 +88,7 @@
 import {ref, watch} from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
 import {useRouter} from 'vue-router';
+import axios from 'axios';
 
 const emit = defineEmits(['login-success']);
 
@@ -92,6 +96,9 @@ const username = ref('');
 const password = ref('');
 const authError = ref('');
 const isLoading = ref(false);
+const errorMessage = ref(null);
+const successMessage = ref(null);
+
 const router = useRouter()
 
 const handleLogin = async () => {
@@ -105,22 +112,34 @@ const handleLogin = async () => {
     // Verzögerung für UX (Lade-Spinner zeigen)
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Demo: Nur ein bestimmter User kommt durch
-    if (username.value === 'admin' && password.value === 'password') {
-      emit('login-success');
-    } else {
-      // Sicherheits-best-practice: Generische Fehlermeldung
-      authError.value = "Anmeldung fehlgeschlagen. Bitte überprüfe deine Daten.";
-    }
+    const response = await axios.post('http://localhost:8080/api/auth/login', {
+      login: username.value,
+      password: password.value
+    });
+
+    // 1. JWT Token speichern (für API-Anfragen)
+    const token = response.data.access_token;
+    localStorage.setItem('token', token);
+
+    // 2. Das komplette User-Objekt speichern
+    // response.data.user enthält die ID, Email und die Metadata (Username, Rolle)
+    const user = response.data.user;
+    localStorage.setItem('user', JSON.stringify(user));
+
+    successMessage.value = "Erfolg! Du bist in Secure Note angemeldet";
+    errorMessage.value = '';
+    await router.push('/home')
+
   } catch (err) {
-    authError.value = "Ein technischer Fehler ist aufgetreten.";
+    errorMessage.value = "\"Anmeldung fehlgeschlagen. Bitte überprüfe deine Daten.\"";
+    successMessage.value = null
   } finally {
     isLoading.value = false;
   }
 };
 
 const immediateLogin = async () => {
-  const userRole = ref('leser');
+  const userRole = ref('autor');
 // Sofortige Synchronisierung mit localStorage für den Router
 // Dadurch muss index.js nicht manuell geändert werden.
   watch(userRole, (newRole) => {

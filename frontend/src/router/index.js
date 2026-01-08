@@ -37,8 +37,7 @@ router.beforeEach((to, from, next) => {
     const publicPages = ['/login', '/register'];
     const authRequired = !publicPages.includes(to.path);
 
-    const userJson = localStorage.getItem('user')?? null;
-    const user = userJson ? JSON.parse(userJson) : null;
+     const user = JSON.parse(localStorage.getItem('user'))?? null
 
     // 1. SI PAS CONNECTÉ et tente d'aller ailleurs que Login/Register
     if (authRequired && !user) {
@@ -52,7 +51,7 @@ router.beforeEach((to, from, next) => {
     }
 
     // 3. VÉRIFICATION DES RÔLES
-    if (to.meta.requiresRole === 'autor' && user?.role !== 'autor') {
+    if (to.meta.requiresRole === 'autor' && user?.user_metadata.user_rolle !== 2) {
         return next({ name: 'forbidden' });
     }
 

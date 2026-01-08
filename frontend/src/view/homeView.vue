@@ -28,7 +28,7 @@
       </div>
 
       <entry-card
-          v-if="userRole === 'autor'"
+          v-if="userRole === 2"
           @add-note="addNewNote"
           @success="handleSuccess"
           @error="handleError"
@@ -73,7 +73,7 @@ const searchQuery = ref('');
 const filter = ref('all');
 const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
 const props = defineProps({
-  userRole: String
+  userRole: Number
 });
 const snackbar = reactive({
   show: false,

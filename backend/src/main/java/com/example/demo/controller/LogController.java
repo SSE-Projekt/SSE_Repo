@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -149,17 +150,30 @@ public class LogController {
         return forwardToSupabase(endpoint, supabasePayload);
     }
 
-    private ResponseEntity<String> forwardToSupabase(String endpoint, Map<String, Object> body) {
+    public ResponseEntity<String> forwardToSupabase(String endpoint, Map<String, Object> payload) {
+        String url = supabaseAuthUrl + endpoint;
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("apikey", supabaseAnonKey);
+        headers.set("Authorization", "Bearer " + supabaseAnonKey);
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
         try {
-            return restTemplate.postForEntity(supabaseAuthUrl + endpoint, entity, String.class);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+            // WICHTIG: Erstelle eine NEUE ResponseEntity NUR mit Body und Status.
+            // Wir kopieren KEINE Header von Supabase, da Spring Security
+            // seine eigenen CORS-Header hinzufügen will.
+            return ResponseEntity
+                    .status(response.getStatusCode())
+                    .body(response.getBody());
+
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity
+                    .status(e.getStatusCode())
+                    .body(e.getResponseBodyAsString());
         }
     }
 }
