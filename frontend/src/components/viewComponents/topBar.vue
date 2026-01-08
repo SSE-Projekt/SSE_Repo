@@ -114,8 +114,6 @@ const props = defineProps({
 defineEmits(['change-view'])
 
 const router = useRouter()
-
-const user = ref(null)
 const isDropdownOpen = ref(false)
 const dropdownRef = ref(null)
 
@@ -134,7 +132,7 @@ const handleClickOutside = (event) => {
     isDropdownOpen.value = false
   }
 }
-
+const user = ref(null)
 onMounted(() => {
   const storedUser = localStorage.getItem('user')
   user.value = storedUser ? JSON.parse(storedUser) : null

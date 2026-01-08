@@ -28,7 +28,7 @@
       </div>
 
       <entry-card
-          v-if="userRole === 2"
+          v-if="user?.user_metadata.user_rolle === 2"
           @add-note="addNewNote"
           @success="handleSuccess"
           @error="handleError"
@@ -72,15 +72,17 @@ const router = useRouter();
 const searchQuery = ref('');
 const filter = ref('all');
 const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
-const props = defineProps({
-  userRole: Number
-});
+
 const snackbar = reactive({
   show: false,
   message: '',
   type: 'success'
 });
 
+const user = ref(null)
+
+const storedUser = localStorage.getItem('user')
+user.value = storedUser ? JSON.parse(storedUser) : null
 // --- URL Logik ---
 onMounted(() => {
   if (route.query.q) searchQuery.value = route.query.q;
