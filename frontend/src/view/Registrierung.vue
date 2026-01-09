@@ -143,6 +143,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
+import DOMPurify from 'dompurify';
 
 const email = ref('');
 const emailError = ref('');
@@ -175,6 +176,15 @@ const checkPasswordStrength = () => {
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validateEmail = () => {
+  const rawValue = email.value;
+  const sanitizedValue = DOMPurify.sanitize(rawValue);
+
+  // Détection d'injection : si les deux sont différents, il y a un problème
+  if (rawValue !== sanitizedValue) {
+    emailError.value = "Sicherheitsrisiko erkannt: Ungültige Zeichen im Feld.";
+    return; // On arrête tout, on ne teste même pas la Regex
+  }
+
   if (!email.value) {
     emailError.value = "E-Mail ist erforderlich.";
   } else if (!emailRegex.test(email.value)) {

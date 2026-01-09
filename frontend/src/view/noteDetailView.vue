@@ -46,23 +46,44 @@
 
       <div class="p-8 prose prose-slate max-w-none min-h-[300px]" v-html="renderedContent"></div>
 
-<!--      <div class="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">-->
-<!--        <span>ID: {{ id }}</span>-->
-<!--      </div>-->
+      <div class="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+        <span class="text-xs text-gray-400 font-mono">ID: {{ id }}</span>
+
+        <div class="flex items-center gap-3">
+          <button
+              v-if="route.query.from === 'my-notes'"
+              @click="editNote"
+              class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-black hover:text-black transition-all shadow-sm"
+          >
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path :d="getIcon('pencil')" /></svg>
+            Bearbeiten
+          </button>
+          <button
+              v-if="route.query.from === 'my-notes'"
+              @click="deleteNote"
+              class="flex items-center gap-2 px-4 py-2 bg-rose-50 border border-rose-100 rounded-xl text-sm font-medium text-rose-600 hover:bg-rose-600 hover:text-white transition-all shadow-sm"
+          >
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path :d="getIcon('delete')" /></svg>
+            Löschen
+          </button>
+        </div>
+      </div>
 
       <Transition name="fade">
         <div v-if="showShareModal" class="absolute inset-0 z-20 bg-white/95 flex flex-col p-8 backdrop-blur-sm">
-          <div class="flex justify-between items-center mb-8">
-            <h2 class="text-xl font-bold text-gray-900">Notiz teilen</h2>
-            <p class="text-[15px] font-mono text-black-500 bg-blue-50 px-2 py-1 rounded mt-1 break-all">
-              {{ shareUrl }}
-            </p>
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900">Notiz teilen</h2>
+              <p class="text-[11px] font-mono text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1 break-all">
+                {{ shareUrl }}
+              </p>
+            </div>
             <button @click="showShareModal = false" class="p-2 hover:bg-gray-100 rounded-full">
               <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current"><path :d="getIcon('close')" /></svg>
             </button>
           </div>
 
-          <p class="text-sm text-gray-500 mb-4">Wähle einen Nutzer aus, um diese Notiz zu teilen:</p>
+          <p class="text-sm text-gray-500 mb-4">Wähle einen Nutzer aus, um cette note zu teilen:</p>
 
           <div class="flex-1 overflow-y-auto space-y-2">
             <div
@@ -96,7 +117,7 @@
 
     <Transition name="slide-up">
       <div v-if="shareSuccess" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full shadow-2xl text-sm z-50">
-        Notiz erfolgreich geteilt!
+        Aktion erfolgreich!
       </div>
     </Transition>
   </div>
@@ -114,11 +135,12 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const route = useRoute();
 
 // UI States
 const showShareModal = ref(false);
 const shareSuccess = ref(false);
-const route = useRoute();
+
 // Simulation Auth/Users
 const currentUserEmail = "mon-email@exemple.com";
 const allUsers = ref([
@@ -134,49 +156,49 @@ const otherUsers = computed(() => allUsers.value.filter(u => u.email !== current
 const notesStore = JSON.parse(localStorage.getItem('notes') || '[]');
 const currentNote = computed(() => notesStore.find(n => n.id === props.id));
 
-//generierung der URl zur Teilung
+// URL zur Teilung
 const shareUrl = computed(() => {
-  return window.location.origin + window.location.pathname + '#/my-notes/' + props.id;
+  return window.location.origin + window.location.pathname + '#/notes/' + props.id;
 });
 
-// Methods
+// --- ACTIONS ---
+
 const openShareModal = () => {
   showShareModal.value = true;
 };
 
-// const shareWith = (user) => {
-//   console.log(`Note ${props.id} geteilt mit ${user.name}`);
-//   showShareModal.value = false;
-//   shareSuccess.value = true;
-//   setTimeout(() => shareSuccess.value = false, 3000);
-// };
-
 const shareWith = (user) => {
-  // URL
-  const fullNoteLink = window.location.origin + window.location.pathname + '#/notes/' + props.id;
+  const fullNoteLink = shareUrl.value;
 
-  // Vorbereitung der Object zu schicken
-  const payload = {
-    recipient: user.email,
-    recipientName: user.name,
-    message: `Hier est la note partagée : ${fullNoteLink}`,
-    noteId: props.id,
-    timestamp: new Date().toISOString()
-  };
-
-  // Simulation des Versands (Hier wird es in der Konsole angezeigt,
-  // aber hier würde man eine API wie axios.post(‚/api/share‘, payload) aufrufen.
   console.log("--- ENVOI DU LIEN ---");
-  console.log(`Vers : ${payload.recipientName} (${payload.recipient})`);
-  console.log(`Contenu : ${payload.message}`);
-  console.log("----------------------");
+  console.log(`Vers : ${user.name} (${user.email})`);
+  console.log(`Lien : ${fullNoteLink}`);
 
-  // visual feedback
   showShareModal.value = false;
   shareSuccess.value = true;
-
   setTimeout(() => shareSuccess.value = false, 3000);
 };
+
+const editNote = () => {
+  router.push(`/edit/${props.id}`);
+};
+
+const deleteNote = () => {
+  if (confirm('Möchtest du diese Notiz wirklich löschen?')) {
+    const allNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+    const updatedNotes = allNotes.filter(n => n.id !== props.id);
+    localStorage.setItem('notes', JSON.stringify(updatedNotes));
+
+    shareSuccess.value = true;
+    setTimeout(() => {
+      shareSuccess.value = false;
+      router.push('/my-notes');
+    }, 1000);
+  }
+};
+
+// --- RENDER LOGIC (Markdown + Video + Security) ---
+
 const renderedContent = computed(() => {
   if (!currentNote.value?.content) return '';
 
@@ -187,37 +209,22 @@ const renderedContent = computed(() => {
 
     if (urlValue && urlValue.startsWith('embed:')) {
       const urlStr = urlValue.replace('embed:', '');
-
       try {
         let videoId = '';
-        if (urlStr.includes('youtube.com/watch?v=')) {
-          videoId = urlStr.split('v=')[1].split('&')[0];
-        } else if (urlStr.includes('youtu.be/')) {
-          videoId = urlStr.split('youtu.be/')[1].split('?')[0];
-        } else if (urlStr.includes('youtube.com/embed/')) {
-          videoId = urlStr.split('embed/')[1].split('?')[0];
-        }
+        if (urlStr.includes('v=')) videoId = urlStr.split('v=')[1].split('&')[0];
+        else if (urlStr.includes('youtu.be/')) videoId = urlStr.split('youtu.be/')[1].split('?')[0];
+        else if (urlStr.includes('embed/')) videoId = urlStr.split('embed/')[1].split('?')[0];
 
         if (videoId && /^[a-zA-Z0-9_-]+$/.test(videoId)) {
           return `
-            <div class="video-container my-6 shadow-lg rounded-2xl overflow-hidden border border-gray-100"
-                 style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0;">
-                <iframe
-                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                  src="https://www.youtube-nocookie.com/embed/${videoId}"
-                  title="${text || 'YouTube Video'}"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-                </iframe>
+            <div class="video-container my-6 shadow-lg rounded-2xl overflow-hidden" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0;">
+                <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                  src="https://www.youtube-nocookie.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
             </div>`;
         }
-      } catch (e) {
-        console.error("Video ID extraction failed", e);
-      }
+      } catch (e) { console.error(e); }
     }
-
-    return `<img src="${urlValue}" alt="${text || ''}" title="${title || ''}" class="rounded-xl mx-auto shadow-sm" />`;
+    return `<img src="${urlValue}" alt="${text || ''}" class="rounded-xl mx-auto shadow-sm" />`;
   };
 
   const rawHtml = marked.parse(currentNote.value.content, { renderer: renderer });
@@ -230,25 +237,11 @@ const renderedContent = computed(() => {
 </script>
 
 <style scoped>
-.video-container {
-  width: 100%;
-  clear: both;
-}
+.video-container { width: 100%; clear: both; }
 
-/* Animations transitions */
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-  transform: scale(0.98);
-}
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease, transform 0.3s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; transform: scale(0.98); }
 
-.slide-up-enter-active, .slide-up-leave-active {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.slide-up-enter-from, .slide-up-leave-to {
-  transform: translate(-50%, 100%);
-  opacity: 0;
-}
+.slide-up-enter-active, .slide-up-leave-active { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.slide-up-enter-from, .slide-up-leave-to { transform: translate(-50%, 100%); opacity: 0; }
 </style>
