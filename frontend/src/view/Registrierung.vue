@@ -145,6 +145,8 @@ import { ref, computed } from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
 import {useRouter} from "vue-router";
 import axios from 'axios';
+import DOMPurify from 'dompurify'; // Import für XSS Schutz
+
 
 const router = useRouter()
 
@@ -179,6 +181,15 @@ const checkPasswordStrength = () => {
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validateEmail = () => {
+  const rawValue = email.value;
+  const sanitizedValue = DOMPurify.sanitize(rawValue);
+
+  // Injektionserkennung: Wenn beide unterschiedlich sind, liegt ein Problem vor.
+  if (rawValue !== sanitizedValue) {
+    emailError.value = "Sicherheitsrisiko erkannt: Ungültige Zeichen im Feld.";
+    return; // Wir hören auf, wir testen nicht einmal die Regex.
+  }
+
   if (!email.value) {
     emailError.value = "E-Mail ist erforderlich.";
   } else if (!emailRegex.test(email.value)) {

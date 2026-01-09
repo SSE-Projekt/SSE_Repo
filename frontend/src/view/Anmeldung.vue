@@ -89,6 +89,8 @@ import {ref, watch} from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
 import {useRouter} from 'vue-router';
 import axios from 'axios';
+import DOMPurify from 'dompurify'; // Import für XSS Schutz
+
 
 const emit = defineEmits(['login-success']);
 
@@ -103,6 +105,12 @@ const router = useRouter()
 
 const handleLogin = async () => {
   authError.value = '';
+
+  if (username.value !== DOMPurify.sanitize(username.value)) {
+    authError.value = "Sicherheitsproblem: Die Eingabe enthält verbotene Zeichen.";
+    return; // Der Anmeldevorgang wird blockiert.
+  }
+
   isLoading.value = true;
 
   try {
