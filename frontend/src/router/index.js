@@ -7,6 +7,7 @@ import MyNotes from '@/view/myNotesView.vue'
 import shareNotes from '@/view/shareNoteView.vue'
 import NoteDetailView from '@/view/noteDetailView.vue'
 import Forbidden from '@/view/ForbiddenView.vue'
+import EditNoteView from '@/view/EditNoteView.vue';
 
 const routes = [
     { path: '/', redirect: '/login' },
@@ -19,6 +20,13 @@ const routes = [
         path: '/my-notes',
         component: MyNotes,
         //   ERFORDERLICHE METADATEN HINZUFÜGEN
+        meta: { requiresRole: 'autor' }
+    },
+    {
+        path: '/edit/:id',
+        name: 'edit-note',
+        component: EditNoteView,
+        props: true,
         meta: { requiresRole: 'autor' }
     },
     { path: '/share-notes', component: shareNotes },
