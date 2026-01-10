@@ -32,6 +32,7 @@
           @success="handleSuccess"
           @error="handleError"
           @warn="handleWarn"
+          @title-error="handleTitleError"
       />
 
       <div class="mt-16">
@@ -128,13 +129,19 @@ const handleSuccess = () => {
 };
 
 const handleWarn = (msg) => {
-  snackbar.message = msg || 'Sicherheitsrisiko erkannt!';
+  snackbar.message = msg || 'Potentielles Sicherheitsrisiko erkannt!';
   snackbar.type = 'warn';
   snackbar.show = true;
 };
 
 const handleError = (msg) => {
-  snackbar.message = msg || 'Fehler beim Speichern!';
+  snackbar.message = msg || 'Tatsächliches Sicherheitsrisiko erkannt und entfernt!';
+  snackbar.type = 'failed';
+  snackbar.show = true;
+};
+
+const handleTitleError = (msg) => {
+  snackbar.message = msg || 'Titel fehlt';
   snackbar.type = 'failed';
   snackbar.show = true;
 };
