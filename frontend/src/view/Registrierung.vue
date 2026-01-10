@@ -51,6 +51,9 @@
           </div>
 
           <ul class="password-requirements mt-2 text-xs space-y-1 text-gray-500">
+            <li :class="requirements.forbidden ? 'text-gray-500' : 'text-rose-600 font-bold'">
+              {{ requirements.forbidden ? '✔ Keine verbotenen Symbole' : '✘ Symbole < > \' " ( ) - und Leerzeichen sind verboten' }}
+            </li>
             <li :class="{ 'text-emerald-600 font-medium': requirements.length }">
               {{ requirements.length ? '✔' : '○' }} Mindestens 8 Zeichen
             </li>
@@ -163,13 +166,16 @@ const requirements = ref({
   uppercase: false,
   lowercase: false,
   number: false,
-  special: false
+  special: false,
+  forbidden: true
 });
 
 const isPasswordSecure = ref(false);
 
 const checkPasswordStrength = () => {
   const p = password.value;
+  const hasForbidden = /[<>'"()\- ]/.test(p);
+  requirements.value.forbidden = !hasForbidden;
   requirements.value.length = p.length >= 8;
   requirements.value.uppercase = /[A-Z]/.test(p);
   requirements.value.lowercase = /[a-z]/.test(p);
