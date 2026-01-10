@@ -13,8 +13,8 @@
     <div class="flex items-center gap-2 bg-gray-50 p-1 rounded-xl">
       <button
           @click="$emit('change-view', 'home')"
-          :class="activeView === 'home'
-          ? 'bg-white shadow-sm text-black font-medium'
+          :class="route.path === '/home'
+          ? 'bg-black shadow-sm text-white font-medium'
           : 'text-gray-500 hover:text-black'"
           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
       >
@@ -29,8 +29,8 @@
       <button
           v-if="user?.user_metadata.user_rolle === 2"
           @click="$emit('change-view', 'my-notes')"
-          :class="activeView === 'my-notes'
-          ? 'bg-white shadow-sm text-black font-medium'
+          :class="route.path === '/my-notes'
+          ? 'bg-black shadow-sm text-white font-medium'
           : 'text-gray-500 hover:text-black'"
           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
       >
@@ -44,8 +44,8 @@
 
       <button
           @click="$emit('change-view', 'share-notes')"
-          :class="activeView === 'share-notes'
-          ? 'bg-white shadow-sm text-black font-medium'
+          :class="route.path === '/share-notes'
+          ? 'bg-black shadow-sm text-white font-medium'
           : 'text-gray-500 hover:text-black'"
           class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all"
       >
@@ -103,7 +103,7 @@
 </template>
 
 <script setup>
-import {useRouter} from 'vue-router'
+import {useRouter, useRoute} from 'vue-router'
 import {getIcon} from '@/utils/getIcon'
 import {ref, onMounted, onBeforeUnmount} from 'vue'
 
@@ -114,6 +114,7 @@ const props = defineProps({
 defineEmits(['change-view'])
 
 const router = useRouter()
+const route = useRoute()
 const isDropdownOpen = ref(false)
 const dropdownRef = ref(null)
 

@@ -51,6 +51,9 @@
           </div>
 
           <ul class="password-requirements mt-2 text-xs space-y-1 text-gray-500">
+            <li :class="requirements.forbidden ? 'text-gray-500' : 'text-rose-600 font-bold'">
+              {{ requirements.forbidden ? '✔ Keine verbotenen Symbole' : '✘ Symbole < > \' " ( ) - und Leerzeichen sind verboten' }}
+            </li>
             <li :class="{ 'text-emerald-600 font-medium': requirements.length }">
               {{ requirements.length ? '✔' : '○' }} Mindestens 8 Zeichen
             </li>
@@ -145,6 +148,8 @@ import { ref, computed } from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
 import {useRouter} from "vue-router";
 import axios from 'axios';
+import DOMPurify from 'dompurify'; // Import für XSS Schutz
+
 
 const router = useRouter()
 
@@ -152,7 +157,7 @@ const email = ref('');
 const emailError = ref(null);
 const password = ref('');
 const role = ref(0);
-const agreement = ref(false); // État pour la case à cocher
+const agreement = ref(false);
 const errorMessage = ref(null);
 const successMessage = ref(null);
 
@@ -161,13 +166,16 @@ const requirements = ref({
   uppercase: false,
   lowercase: false,
   number: false,
-  special: false
+  special: false,
+  forbidden: true
 });
 
 const isPasswordSecure = ref(false);
 
 const checkPasswordStrength = () => {
   const p = password.value;
+  const hasForbidden = /[<>'"()\- ]/.test(p);
+  requirements.value.forbidden = !hasForbidden;
   requirements.value.length = p.length >= 8;
   requirements.value.uppercase = /[A-Z]/.test(p);
   requirements.value.lowercase = /[a-z]/.test(p);
@@ -179,6 +187,15 @@ const checkPasswordStrength = () => {
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validateEmail = () => {
+  const rawValue = email.value;
+  const sanitizedValue = DOMPurify.sanitize(rawValue);
+
+  // Injektionserkennung: Wenn beide unterschiedlich sind, liegt ein Problem vor.
+  if (rawValue !== sanitizedValue) {
+    emailError.value = "Sicherheitsrisiko erkannt: Ungültige Zeichen im Feld.";
+    return; // Wir hören auf, wir testen nicht einmal die Regex.
+  }
+
   if (!email.value) {
     emailError.value = "E-Mail ist erforderlich.";
   } else if (!emailRegex.test(email.value)) {
