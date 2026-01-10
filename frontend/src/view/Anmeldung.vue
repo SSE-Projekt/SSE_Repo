@@ -90,7 +90,7 @@
 </template>
 
 <script setup>
-import {ref, watch} from 'vue';
+import {reactive, ref, watch} from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
 import {useRouter} from 'vue-router';
 import axios from 'axios';

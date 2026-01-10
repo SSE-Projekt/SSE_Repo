@@ -37,21 +37,14 @@
         </div>
       </div>
     </main>
-
-    <SnackBar
-        v-model:show="snackbar.show"
-        :message="snackbar.message"
-        :type="snackbar.type"
-    />
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import SearchBar from "@/components/viewComponents/SearchBar.vue";
 import NoteCard from "@/components/viewComponents/noteCard.vue";
-import SnackBar from "@/components/viewComponents/snackBar.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -60,11 +53,7 @@ const searchQuery = ref('');
 const filter = ref('all');
 const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
 
-const snackbar = reactive({
-  show: false,
-  message: '',
-  type: 'success'
-});
+
 
 // --- URL Logik ---
 onMounted(() => {

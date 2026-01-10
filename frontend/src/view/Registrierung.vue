@@ -157,7 +157,7 @@ const email = ref('');
 const emailError = ref(null);
 const password = ref('');
 const role = ref(0);
-const agreement = ref(false); // État pour la case à cocher
+const agreement = ref(false);
 const errorMessage = ref(null);
 const successMessage = ref(null);
 
