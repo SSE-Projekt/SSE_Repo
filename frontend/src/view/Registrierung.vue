@@ -205,6 +205,10 @@ const validateEmail = () => {
   }
 };
 
+function login() {
+  router.push('/login')
+}
+
 const handleRegister = async () => {
   try {
     validateEmail();
@@ -219,8 +223,7 @@ const handleRegister = async () => {
     console.log("Erfolgreich registriert:", response.data);
     successMessage.value = "Erfolg! Bitte prüfe deine E-Mails zur Verifizierung." + "\n Du findest darin deinen Username. Merke dir ihn für die Anmeldung";
     errorMessage.value = null;
-    await router.push('/login')
-
+    setTimeout(login,5500);
   } catch (err) {
     errorMessage.value = "Fehler bei der Registrierung: email existiert bereits in Secure Note";
     successMessage.value = null
