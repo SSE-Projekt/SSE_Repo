@@ -32,6 +32,8 @@
           @success="handleSuccess"
           @error="handleError"
           @warn="handleWarn"
+          @title-error="handleTitleError"
+          @content-error="handleContentError"
       />
 
       <div class="mt-16">
@@ -99,7 +101,7 @@ const updateUrl = () => {
 const filteredNotes = computed(() => {
   return existingNotes.value.filter(note => {
     // 1. Vorbereitung der Texte für die Recherche
-    const content = (note.content || '').toLowerCase();
+    const content = (note.title || '').toLowerCase();
     const query = (searchQuery.value || '').toLowerCase();
     const matchesSearch = content.includes(query);
 
@@ -128,13 +130,25 @@ const handleSuccess = () => {
 };
 
 const handleWarn = (msg) => {
-  snackbar.message = msg || 'Sicherheitsrisiko erkannt!';
+  snackbar.message = msg || 'Potentielles Sicherheitsrisiko erkannt!';
   snackbar.type = 'warn';
   snackbar.show = true;
 };
 
 const handleError = (msg) => {
-  snackbar.message = msg || 'Fehler beim Speichern!';
+  snackbar.message = msg || 'Tatsächliches Sicherheitsrisiko erkannt und entfernt!';
+  snackbar.type = 'failed';
+  snackbar.show = true;
+};
+
+const handleTitleError = (msg) => {
+  snackbar.message = msg || 'Titel fehlt';
+  snackbar.type = 'failed';
+  snackbar.show = true;
+};
+
+const handleContentError = (msg) => {
+  snackbar.message = msg || 'Text Content fehlt';
   snackbar.type = 'failed';
   snackbar.show = true;
 };

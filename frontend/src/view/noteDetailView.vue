@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="p-8 prose prose-slate max-w-none min-h-[300px]" v-html="renderedContent"></div>
+      <div class="p-8 prose prose-slate max-w-none min-h-[300px] break-words overflow-wrap-anywhere" v-html="renderedContent"></div>
 
       <div class="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
 <!--        <span>ID: {{ id }}</span>-->
@@ -225,7 +225,7 @@ const renderedContent = computed(() => {
     return `<img src="${urlValue}" alt="${text || ''}" title="${title || ''}" class="rounded-xl mx-auto shadow-sm" />`;
   };
 
-  const rawHtml = marked.parse(currentNote.value.content, { renderer: renderer });
+  const rawHtml = marked.parse(currentNote.value.content, { renderer: renderer, breaks: true });
 
   return DOMPurify.sanitize(rawHtml, {
     ADD_TAGS: ["iframe"],
