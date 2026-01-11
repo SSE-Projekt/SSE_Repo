@@ -63,13 +63,18 @@ const isPrivate = ref(true);
 const emit = defineEmits(['add-note', 'success', 'warn', 'error']);
 
 const saveNote = () => {
-  const rawTitle = noteTitle.value?.trim()
+  const pre_rawTitle = noteTitle.value?.trim();
   const rawContent = noteText.value?.trim();
-  if(!rawTitle) {
+  if(!pre_rawTitle) {
     emit('title-error');
     return;
   }
-  if (!rawContent) return;
+  if (!rawContent) {
+    emit('content-error');
+    return;
+  }
+  noteTitle.value = '# ' + noteTitle.value;
+  const rawTitle = noteTitle.value?.trim();
 
   // 1. SCHNITTSTELLE SICHERN: Eingabebereinigung gegen XSS
   // Entfernt gefährliche HTML-Tags und Attribute (z.B. <script>, onload)
@@ -87,7 +92,7 @@ const saveNote = () => {
     noteText.value = '';
     return;
   }
-  if (rawTitle !== cleanTitle || rawContent !== cleanContent || (cleanContent.includes('http') && !cleanContent.includes('image-embed') && !cleanContent.includes('embed'))) {
+  if (rawTitle !== cleanTitle || rawContent !== cleanContent || (cleanContent.includes('http') && !cleanContent.includes('(image-embed:') && !cleanContent.includes('(embed:')) || (cleanContent.includes('(embed:') && !cleanContent.includes('youtube') && !cleanContent.includes('youtu.be'))) {
     emit('warn')
     return;
   }

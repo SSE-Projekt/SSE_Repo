@@ -3,7 +3,9 @@
       @click="openDetails"
       class="p-6 bg-white border border-gray-200 rounded-2xl shadow-sm mb-4 cursor-pointer hover:border-blue-400 hover:shadow-md transition-all group"
   >
-    <div class="prose prose-sm max-w-none mb-6 text-gray-800 line-clamp-3" v-html="renderedContent"></div>
+    <div class="prose prose-sm max-w-none mb-1 text-gray-800 line-clamp-3" v-html="renderedTitle"></div>
+    <hr class="my-2 border-black-200" />
+    <div class="prose prose-sm max-w-none mb-6 text-gray-800 line-clamp-3 pt-5 mt-5" v-html="truncatedContent"></div>
 
     <div class="flex items-center justify-between border-t border-gray-50 pt-4">
       <div class="flex items-center gap-4 text-xs font-medium">
@@ -44,7 +46,7 @@ const props = defineProps(['note']);
 const router = useRouter();
 
 const renderedContent = computed(() => {
-  if (!props.note?.title) return '';
+  if (!props.note?.content) return '';
 
   const renderer = new marked.Renderer();
 
@@ -65,6 +67,23 @@ const renderedContent = computed(() => {
     }
   };
   return marked.parse(props.note.content, {renderer});
+});
+
+const truncatedContent = computed(() => {
+  if (!renderedContent.value) return ''
+
+  const text = renderedContent.value
+
+  return text.length > 90
+      ? text.slice(0, 90) + '...'
+      : text
+})
+
+const renderedTitle = computed(() => {
+  if (!props.note?.title) return '';
+
+  const renderer = new marked.Renderer();
+  return marked.parse(props.note.title, {renderer});
 });
 
 const openDetails = () => {

@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#fafafa]">
     <main class="max-w-4xl mx-auto px-4 py-16">
       <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold mb-2 text-gray-900">notes shared and collected</h1>
+        <h1 class="text-3xl font-bold mb-2 text-gray-900">Notes Shared and Received</h1>
         <p class="text-gray-500">Here are the notes that have been shared by yourself and received from other users.</p>
 
         <SearchBar
@@ -33,7 +33,7 @@
           <note-card v-for="(n, idx) in existingNotes" :key="idx" :note="n" />
         </div>
         <div v-else class="text-center py-12 text-gray-400 bg-white rounded-2xl border border-dashed border-gray-200">
-          No notes yet. Start writing above!
+          No notes yet. Start sharing notes!
         </div>
       </div>
     </main>
