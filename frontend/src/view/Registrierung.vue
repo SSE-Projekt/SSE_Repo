@@ -188,7 +188,7 @@ const validateEmail = () => {
   }
 };
 
-const handleRegister = async () => {
+/*const handleRegister = async () => {
   try {
     validateEmail();
     if (emailError.value || !agreement.value) return;
@@ -210,6 +210,44 @@ const handleRegister = async () => {
     email.value = null;
     password.value = null;
     role.value = 0
+  }
+};*/
+
+const handleRegister = async () => {
+  try {
+    validateEmail();
+    if (emailError.value || !agreement.value) return;
+    
+    const response = await axios.post('http://localhost:8080/api/auth/signup', {
+      email: email.value,
+      password: password.value,
+      metadata: {
+        user_rolle: role.value
+      }
+    });
+    
+    console.log("Erfolgreich registriert:", response.data);
+    successMessage.value = "Erfolg! Bitte prüfe deine E-Mails zur Verifizierung.\nDu findest darin deinen Username. Merke dir ihn für die Anmeldung";
+    errorMessage.value = null;
+    await router.push('/login')
+
+  } catch (err) {
+    // ⭐ ÄNDERUNG: Zeige echten Fehler vom Backend!
+    console.error('Registrierung Fehler:', err.response?.data);
+    
+    // Versuche echte Fehlermeldung zu holen
+    const backendError = err.response?.data?.message 
+                      || err.response?.data?.error 
+                      || err.response?.data 
+                      || err.message;
+    
+    errorMessage.value = "Fehler bei der Registrierung: " + backendError;
+    successMessage.value = null;
+    
+    // NICHT die Felder leeren! User muss korrigieren können
+    // email.value = null;
+    // password.value = null;
+    // role.value = 0;
   }
 };
 </script>

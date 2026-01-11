@@ -1,8 +1,18 @@
 <template>
   <div class="max-w-4xl mx-auto mt-12 p-6 bg-white border border-gray-200 rounded-2xl shadow-sm">
+    
+    <!-- ⭐ NEU: Title Input -->
+    <input
+        v-model="noteTitle"
+        placeholder="Title (optional, max 50 characters)"
+        maxlength="50"
+        class="w-full mb-3 px-2 py-1 text-xl font-semibold outline-none text-gray-700 placeholder-gray-400 border-b border-gray-100"
+    />
+    
     <textarea
         v-model="noteText"
-        placeholder="Write a note... (Markdown supported)"
+        placeholder="Write a note... (Markdown supported, max 500 characters)"
+        maxlength="500"
         class="w-full h-32 resize-none outline-none text-lg text-gray-700 placeholder-gray-400"
         @keydown.meta.enter="saveNote"
         @keydown.ctrl.enter="saveNote"
@@ -16,8 +26,12 @@
         {{ isPrivate ? 'Private' : 'Public' }}
       </button>
 
-      <button @click="saveNote" class="bg-[#9c9c9c] hover:bg-black text-white px-6 py-2 rounded-xl font-medium transition text-sm">
-        Create Note
+      <button 
+        @click="saveNote" 
+        :disabled="saving"
+        class="bg-[#9c9c9c] hover:bg-black text-white px-6 py-2 rounded-xl font-medium transition text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ saving ? 'Saving...' : 'Create Note' }}
       </button>
     </div>
 
@@ -32,60 +46,75 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { getIcon } from '@/utils/getIcon';
-import DOMPurify from 'dompurify'; // Import für XSS Schutz
+import DOMPurify from 'dompurify';
+import { createNote } from '@/services/api';  // ⭐ NEU!
 
+const noteTitle = ref('');
 const noteText = ref('');
 const isPrivate = ref(true);
+const saving = ref(false);
+
 const emit = defineEmits(['add-note', 'success', 'warn', 'error']);
 
-const saveNote = () => {
+const saveNote = async () => {
   const rawContent = noteText.value?.trim();
   if (!rawContent) return;
 
-  // 1. SCHNITTSTELLE SICHERN: Eingabebereinigung gegen XSS
-  // Entfernt gefährliche HTML-Tags und Attribute (z.B. <script>, onload)
-  // XSS SCHUTZ mit Erlaubnis für iFrames (für YouTube)
-  // Wir erlauben iframes, damit die spätere Ersetzung funktionieren kann
+  // XSS SCHUTZ (BEHALTEN!)
   const cleanContent = DOMPurify.sanitize(rawContent, {
     ADD_TAGS: ["iframe"],
     ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"]
   });
 
   if (!cleanContent) {
-    // Feld leeren
-    emit('error')
+    emit('error', 'Inhalt konnte nicht bereinigt werden');
     noteText.value = '';
     return;
   }
+  
   if (rawContent !== cleanContent) {
-    emit('warn')
+    emit('warn', 'Sicherheitsrisiko erkannt! Gefährlicher Code wurde entfernt.');
     return;
   }
 
-  const newNote = {
-    content: cleanContent,
-    isPrivate: isPrivate.value,
-    date: new Date().toLocaleString(),
-    id: self.crypto.randomUUID(), // Sichere ID für Direktlinks
-    author: "Aktueller Nutzer"    // Später durch echten Namen ersetzen
-  };
-  // 3. Im LocalStorage speichern
-  // Zuerst bestehende Notizen laden oder leeres Array erstellen
-  const existingNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-
-  // Neue Notiz am Anfang hinzufügen (unshift) oder Ende (push)
-  existingNotes.unshift(newNote);
-
-  // Array zurück in den LocalStorage schreiben
-  localStorage.setItem('notes', JSON.stringify(existingNotes));
-
-  // 4. Event an Parent senden (damit die UI sich sofort aktualisiert)
-  emit('add-note', newNote);
-  emit('success')
-  // Feld leeren
-  noteText.value = '';
+  // ⭐ Backend API Call (wie beim Login!)
+  saving.value = true;
+  
+  try {
+    // Backend erwartet: { title, notizText, isPrivat }
+    const noteData = {
+      title: noteTitle.value?.trim() || 'Untitled',
+      notizText: cleanContent,
+      isPrivat: isPrivate.value
+    };
+    
+    // API Call zum Backend
+    const savedNote = await createNote(noteData);
+    
+    // Success!
+    emit('add-note', savedNote);
+    emit('success');
+    
+    // Reset
+    noteTitle.value = '';
+    noteText.value = '';
+    isPrivate.value = true;
+    
+  } catch (error) {
+    console.error('Fehler beim Speichern:', error);
+    
+    // Spezifische Fehler behandeln
+    if (error.response?.status === 403) {
+      emit('error', 'Du benötigst Schreibrechte (Rolle 2) um Notizen zu erstellen!');
+    } else if (error.response?.status === 401) {
+      emit('error', 'Session abgelaufen, bitte erneut anmelden!');
+    } else {
+      emit('error', 'Fehler beim Speichern: ' + (error.response?.data?.error || error.message));
+    }
+  } finally {
+    saving.value = false;
+  }
 };
-
 </script>
