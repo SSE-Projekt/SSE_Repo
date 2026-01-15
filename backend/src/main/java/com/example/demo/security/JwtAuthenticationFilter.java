@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -28,61 +27,62 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, 
-                                   HttpServletResponse response, 
-                                   FilterChain filterChain) throws ServletException, IOException {
-        
-        // 1. Authorization Header holen
-        String authHeader = request.getHeader("Authorization");
-        
-        // 2. Wenn kein Token → weiter ohne Authentication
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
+
+        // 1. Extrahiere den Authorization Header
+        final String authHeader = request.getHeader("Authorization");
+        final String jwt;
+        final String userIdString;
+
+        // 2. Wenn kein Header da ist oder er nicht mit "Bearer " beginnt:
+        // Einfach weiterreichen. Spring Security prüft danach in der Config,
+        // ob der Pfad (z.B. /api/notes/public) auch ohne Auth erlaubt ist.
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-        
+
+        // 3. Token extrahieren
+        jwt = authHeader.substring(7);
+
         try {
-            // 3. Token extrahieren
-            String token = jwtService.extractToken(authHeader);
-            
-            // 4. Token validieren
-            if (!jwtService.validateToken(token)) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Ungültiger Token");
-                return;
-            }
-            
-            // 5. User-ID aus Token holen
-            UUID userId = jwtService.getUserIdFromToken(token);
-            
-            // 6. User aus DB laden
-            User user = userRepository.findById(userId).orElse(null);
-            
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("User nicht gefunden");
-                return;
-            }
-            
-            // 7. Spring Security Context setzen (User ist jetzt authentifiziert!)
-            UsernamePasswordAuthenticationToken authentication = 
-                new UsernamePasswordAuthenticationToken(
-                    user,
-                    null,
-                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
+            if (jwtService.validateToken(jwt)) {
+                UUID userId = jwtService.getUserIdFromToken(jwt);
+
+                // User finden oder automatisch erstellen (Just-in-Time Provisioning)
+                User user = userRepository.findById(userId).orElseGet(() -> {
+                    System.out.println("DEBUG: Erstelle neuen User in DB für ID: " + userId);
+                    User newUser = new User();
+                    newUser.setId(userId);
+                    // Falls du die Email extrahieren kannst: jwtService.getEmailFromToken(jwt)
+                    newUser.setEmail("user-" + userId.toString().substring(0, 5) + "@example.com");
+                    return userRepository.save(newUser);
+                });
+
+                System.out.println("DEBUG: Authentifiziere User: " + user.getEmail());
+
+                // Token für Spring Security erstellen
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        user,
+                        null,
+                        Collections.emptyList()
                 );
-            
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            
+
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                // WICHTIG: Den User im Sicherheits-Kontext speichern
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
         } catch (Exception e) {
-            System.err.println("JWT Filter Fehler: " + e.getMessage());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Authentication fehlgeschlagen");
-            return;
+            System.err.println("DEBUG-JWT-ERROR: " + e.getMessage());
+            SecurityContextHolder.clearContext();
         }
-        
-        // 8. Weiter zur nächsten Filter/Controller
+
+        // 5. WICHTIG: Den Request auf jeden Fall weitergeben
         filterChain.doFilter(request, response);
     }
 }

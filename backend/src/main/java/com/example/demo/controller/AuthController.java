@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,8 +19,6 @@ public class AuthController {
     private UserRepository userRepository;
 
     /**
-     * Test-Endpoint: Gibt den aktuell eingeloggten User zurück
-     * 
      * Verwendung: GET /api/me
      * Header: Authorization: Bearer <token>
      */
@@ -37,6 +36,22 @@ public class AuthController {
         response.put("rolle", user.getRolle());
         response.put("registeredAt", user.getRegisteredAt());
         
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Verwendung: GET /api/users
+     * Header: Authorization: Bearer <token>
+     */
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUser(Authentication authentication) {
+
+        // User aus Spring Security Context holen
+        User user = (User) authentication.getPrincipal();
+
+        // Response bauen
+        List<User> response = userRepository.findAll();
+
         return ResponseEntity.ok(response);
     }
 
