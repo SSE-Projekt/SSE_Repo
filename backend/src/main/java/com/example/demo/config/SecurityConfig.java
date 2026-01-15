@@ -35,11 +35,11 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 // Ergänzung: Falls ein Auth-Fehler auftritt, wird dieser oft als 403 getarnt
-                .exceptionHandling(ex -> ex
+                /*.exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Nicht autorisiert");
                         })
-                )
+                )*/
             // Session Management: Stateless (kein Session-Cookie)
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -48,8 +48,10 @@ public class SecurityConfig {
             // Autorisierungs-Regeln
             .authorizeHttpRequests(auth -> auth
                 // Öffentliche Endpoints (kein Login nötig)
-                .requestMatchers("/api/public/**", "/api/auth/**").permitAll()
+                .requestMatchers("/api/public/**", "/api/auth/**", "/api/notes/**").permitAll()
                 .requestMatchers("/api/health").permitAll()
+                    // Sicherheitsnetz: Erlaube explizit GET für diesen Pfad
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/notes/public").permitAll()
 
                 // Alle anderen Endpoints brauchen Authentication
                 .anyRequest().authenticated()

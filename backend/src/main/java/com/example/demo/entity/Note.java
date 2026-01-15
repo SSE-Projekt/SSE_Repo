@@ -3,8 +3,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "notiz", schema = "public")
@@ -13,7 +13,7 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notiz_id")
-    private Long notizId;
+    private UUID notizId;
 
     @Column(name = "title", length = 50)
     @Size(max = 50, message = "Titel darf maximal 50 Zeichen lang sein")
@@ -27,84 +27,49 @@ public class Note {
     @Column(name = "is_privat", nullable = false)
     private Boolean isPrivat = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false)
-    private User owner;
+    // Hier speichern wir die UUID des Besitzers
+    @Column(name = "owner_id", nullable = false)
+    private UUID owner;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // Konstruktor
     public Note() {
         this.createdAt = LocalDateTime.now();
-        this.isPrivat = false;
     }
 
-    // Getters and Setters
-    public Long getNotizId() {
-        return notizId;
-    }
+    // --- GETTER & SETTER ---
+    public UUID getNotizId() { return notizId; }
+    public void setNotizId(UUID notizId) { this.notizId = notizId; }
 
-    public void setNotizId(Long notizId) {
-        this.notizId = notizId;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getNotizText() { return notizText; }
+    public void setNotizText(String notizText) { this.notizText = notizText; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public Boolean getIsPrivat() { return isPrivat; }
+    public void setIsPrivat(Boolean isPrivat) { this.isPrivat = isPrivat; }
 
-    public String getNotizText() {
-        return notizText;
-    }
+    public UUID getOwner() { return owner; }
+    public void setOwner(UUID owner) { this.owner = owner; }
 
-    public void setNotizText(String notizText) {
-        this.notizText = notizText;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public Boolean getIsPrivat() {
-        return isPrivat;
-    }
+    // --- SECURITY HELPER (KORRIGIERT) ---
 
-    public void setIsPrivat(Boolean isPrivat) {
-        this.isPrivat = isPrivat;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    // Security Helper-Methoden
     public boolean isOwnedBy(User user) {
-        return this.owner != null && this.owner.getId().equals(user.getId());
+        // Vergleiche die UUID der Notiz mit der ID des User-Objekts
+        return user != null && this.owner != null && this.owner.equals(user.getId());
     }
 
     public boolean canBeViewedBy(User user) {
-        // Öffentliche Notizen können von allen gesehen werden
-        if (!this.isPrivat) {
-            return true;
-        }
-        // Private Notizen nur vom Owner
-        return isOwnedBy(user);
+        if (!this.isPrivat) return true; // Öffentlich
+        return isOwnedBy(user); // Privat: Nur für Owner
     }
 
     public boolean canBeEditedBy(User user) {
-        // Nur Owner kann bearbeiten
         return isOwnedBy(user);
     }
 }
