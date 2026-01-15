@@ -44,10 +44,29 @@
         </div>
       </div>
 
-      <div class="p-8 prose prose-slate max-w-none min-h-[300px]" v-html="renderedContent"></div>
+      <div class="p-8 prose prose-slate max-w-none min-h-[300px] break-words overflow-wrap-anywhere" v-html="renderedContent"></div>
 
       <div class="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
-        <span>ID: {{ id }}</span>
+<!--        <span>ID: {{ id }}</span>-->
+        <div class="flex items-center gap-3">
+          <button
+              v-if="route.query.from === 'my-notes'"
+              @click="editNote"
+              class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-black hover:text-black transition-all shadow-sm"
+          >
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path :d="getIcon('pencil')" /></svg>
+            Bearbeiten
+          </button>
+
+          <button
+              v-if="route.query.from === 'my-notes'"
+              @click="deleteNote"
+              class="flex items-center gap-2 px-4 py-2 bg-rose-50 border border-rose-100 rounded-xl text-sm font-medium text-rose-600 hover:bg-rose-600 hover:text-white transition-all shadow-sm"
+          >
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path :d="getIcon('delete')" /></svg>
+            Löschen
+          </button>
+        </div>
       </div>
 
       <Transition name="fade">
@@ -143,7 +162,24 @@ const shareWith = (user) => {
   setTimeout(() => shareSuccess.value = false, 3000);
 };
 
-// Fusion de la logique Markdown + Vidéo
+const editNote = () => {
+  router.push(`/edit/${props.id}`);
+};
+
+const deleteNote = () => {
+  if (confirm('Möchtest du diese Notiz wirklich löschen?')) {
+    const allNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+    const updatedNotes = allNotes.filter(n => n.id !== props.id);
+    localStorage.setItem('notes', JSON.stringify(updatedNotes));
+
+    shareSuccess.value = true;
+    setTimeout(() => {
+      shareSuccess.value = false;
+      router.push('/my-notes');
+    }, 1000);
+  }
+};
+
 const renderedContent = computed(() => {
   if (!currentNote.value?.content) return '';
 
@@ -152,7 +188,7 @@ const renderedContent = computed(() => {
   renderer.image = ({ href, title, text }) => {
     const urlValue = typeof href === 'object' ? href.href : href;
 
-    // Logique spécifique Video Embed
+    //Video Embed
     if (urlValue && urlValue.startsWith('embed:')) {
       const urlStr = urlValue.replace('embed:', '');
 
@@ -189,7 +225,7 @@ const renderedContent = computed(() => {
     return `<img src="${urlValue}" alt="${text || ''}" title="${title || ''}" class="rounded-xl mx-auto shadow-sm" />`;
   };
 
-  const rawHtml = marked.parse(currentNote.value.content, { renderer: renderer });
+  const rawHtml = marked.parse(currentNote.value.content, { renderer: renderer, breaks: true });
 
   return DOMPurify.sanitize(rawHtml, {
     ADD_TAGS: ["iframe"],

@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#fafafa]">
     <main class="max-w-4xl mx-auto px-4 py-16">
       <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold mb-2 text-gray-900">notes shared and collected</h1>
+        <h1 class="text-3xl font-bold mb-2 text-gray-900">Notes Shared and Received</h1>
         <p class="text-gray-500">Here are the notes that have been shared by yourself and received from other users.</p>
 
         <SearchBar
@@ -33,25 +33,18 @@
           <note-card v-for="(n, idx) in existingNotes" :key="idx" :note="n" />
         </div>
         <div v-else class="text-center py-12 text-gray-400 bg-white rounded-2xl border border-dashed border-gray-200">
-          No notes yet. Start writing above!
+          No notes yet. Start sharing notes!
         </div>
       </div>
     </main>
-
-    <SnackBar
-        v-model:show="snackbar.show"
-        :message="snackbar.message"
-        :type="snackbar.type"
-    />
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import SearchBar from "@/components/viewComponents/SearchBar.vue";
 import NoteCard from "@/components/viewComponents/noteCard.vue";
-import SnackBar from "@/components/viewComponents/snackBar.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -60,11 +53,7 @@ const searchQuery = ref('');
 const filter = ref('all');
 const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
 
-const snackbar = reactive({
-  show: false,
-  message: '',
-  type: 'success'
-});
+
 
 // --- URL Logik ---
 onMounted(() => {

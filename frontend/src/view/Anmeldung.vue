@@ -81,28 +81,66 @@
         </div>
       </form>
     </div>
+    <SnackBar
+        v-model:show="snackbar.show"
+        :message="snackbar.message"
+        :type="snackbar.type"
+    />
   </div>
 </template>
 
 <script setup>
-import {ref, watch} from 'vue';
+import {reactive, ref, watch} from 'vue';
 import { getIcon } from '@/utils/getIcon.js';
 import {useRouter} from 'vue-router';
 import axios from 'axios';
+import DOMPurify from 'dompurify';
+import SnackBar from "@/components/viewComponents/snackBar.vue";
+
 
 const emit = defineEmits(['login-success']);
 
 const username = ref('');
 const password = ref('');
-const authError = ref('');
 const isLoading = ref(false);
 const errorMessage = ref(null);
 const successMessage = ref(null);
 
 const router = useRouter()
 
+const snackbar = reactive({
+  show: false,
+  message: '',
+  type: 'success'
+});
+
+const handleSuccess = (msg) => {
+  snackbar.message = msg || 'Erfolgreich angemeldet!';
+  snackbar.type = 'success';
+  snackbar.show = true;
+};
+
+const handleWarn = (msg) => {
+  snackbar.message = msg || 'Sicherheitswarnung!';
+  snackbar.type = 'warn';
+  snackbar.show = true;
+};
+
+const handleError = (msg) => {
+  snackbar.message = msg || 'Fehler aufgetreten!';
+  snackbar.type = 'failed';
+  snackbar.show = true;
+};
+
 const handleLogin = async () => {
-  authError.value = '';
+  errorMessage.value = null;
+  successMessage.value = null;
+
+  if (username.value !== DOMPurify.sanitize(username.value)) {
+    handleWarn("Sicherheitsproblem: Verbotene Zeichen erkannt.");
+    return; // Der Anmeldevorgang wird blockiert.
+  }
+
   isLoading.value = true;
 
   try {
@@ -127,8 +165,10 @@ const handleLogin = async () => {
     localStorage.setItem('user', JSON.stringify(user));
 
     successMessage.value = "Erfolg! Du bist in Secure Note angemeldet";
-    errorMessage.value = '';
-    await router.push('/home')
+    handleSuccess("Willkommen zurück!");
+    setTimeout(() => {
+      router.push('/home');
+    }, 1000);
 
   } catch (err) {
     errorMessage.value = "\"Anmeldung fehlgeschlagen. Bitte überprüfe deine Daten.\"";

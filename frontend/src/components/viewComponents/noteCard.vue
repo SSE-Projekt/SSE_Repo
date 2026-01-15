@@ -3,7 +3,9 @@
       @click="openDetails"
       class="p-6 bg-white border border-gray-200 rounded-2xl shadow-sm mb-4 cursor-pointer hover:border-blue-400 hover:shadow-md transition-all group"
   >
-    <div class="prose prose-sm max-w-none mb-6 text-gray-800 line-clamp-3" v-html="renderedContent"></div>
+    <div class="prose prose-sm max-w-none mb-1 text-gray-800 line-clamp-3" v-html="renderedTitle"></div>
+    <hr class="my-2 border-black-200" />
+    <div class="prose prose-sm max-w-none mb-6 text-gray-800 line-clamp-3 pt-5 mt-5" v-html="truncatedContent"></div>
 
     <div class="flex items-center justify-between border-t border-gray-50 pt-4">
       <div class="flex items-center gap-4 text-xs font-medium">
@@ -59,13 +61,29 @@ const renderedContent = computed(() => {
                 <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.33,6.33 20.67,5.67 19.83,5.44C18.28,5 12,5 12,5C12,5 5.72,5 4.17,5.44C3.33,5.67 2.67,6.33 2.44,7.17C2,8.72 2,12 2,12C2,12 2,15.28 2.44,16.83C2.67,17.67 3.33,18.33 4.17,18.56C5.72,19 12,19 12,19C12,19 18.28,19 19.83,18.56C20.67,18.33 21.33,17.67 21.56,16.83C22,15.28 22,12 22,12C22,12 22,8.72 21.56,7.17Z" /></svg>
                 Video: ${text || 'YouTube Link'}
               </span>`;
+    } else if(urlValue && urlValue.startsWith('image-embed:')) {
+      // Normales Bild in der Vorschau ebenfalls als Text-Link anzeigen (um Platz zu sparen)
+      return `<span class="text-gray-500 italic">[Bild: ${text || 'Ohne Titel'}]</span>`;
     }
-
-    // Normales Bild in der Vorschau ebenfalls als Text-Link anzeigen (um Platz zu sparen)
-    return `<span class="text-gray-500 italic">[Bild: ${text || 'Ohne Titel'}]</span>`;
   };
-
   return marked.parse(props.note.content, {renderer});
+});
+
+const truncatedContent = computed(() => {
+  if (!renderedContent.value) return ''
+
+  const text = renderedContent.value
+
+  return text.length > 90
+      ? text.slice(0, 90) + '...'
+      : text
+})
+
+const renderedTitle = computed(() => {
+  if (!props.note?.title) return '';
+
+  const renderer = new marked.Renderer();
+  return marked.parse(props.note.title, {renderer});
 });
 
 const openDetails = () => {

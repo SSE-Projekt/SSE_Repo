@@ -33,6 +33,8 @@
           @success="handleSuccess"
           @error="handleError"
           @warn="handleWarn"
+          @title-error="handleTitleError"
+          @content-error="handleContentError"
       />
 
       <div v-else class="max-w-4xl mx-auto mt-12 p-6 bg-blue-50 border border-blue-100 rounded-2xl text-center text-blue-600 text-sm">
@@ -138,6 +140,18 @@ const handleWarn = (msg) => {
 
 const handleError = (msg) => {
   snackbar.message = msg || 'Fehler beim Speichern!';
+  snackbar.type = 'failed';
+  snackbar.show = true;
+};
+
+const handleTitleError = (msg) => {
+  snackbar.message = msg || 'Titel fehlt';
+  snackbar.type = 'failed';
+  snackbar.show = true;
+};
+
+const handleContentError = (msg) => {
+  snackbar.message = msg || 'Text Content fehlt';
   snackbar.type = 'failed';
   snackbar.show = true;
 };
