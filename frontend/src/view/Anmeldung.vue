@@ -73,7 +73,7 @@
         </button>
 
         <div class="text-center mt-6">
-          <button type="button" @click="showModal = true" class="text-xs text-gray-400">
+          <button type="button" @click="showModal = true" class="text-black font-semibold hover:underline underline-offset-4">
             Passwort vergessen?
           </button>
 
