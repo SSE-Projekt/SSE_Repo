@@ -117,24 +117,27 @@
     </Transition>
   </div>
 </template>
-
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { marked } from 'marked';
 import { getIcon } from '@/utils/getIcon';
 import DOMPurify from 'dompurify';
+import { getNote, deleteNote as apiDeleteNote } from '@/services/api';  // ⭐ NEU!
 
 const props = defineProps({
   id: String
 });
 
 const router = useRouter();
+const route = useRoute();
 
 // UI States
 const showShareModal = ref(false);
 const shareSuccess = ref(false);
-const route = useRoute();
+const loading = ref(false);
+const currentNote = ref(null);  // ⭐ GEÄNDERT!
+
 // Simulation Auth/Users
 const currentUserEmail = "mon-email@exemple.com";
 const allUsers = ref([
@@ -146,9 +149,29 @@ const allUsers = ref([
 
 const otherUsers = computed(() => allUsers.value.filter(u => u.email !== currentUserEmail));
 
-// Data Fetching (LocalStorage)
-const notesStore = JSON.parse(localStorage.getItem('notes') || '[]');
-const currentNote = computed(() => notesStore.find(n => n.id === props.id));
+// ⭐ NEU: Notiz vom Backend laden
+onMounted(async () => {
+  loading.value = true;
+  try {
+    const note = await getNote(props.id);
+    
+    // Backend-Daten für Frontend anpassen
+    currentNote.value = {
+      id: note.notizId,
+      title: note.title,
+      content: note.notizText,
+      isPrivate: note.isPrivat,
+      date: note.createdAt,
+      author: note.owner?.name || 'User'
+    };
+    
+  } catch (error) {
+    console.error('Fehler beim Laden:', error);
+    currentNote.value = null;
+  } finally {
+    loading.value = false;
+  }
+});
 
 // Methods
 const openShareModal = () => {
@@ -166,17 +189,22 @@ const editNote = () => {
   router.push(`/edit/${props.id}`);
 };
 
-const deleteNote = () => {
+// ⭐ GEÄNDERT: Backend API nutzen
+const deleteNote = async () => {
   if (confirm('Möchtest du diese Notiz wirklich löschen?')) {
-    const allNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-    const updatedNotes = allNotes.filter(n => n.id !== props.id);
-    localStorage.setItem('notes', JSON.stringify(updatedNotes));
-
-    shareSuccess.value = true;
-    setTimeout(() => {
-      shareSuccess.value = false;
-      router.push('/my-notes');
-    }, 1000);
+    try {
+      await apiDeleteNote(props.id);
+      
+      shareSuccess.value = true;
+      setTimeout(() => {
+        shareSuccess.value = false;
+        router.push('/my-notes');
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Fehler beim Löschen:', error);
+      alert('Fehler beim Löschen: ' + error.message);
+    }
   }
 };
 
@@ -233,7 +261,6 @@ const renderedContent = computed(() => {
   });
 });
 </script>
-
 <style scoped>
 .video-container {
   width: 100%;

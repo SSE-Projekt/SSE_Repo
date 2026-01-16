@@ -46,18 +46,20 @@
         :type="snackbar.type"
     />
   </div>
+
 </template>
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import DOMPurify from 'dompurify';
-import SnackBar from "@/components/viewComponents/snackBar.vue"; // Import de la SnackBar
+import SnackBar from "@/components/viewComponents/snackBar.vue";
+import { getNote, updateNote } from '@/services/api';  // ⭐ NEU!
 
 const route = useRoute();
 const router = useRouter();
 const editNote = ref(null);
-
+const loading = ref(false);  // ⭐ NEU!
 
 const snackbar = reactive({
   show: false,
@@ -65,14 +67,26 @@ const snackbar = reactive({
   type: 'success'
 });
 
-onMounted(() => {
-  const notes = JSON.parse(localStorage.getItem('notes') || '[]');
-  const note = notes.find(n => n.id === route.params.id);
-
-  if (note) {
-    editNote.value = { ...note };
-  } else {
+// ⭐ NEU: Notiz vom Backend laden
+onMounted(async () => {
+  loading.value = true;
+  try {
+    const note = await getNote(route.params.id);
+    
+    // Backend-Daten für Frontend anpassen
+    editNote.value = {
+      id: note.notizId,
+      content: note.notizText,
+      isPrivate: note.isPrivat,
+      title: note.title
+    };
+    
+  } catch (error) {
+    console.error('Fehler beim Laden:', error);
+    handleError('Notiz nicht gefunden');
     router.push('/my-notes');
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -94,7 +108,8 @@ const handleError = (msg) => {
   snackbar.show = true;
 };
 
-const saveChanges = () => {
+// ⭐ NEU: Änderungen ans Backend senden
+const saveChanges = async () => {
   const rawContent = editNote.value.content?.trim();
   if (!rawContent) return;
 
@@ -102,7 +117,6 @@ const saveChanges = () => {
     ADD_TAGS: ["iframe"],
     ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"]
   });
-
 
   if (!cleanContent) {
     handleError('Inhalt ungültig!');
@@ -115,21 +129,18 @@ const saveChanges = () => {
     return;
   }
 
-
-  const allNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-  const index = allNotes.findIndex(n => n.id === editNote.value.id);
-
-  if (index !== -1) {
-    allNotes[index] = {
-      ...allNotes[index],
-      content: cleanContent,
-      isPrivate: editNote.value.isPrivate,
-      lastEdit: new Date().toLocaleString()
+  loading.value = true;
+  
+  try {
+    // Backend erwartet: notizText, isPrivat
+    const noteData = {
+      notizText: cleanContent,
+      isPrivat: editNote.value.isPrivate,
+      title: editNote.value.title
     };
-
-    localStorage.setItem('notes', JSON.stringify(allNotes));
-
-
+    
+    await updateNote(editNote.value.id, noteData);
+    
     handleSuccess();
 
     setTimeout(() => {
@@ -138,6 +149,19 @@ const saveChanges = () => {
         query: { from: 'my-notes' }
       });
     }, 1500);
+    
+  } catch (error) {
+    console.error('Fehler beim Speichern:', error);
+    
+    if (error.response?.status === 403) {
+      handleError('Keine Berechtigung zum Bearbeiten!');
+    } else if (error.response?.status === 401) {
+      handleError('Bitte erneut anmelden!');
+    } else {
+      handleError('Fehler beim Speichern: ' + error.message);
+    }
+  } finally {
+    loading.value = false;
   }
 };
 </script>

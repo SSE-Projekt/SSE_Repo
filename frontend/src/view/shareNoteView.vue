@@ -45,20 +45,47 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import SearchBar from "@/components/viewComponents/SearchBar.vue";
 import NoteCard from "@/components/viewComponents/noteCard.vue";
+import { getPublicNotes } from '@/services/api';  // ⭐ NEU!
 
 const route = useRoute();
 const router = useRouter();
 
 const searchQuery = ref('');
 const filter = ref('all');
-const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
+const existingNotes = ref([]);  // ⭐ GEÄNDERT!
+const loading = ref(false);
 
-
+// ⭐ NEU: Shared Notes laden
+// HINWEIS: "Shared Notes" Feature existiert noch nicht im Backend
+// Momentan zeigen wir öffentliche Notizen
+const loadNotes = async () => {
+  loading.value = true;
+  try {
+    const notes = await getPublicNotes();
+    
+    // Backend-Daten für Frontend anpassen
+    existingNotes.value = notes.map(note => ({
+      id: note.notizId,
+      title: note.title,
+      content: note.notizText,
+      isPrivate: note.isPrivat,
+      date: note.createdAt
+    }));
+    
+  } catch (error) {
+    console.error('Fehler beim Laden:', error);
+  } finally {
+    loading.value = false;
+  }
+};
 
 // --- URL Logik ---
-onMounted(() => {
+onMounted(async () => {
   if (route.query.q) searchQuery.value = route.query.q;
   if (route.query.type) filter.value = route.query.type;
+  
+  // ⭐ NEU: Notizen laden
+  await loadNotes();
 });
 
 const updateUrl = () => {
@@ -70,31 +97,27 @@ const updateUrl = () => {
   });
 };
 
-// --- Filterlogik (angepasst an isPrivate) ---
+// --- Filterlogik ---
 const filteredNotes = computed(() => {
   return existingNotes.value.filter(note => {
-    // 1. Vorbereitung der Texte für die Recherche
     const content = (note.content || '').toLowerCase();
+    const title = (note.title || '').toLowerCase();
     const query = (searchQuery.value || '').toLowerCase();
-    const matchesSearch = content.includes(query);
+    const matchesSearch = content.includes(query) || title.includes(query);
 
-    // 2. Filterlogik
     let matchesFilter = false;
 
     if (filter.value === 'all') {
       matchesFilter = true;
     } else if (filter.value === 'public') {
-      // Wenn isPrivate falsch ist (oder noch nicht existiert), ist es öffentlich.
       matchesFilter = note.isPrivate === false;
     } else if (filter.value === 'private') {
-      // Wenn isPrivate wahr ist
       matchesFilter = note.isPrivate === true;
     }
 
     return matchesSearch && matchesFilter;
   });
 });
-
 </script>
 
 <style scoped>
