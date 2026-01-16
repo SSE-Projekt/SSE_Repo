@@ -101,6 +101,7 @@ const handleError = (msg) => {
 };
 
 const saveChanges = () => {
+  const sanitizedTitle = DOMPurify.sanitize(editNote.value.title || '');
   const rawContent = editNote.value.content?.trim();
   if (!rawContent) return;
 
@@ -128,6 +129,7 @@ const saveChanges = () => {
   if (index !== -1) {
     allNotes[index] = {
       ...allNotes[index],
+      title: sanitizedTitle,
       content: cleanContent,
       isPrivate: editNote.value.isPrivate,
       lastEdit: new Date().toLocaleString()
