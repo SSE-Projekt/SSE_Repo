@@ -5,7 +5,7 @@ Die Detailansicht ermöglicht das vollständige Lesen einer Notiz inklusive gere
 ## 🛠 Technische Umsetzung
 
 - **Komponente:** `NoteDetailView.vue`
-- **Dynamic Routing:** Die Komponente empfängt eine `id` als Prop über den Vue Router, um die entsprechende Notiz aus dem Datenspeicher (`localStorage` oder API) zu laden.
+- **Dynamic Routing:** Die Komponente empfängt eine `id` als Prop über den Vue Router, um die entsprechende Notiz aus dem Datenspeicher (`durch eine selbst programmierte API mit Datenbank` oder API) zu laden.
 - **Markdown & Media Rendering:**
     - Einsatz von `marked` zur Umwandlung von Markdown in HTML.
     - **Spezial-Renderer:** Ein benutzerdefinierter Renderer erkennt das Präfix `embed:` in Bild-Syntax-Links, extrahiert die YouTube-Video-ID mittels Regex und wandelt diese in ein sicheres `iframe` um.

@@ -11,7 +11,7 @@ Um die Einschleusung von bösartigem Code zu verhindern, setzen wir auf eine meh
 
 ### 2. Authentifizierung & Autorisierung
 Die Sicherheit der Nutzersitzungen wird durch moderne Standards gewährleistet:
-- **JWT (JSON Web Tokens):** Nach dem Login wird ein verschlüsselter Token im `localStorage` gespeichert. Dieser Token wird bei jedem API-Aufruf im Authorization-Header mitgesendet.
+- **JWT (JSON Web Tokens):** Nach dem Login wird ein verschlüsselter Token im `Datenank` gespeichert. Dieser Token wird bei jedem API-Aufruf im Authorization-Header mitgesendet.
 - **Role-Based Access Control (RBAC):** Die Anwendung unterscheidet strikt zwischen Rollen (z.B. Leser vs. Autor). Funktionen wie das Erstellen von Notizen werden im Frontend (UI-Elemente ausgeblendet) und im Backend (Route-Guards) geschützt.
 
 
