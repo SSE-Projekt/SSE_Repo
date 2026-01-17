@@ -154,8 +154,8 @@ const updateUrl = () => {
 // --- Filterlogik ---
 const filteredNotes = computed(() => {
   return existingNotes.value.filter(note => {
-    const content = (note.content || '').toLowerCase();
-    const title = (note.title || '').toLowerCase();
+    // 1. Vorbereitung der Texte für die Recherche
+    const content = (note.title || '').toLowerCase();
     const query = (searchQuery.value || '').toLowerCase();
     const matchesSearch = content.includes(query) || title.includes(query);
 

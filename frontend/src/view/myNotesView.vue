@@ -4,7 +4,6 @@
       <div class="text-center mb-12">
         <h1 class="text-3xl font-bold mb-2 text-gray-900">My Notes</h1>
         <p class="text-gray-500">Here are all my notes.</p>
-
         <SearchBar
             v-model="searchQuery"
             v-model:filterValue="filter"
@@ -17,7 +16,8 @@
             <h2 class="text-xl font-semibold mb-6 text-gray-800">Suchergebnisse</h2>
 
             <div v-if="filteredNotes.length > 0">
-              <note-card v-for="(n, idx) in filteredNotes" :key="idx" :note="n" />
+              <note-card v-for="(n, idx) in filteredNotes" :key="idx" :note="n" @click="router.push({ path: `/notes/${n.id}`, query: { from: 'my-notes' } })"
+              />
             </div>
 
             <div v-else class="text-center py-12 text-gray-400 bg-white rounded-2xl border border-dashed border-gray-200">
