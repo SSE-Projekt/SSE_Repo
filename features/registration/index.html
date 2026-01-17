@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../registration/">
+        <link rel="prev" href="../login/">
       
       
-        <link rel="next" href="../forgot-password-request/">
+        <link rel="next" href="../reset-password/">
       
       
         
@@ -23,7 +23,7 @@
     
     
       
-        <title>Passwort zurücksetzen - Secure Notes Documentation</title>
+        <title>Registrierung - Secure Notes Documentation</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-passwort-zurucksetzen" class="md-skip">
+        <a href="#feature-registrierung" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Passwort zurücksetzen
+              Registrierung
             
           </span>
         </div>
@@ -333,34 +333,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../registration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Registrierung
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -380,7 +352,7 @@
   <span class="md-ellipsis">
     
   
-    Passwort zurücksetzen
+    Registrierung
   
 
     
@@ -398,7 +370,7 @@
   <span class="md-ellipsis">
     
   
-    Passwort zurücksetzen
+    Registrierung
   
 
     
@@ -438,7 +410,7 @@
   <a href="#schwachstellen-vorbeugung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡 Schwachstellen &amp; Vorbeugung
+        🛡️ Schwachstellen &amp; Vorbeugung
       
     </span>
   </a>
@@ -460,6 +432,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reset-password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Passwort zurücksetzen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -708,7 +708,7 @@
   <a href="#schwachstellen-vorbeugung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡 Schwachstellen &amp; Vorbeugung
+        🛡️ Schwachstellen &amp; Vorbeugung
       
     </span>
   </a>
@@ -743,14 +743,18 @@
 
 
 
-<h1 id="feature-passwort-zurucksetzen">Feature: Passwort zurücksetzen</h1>
-<h3 id="technische-umsetzung">🛠 Technische Umsetzung</h3>
+<h1 id="feature-registrierung">Feature: Registrierung</h1>
+<p>Die Registrierung ermöglicht neuen Nutzern die Erstellung eines Kontos unter strikter Einhaltung von Sicherheitsregeln für Passwörter.</p>
+<h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
 <ul>
-<li><strong>Frontend:</strong> Vue.js Komponente <code>ResetPasswordView.vue</code>.</li>
-<li><strong>Prozess:</strong> Der User erhält einen Link mit einem <code>token</code> und seiner <code>email</code> als URL-Parameter.</li>
-<li><strong>Validierung:</strong> <code>onMounted</code> Hook extrahiert die Parameter. Ein <code>computed</code> Property prüft die Übereinstimmung der beiden Passwort-Felder.</li>
+<li><strong>Komponente:</strong> <code>Registrierung.vue</code></li>
+<li><strong>Rollen-Auswahl:</strong> Nutzer können zwischen der Rolle "Leser" (ID: 1) und "Autor" (ID: 2) wählen. Dies steuert die Berechtigungen in der gesamten Applikation.</li>
+<li><strong>Echtzeit-Validierung:</strong> - Eine Regex-Prüfung (<code>emailRegex</code>) validiert das Format der E-Mail-Adresse beim Verlassen des Feldes (<code>@blur</code>).<ul>
+<li>Die Passwortstärke wird bei jedem Tastendruck (<code>@input</code>) neu berechnet.</li>
 </ul>
-<h3 id="schwachstellen-vorbeugung">🛡 Schwachstellen &amp; Vorbeugung</h3>
+</li>
+</ul>
+<h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
 <table>
 <thead>
 <tr>
@@ -760,23 +764,24 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>XSS Attacken</strong></td>
-<td style="text-align: left;">Einsatz von <code>DOMPurify</code> vor dem API-Call.</td>
+<td style="text-align: left;"><strong>Schwache Passwörter</strong></td>
+<td style="text-align: left;">Erzwingung von Komplexität: Mind. 8 Zeichen, Großbuchstaben, Zahlen und Sonderzeichen.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Injection</strong></td>
-<td style="text-align: left;">Strikte Regex-Prüfung verhindert Symbole wie <code>&lt; &gt; ' " ( ) -</code>.</td>
+<td style="text-align: left;"><strong>Verbotene Zeichen</strong></td>
+<td style="text-align: left;"><strong>Sicherheits-Regex:</strong> Symbole wie <code>&lt; &gt; ' " ( ) -</code> sowie Leerzeichen sind im Passwort untersagt, um Injektionsrisiken zu minimieren.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Token-Hijacking</strong></td>
-<td style="text-align: left;">Die API entwertet den Token sofort nach einmaliger Nutzung.</td>
+<td style="text-align: left;"><strong>XSS Injection</strong></td>
+<td style="text-align: left;"><code>DOMPurify</code> wird auf das E-Mail-Feld angewendet. Bei Abweichungen zwischen Eingabe und bereinigtem Wert wird die Registrierung blockiert.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="datenschutz">🔒 Datenschutz</h3>
+<h2 id="datenschutz">🔒 Datenschutz</h2>
 <ul>
-<li>Es werden keine Passwörter im Klartext übertragen (HTTPS).</li>
-<li>Der Sicherheits-Token in der URL ist zeitlich begrenzt und enthält keine sensiblen Nutzerdaten.</li>
+<li><strong>Passwort-Hashing:</strong> Passwörter werden niemals im Klartext an die Datenbank gesendet.</li>
+<li><strong>Einwilligung:</strong> Durch eine Checkbox (<code>agreement</code>) bestätigt der Nutzer aktiv, dass er die Berechtigungen seiner gewählten Rolle verstanden hat.</li>
+<li><strong>E-Mail Verifizierung:</strong> (Optional/Geplant) Ein Hinweis informiert den Nutzer darüber, dass er eine Verifizierungs-E-Mail erhält, um die Echtheit des Kontos zu bestätigen.</li>
 </ul>
 
 

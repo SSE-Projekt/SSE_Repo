@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../registration/">
+        <link rel="prev" href="../reset-password/">
       
       
-        <link rel="next" href="../forgot-password-request/">
+        <link rel="next" href="../notes/">
       
       
         
@@ -23,7 +23,7 @@
     
     
       
-        <title>Passwort zurücksetzen - Secure Notes Documentation</title>
+        <title>Passwort vergessen - Secure Notes Documentation</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-passwort-zurucksetzen" class="md-skip">
+        <a href="#feature-passwort-vergessen-anfrage" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Passwort zurücksetzen
+              Passwort vergessen
             
           </span>
         </div>
@@ -361,6 +361,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../reset-password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Passwort zurücksetzen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -380,7 +408,7 @@
   <span class="md-ellipsis">
     
   
-    Passwort zurücksetzen
+    Passwort vergessen
   
 
     
@@ -398,7 +426,7 @@
   <span class="md-ellipsis">
     
   
-    Passwort zurücksetzen
+    Passwort vergessen
   
 
     
@@ -438,7 +466,7 @@
   <a href="#schwachstellen-vorbeugung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡 Schwachstellen &amp; Vorbeugung
+        🛡️ Schwachstellen &amp; Vorbeugung
       
     </span>
   </a>
@@ -456,38 +484,21 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ux-ui-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 UX &amp; UI Details
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../forgot-password-request/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Passwort vergessen
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -708,7 +719,7 @@
   <a href="#schwachstellen-vorbeugung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡 Schwachstellen &amp; Vorbeugung
+        🛡️ Schwachstellen &amp; Vorbeugung
       
     </span>
   </a>
@@ -720,6 +731,17 @@
     <span class="md-ellipsis">
       
         🔒 Datenschutz
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ux-ui-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 UX &amp; UI Details
       
     </span>
   </a>
@@ -743,14 +765,19 @@
 
 
 
-<h1 id="feature-passwort-zurucksetzen">Feature: Passwort zurücksetzen</h1>
-<h3 id="technische-umsetzung">🛠 Technische Umsetzung</h3>
+<h1 id="feature-passwort-vergessen-anfrage">Feature: Passwort vergessen (Anfrage)</h1>
+<p>Diese Funktion ermöglicht es Nutzern, die ihr Passwort vergessen haben, einen sicheren Wiederherstellungs-Link per E-Mail anzufordern.</p>
+<h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
 <ul>
-<li><strong>Frontend:</strong> Vue.js Komponente <code>ResetPasswordView.vue</code>.</li>
-<li><strong>Prozess:</strong> Der User erhält einen Link mit einem <code>token</code> und seiner <code>email</code> als URL-Parameter.</li>
-<li><strong>Validierung:</strong> <code>onMounted</code> Hook extrahiert die Parameter. Ein <code>computed</code> Property prüft die Übereinstimmung der beiden Passwort-Felder.</li>
+<li><strong>Komponente:</strong> <code>ForgotPasswordModal.vue</code></li>
+<li><strong>Typ:</strong> Wiederverwendbare Modal-Komponente, die über ein <code>v-model</code> gesteuert wird.</li>
+<li><strong>Logik:</strong> - Die Komponente kann mit einer <code>initialEmail</code> (vorausgefüllt aus dem Login-Feld) initialisiert werden.<ul>
+<li>Beim Absenden wird eine <code>POST</code>-Anfrage an <code>/api/auth/forgot-password</code> gesendet.</li>
 </ul>
-<h3 id="schwachstellen-vorbeugung">🛡 Schwachstellen &amp; Vorbeugung</h3>
+</li>
+<li><strong>Event-Kommunikation:</strong> Die Modal-Komponente nutzt <code>emits</code> (<code>success</code>, <code>error</code>, <code>warn</code>), um die übergeordnete Seite (z.B. Login) über den Status zu informieren, damit dort die globale SnackBar eingeblendet werden kann.</li>
+</ul>
+<h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
 <table>
 <thead>
 <tr>
@@ -760,23 +787,30 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>XSS Attacken</strong></td>
-<td style="text-align: left;">Einsatz von <code>DOMPurify</code> vor dem API-Call.</td>
+<td style="text-align: left;"><strong>XSS (Cross-Site Scripting)</strong></td>
+<td style="text-align: left;">Bevor die E-Mail-Adresse an die API gesendet wird, erfolgt eine Bereinigung durch <code>DOMPurify</code>. Wenn manipulierte Zeichen erkannt werden, wird die Anfrage blockiert.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Injection</strong></td>
-<td style="text-align: left;">Strikte Regex-Prüfung verhindert Symbole wie <code>&lt; &gt; ' " ( ) -</code>.</td>
+<td style="text-align: left;"><strong>User Enumeration</strong></td>
+<td style="text-align: left;">(Backend-Empfehlung) Die Anwendung sollte idealerweise immer eine Erfolgsmeldung anzeigen, unabhängig davon, ob die E-Mail existiert, um das Ausspähen von Nutzerkonten zu verhindern.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Token-Hijacking</strong></td>
-<td style="text-align: left;">Die API entwertet den Token sofort nach einmaliger Nutzung.</td>
+<td style="text-align: left;"><strong>Spam / Mail-Flooding</strong></td>
+<td style="text-align: left;">Durch den <code>isLoading</code> Status wird der Button während der Anfrage deaktiviert, um Mehrfachabsendungen zu verhindern.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="datenschutz">🔒 Datenschutz</h3>
+<h2 id="datenschutz">🔒 Datenschutz</h2>
 <ul>
-<li>Es werden keine Passwörter im Klartext übertragen (HTTPS).</li>
-<li>Der Sicherheits-Token in der URL ist zeitlich begrenzt und enthält keine sensiblen Nutzerdaten.</li>
+<li><strong>Datenminimierung:</strong> Es wird ausschließlich die E-Mail-Adresse abgefragt.</li>
+<li><strong>Transparenz:</strong> Der Nutzer wird darüber informiert, dass er einen Link erhält, falls das Konto existiert.</li>
+<li><strong>Sichere Übertragung:</strong> Die Kommunikation zwischen Frontend und Backend erfolgt über HTTPS, um das Abfangen der E-Mail-Adresse im Netzwerk zu verhindern.</li>
+</ul>
+<hr />
+<h2 id="ux-ui-details">💡 UX &amp; UI Details</h2>
+<ul>
+<li><strong>Backdrop-Blur:</strong> Die Verwendung von <code>backdrop-blur-sm</code> auf dem Hintergrund-Overlay lenkt den Fokus des Nutzers voll auf die Modal-Interaktion.</li>
+<li><strong>Transitions:</strong> Eine sanfte <code>fade</code>-Transition sorgt für ein modernes und flüssiges Interface-Gefühl beim Öffnen und Schließen.</li>
 </ul>
 
 

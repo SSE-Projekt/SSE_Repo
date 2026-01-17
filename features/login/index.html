@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../registration/">
+        <link rel="prev" href="../main-views/">
       
       
-        <link rel="next" href="../forgot-password-request/">
+        <link rel="next" href="../registration/">
       
       
         
@@ -23,7 +23,7 @@
     
     
       
-        <title>Passwort zurücksetzen - Secure Notes Documentation</title>
+        <title>Login - Secure Notes Documentation</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-passwort-zurucksetzen" class="md-skip">
+        <a href="#feature-login-anmeldung" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Passwort zurücksetzen
+              Login
             
           </span>
         </div>
@@ -305,62 +305,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../login/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Login
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../registration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Registrierung
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -380,7 +324,7 @@
   <span class="md-ellipsis">
     
   
-    Passwort zurücksetzen
+    Login
   
 
     
@@ -398,7 +342,7 @@
   <span class="md-ellipsis">
     
   
-    Passwort zurücksetzen
+    Login
   
 
     
@@ -438,7 +382,7 @@
   <a href="#schwachstellen-vorbeugung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡 Schwachstellen &amp; Vorbeugung
+        🛡️ Schwachstellen &amp; Vorbeugung
       
     </span>
   </a>
@@ -460,6 +404,62 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../registration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registrierung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reset-password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Passwort zurücksetzen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -708,7 +708,7 @@
   <a href="#schwachstellen-vorbeugung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡 Schwachstellen &amp; Vorbeugung
+        🛡️ Schwachstellen &amp; Vorbeugung
       
     </span>
   </a>
@@ -743,14 +743,19 @@
 
 
 
-<h1 id="feature-passwort-zurucksetzen">Feature: Passwort zurücksetzen</h1>
-<h3 id="technische-umsetzung">🛠 Technische Umsetzung</h3>
+<h1 id="feature-login-anmeldung">Feature: Login (Anmeldung)</h1>
+<p>Der Login-Prozess ist das Tor zur Applikation und stellt sicher, dass nur authentifizierte Nutzer Zugriff auf ihre privaten Notizen erhalten.</p>
+<h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
 <ul>
-<li><strong>Frontend:</strong> Vue.js Komponente <code>ResetPasswordView.vue</code>.</li>
-<li><strong>Prozess:</strong> Der User erhält einen Link mit einem <code>token</code> und seiner <code>email</code> als URL-Parameter.</li>
-<li><strong>Validierung:</strong> <code>onMounted</code> Hook extrahiert die Parameter. Ein <code>computed</code> Property prüft die Übereinstimmung der beiden Passwort-Felder.</li>
+<li><strong>Frontend:</strong> Die Komponente <code>Anmeldung.vue</code> verwaltet den Status der Eingabefelder <code>username</code> und <code>password</code>.</li>
+<li><strong>Authentifizierung:</strong> Beim Absenden wird eine <code>POST</code>-Anfrage an den <code>/api/auth/login</code> Endpunkt gesendet.</li>
+<li><strong>Session-Management:</strong> - Bei Erfolg liefert das Backend einen <strong>JWT (JSON Web Token)</strong> sowie das Nutzerprofil zurück.<ul>
+<li>Der Token wird im <code>localStorage</code> gespeichert und dient als Autorisierung für alle zukünftigen API-Anfragen.</li>
 </ul>
-<h3 id="schwachstellen-vorbeugung">🛡 Schwachstellen &amp; Vorbeugung</h3>
+</li>
+<li><strong>UX-Elemente:</strong> Ein Lade-Spinner (<code>isLoading</code>) verhindert Mehrfacheingaben während der Serverantwort.</li>
+</ul>
+<h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
 <table>
 <thead>
 <tr>
@@ -761,22 +766,22 @@
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>XSS Attacken</strong></td>
-<td style="text-align: left;">Einsatz von <code>DOMPurify</code> vor dem API-Call.</td>
+<td style="text-align: left;">Der Nutzername wird mittels <code>DOMPurify</code> bereinigt, um Skript-Injektionen im Login-Log zu verhindern.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Injection</strong></td>
-<td style="text-align: left;">Strikte Regex-Prüfung verhindert Symbole wie <code>&lt; &gt; ' " ( ) -</code>.</td>
+<td style="text-align: left;"><strong>Brute-Force Angriffe</strong></td>
+<td style="text-align: left;">Die Schaltfläche wird nach dem Klicken deaktiviert. (Empfehlung: Serverseitiges Rate-Limiting).</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Token-Hijacking</strong></td>
-<td style="text-align: left;">Die API entwertet den Token sofort nach einmaliger Nutzung.</td>
+<td style="text-align: left;"><strong>Session-Fixierung</strong></td>
+<td style="text-align: left;">Der Token wird lokal sicher gespeichert und beim Logout durch <code>localStorage.clear()</code> sofort vernichtet.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="datenschutz">🔒 Datenschutz</h3>
+<h2 id="datenschutz">🔒 Datenschutz</h2>
 <ul>
-<li>Es werden keine Passwörter im Klartext übertragen (HTTPS).</li>
-<li>Der Sicherheits-Token in der URL ist zeitlich begrenzt und enthält keine sensiblen Nutzerdaten.</li>
+<li><strong>HTTPS:</strong> Die Übertragung der Anmeldedaten erfolgt ausschließlich über verschlüsselte Verbindungen.</li>
+<li><strong>Minimale Datenspeicherung:</strong> Im Browser werden nur die für die Session notwendigen Metadaten (Username, Rolle) zwischengespeichert.</li>
 </ul>
 
 
