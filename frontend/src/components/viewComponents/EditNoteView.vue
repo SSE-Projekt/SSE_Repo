@@ -12,6 +12,12 @@
       <div class="space-y-6">
         <div class="space-y-2">
           <label class="text-sm font-semibold text-gray-700">neue Notiz</label>
+          <input
+              v-model="editNote.title"
+              type="text"
+              class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
+              placeholder="Titel deiner Notiz..."
+          />
           <textarea
               v-model="editNote.content"
               rows="12"
@@ -95,6 +101,7 @@ const handleError = (msg) => {
 };
 
 const saveChanges = () => {
+  const sanitizedTitle = DOMPurify.sanitize(editNote.value.title || '');
   const rawContent = editNote.value.content?.trim();
   if (!rawContent) return;
 
@@ -122,6 +129,7 @@ const saveChanges = () => {
   if (index !== -1) {
     allNotes[index] = {
       ...allNotes[index],
+      title: sanitizedTitle,
       content: cleanContent,
       isPrivate: editNote.value.isPrivate,
       lastEdit: new Date().toLocaleString()

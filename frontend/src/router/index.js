@@ -8,6 +8,7 @@ import shareNotes from '@/view/shareNoteView.vue'
 import NoteDetailView from '@/view/noteDetailView.vue'
 import Forbidden from '@/view/ForbiddenView.vue'
 import EditNoteView from '@/components/viewComponents/EditNoteView.vue';
+
 const routes = [
     { path: '/', redirect: '/login' },
     { path: '/search', component: Search },
@@ -26,6 +27,11 @@ const routes = [
         component: EditNoteView,
         props: true,
         meta: { requiresRole: 'autor' }
+    },
+    {
+        path: '/reset-password',
+        name: 'ResetPassword',
+        component: () => import('@/view/ResetPasswordView.vue')
     },
     { path: '/share-notes', component: shareNotes },
     { path: '/notes/:id', component: NoteDetailView, props: true},

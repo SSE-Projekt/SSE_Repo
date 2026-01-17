@@ -74,7 +74,7 @@ const updateUrl = () => {
 const filteredNotes = computed(() => {
   return existingNotes.value.filter(note => {
     // 1. Vorbereitung der Texte für die Recherche
-    const content = (note.content || '').toLowerCase();
+    const content = (note.title || '').toLowerCase();
     const query = (searchQuery.value || '').toLowerCase();
     const matchesSearch = content.includes(query);
 

@@ -71,7 +71,19 @@
             Wird geladen...
           </span>
         </button>
+
         <div class="text-center mt-6">
+          <button type="button" @click="showModal = true" class="text-black font-semibold hover:underline underline-offset-4">
+            Passwort vergessen?
+          </button>
+
+          <ForgotPasswordModal
+              v-model="showModal"
+              :initialEmail="username"
+              @success="handleSuccess"
+              @error="handleError"
+              @warn="handleWarn"
+          />
           <p class="text-sm text-gray-500">
             Noch kein Konto?
             <router-link to="/register" class="text-black font-semibold hover:underline underline-offset-4">
@@ -96,6 +108,9 @@ import {useRouter} from 'vue-router';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import SnackBar from "@/components/viewComponents/snackBar.vue";
+import ForgotPasswordModal from '@/components/viewComponents/ForgotPasswordModal.vue';
+
+const showModal = ref(false);
 
 
 const emit = defineEmits(['login-success']);
