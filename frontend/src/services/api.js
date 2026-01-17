@@ -147,3 +147,51 @@ export async function checkHealth() {
   const response = await axios.get(`${API_BASE_URL}/health`)
   return response.data
 }
+
+export async function getSharedNotes() {
+  const token = getToken()  
+  // Pfad angepasst an den neuen SharedNoteController
+  const response = await axios.get(`${API_BASE_URL}/shared/with-me`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })  
+  // Da das Backend eine Liste von Objekten schickt { note: ..., sharedBy: ... }
+  return response.data 
+}
+
+/**
+ * Teilt eine Notiz mit einem anderen Benutzer über dessen E-Mail.
+ * SSE-PRINZIP: Nutzt POST für zustandsverändernde Aktionen.
+ */
+export async function shareNote(noteId, email) {
+  const token = getToken();
+  
+  // Die URL entspricht unserem neuen @RequestMapping("/api/shared") + @PostMapping("/share")
+  const response = await axios.post(`${API_BASE_URL}/shared/share`, 
+    {
+      noteId: noteId,
+      email: email
+    },
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  
+  return response.data; // Gibt die Erfolgsmeldung vom Backend zurück
+}
+
+export async function getAllUsers() {
+  const token = getToken(); // Deine Funktion, um das JWT-Token zu holen
+  
+  const response = await axios.get(`${API_BASE_URL}/users`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  
+  return response.data; // Gibt die Liste der User zurück
+}

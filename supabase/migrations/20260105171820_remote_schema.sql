@@ -94,7 +94,8 @@ CREATE TABLE IF NOT EXISTS "public"."shared_notiz" (
     "notiz_id" "uuid" DEFAULT "gen_random_uuid"()
 );
 
-
+ALTER TABLE "public"."shared_notiz" ADD COLUMN "senderName" VARCHAR(255);
+ALTER TABLE "public"."shared_notiz" RENAME COLUMN "senderName" TO "sender_name";
 ALTER TABLE "public"."shared_notiz" OWNER TO "postgres";
 
 
