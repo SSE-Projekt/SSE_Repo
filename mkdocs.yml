@@ -8,7 +8,14 @@ theme:
 nav:
   - Home: index.md
   - Features:
+      - main-views: features/main-views.md
       - Login: features/login.md
       - Registrierung: features/registration.md
       - Passwort zurücksetzen: features/reset-password.md
+      - Passwort vergessen: features/forgot-password-request.md
+      - Notizen erstellen und bearbeiten: features/notes.md
+      - Notizen anzeigen: features/note-card.md
+      - Notizen details: features/note-details.md
+      - Suche & Filter: features/search-bar.md
+      - top-bar: features/top-bar.md
   - Sicherheit & Datenschutz: security.md

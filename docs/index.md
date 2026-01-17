@@ -1,17 +1,56 @@
-# Welcome to MkDocs
+# Willkommen bei Secure Notes
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+**Secure Notes** ist eine moderne, webbasierte Plattform zur sicheren Verwaltung persönlicher und geteilter Notizen. Dieses Projekt wurde im Rahmen einer technischen Leistungsfeststellung entwickelt, mit einem besonderen Fokus auf **Cybersecurity**, **Clean Code** und **datenschutzkonforme Implementierung**.
 
-## Commands
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
 
-## Project layout
+## 🎯 Projektziel
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Das Hauptziel von *Secure Notes* ist es, eine Anwendung bereitzustellen, die intuitiv bedienbar ist, aber gleichzeitig robust gegen gängige Webschwachstellen (gemäß OWASP Top 10) geschützt bleibt.
+
+Besonderes Augenmerk liegt auf:
+- **Prävention von XSS:** Durch striktes Sanitizing aller Benutzereingaben.
+- **Sicheres Passwort-Management:** Durch Komplexitätsregeln und geschützte Reset-Flows.
+- **Rollenbasierte Zugriffskontrolle:** Klare Trennung zwischen Lesern und Autoren.
+
+---
+
+## 💻 Technologie-Stack
+
+Die Anwendung basiert auf modernen Industriestandards:
+
+| Bereich | Technologie |
+| :--- | :--- |
+| **Frontend Framework** | [Vue.js 3](https://vuejs.org/) (Composition API) |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) (Utility-first) |
+| **Routing** | Vue Router |
+| **Sicherheit** | [DOMPurify](https://github.com/cure53/dompurify), Regex-Validierung |
+| **Markdown Parsing** | [Marked.js](https://marked.js.org/) |
+| **Dokumentation** | MkDocs mit Material Theme |
+
+---
+
+## 🛠 Hauptfunktionen
+
+Die Applikation ist in verschiedene Module unterteilt:
+
+1.  **Authentifizierung:** Sicherer Login und Registrierung mit Rollenauswahl.
+2.  **Notiz-Verwaltung:** Erstellen, Bearbeiten und Löschen von Notizen mit Markdown-Support.
+3.  **Medien-Integration:** Sicheres Einbetten von YouTube-Videos (No-Cookie-Standard).
+4.  **Sharing-System:** Privatsphäre-Einstellungen (Privat/Öffentlich) und gezieltes Teilen mit anderen Nutzern.
+5.  **Suche & Filter:** Echtzeit-Suche mit URL-Synchronisation für optimale UX.
+
+---
+
+## 📖 Struktur der Dokumentation
+
+In dieser Dokumentation findest du detaillierte Informationen zu:
+
+- **[Sicherheit & Datenschutz](security.md):** Globale Sicherheitskonzepte und DSGVO-Aspekte.
+- **[Features](features/auth.md):** Technische Details und Schwachstellenanalysen zu jeder Funktion.
+
+> **Hinweis für Prüfer:** Jede Feature-Seite enthält einen Abschnitt "Schwachstellen & Vorbeugung", in dem explizit auf die technische Umsetzung von Sicherheitsmaßnahmen eingegangen wird.
+
+---
+
+*Entwickelt als Demonstration für eine sichere Webarchitektur.*
