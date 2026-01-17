@@ -36,11 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 1. Extrahiere den Authorization Header
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userIdString;
 
-        // 2. Wenn kein Header da ist oder er nicht mit "Bearer " beginnt:
-        // Einfach weiterreichen. Spring Security prüft danach in der Config,
-        // ob der Pfad (z.B. /api/notes/public) auch ohne Auth erlaubt ist.
+        // 2. Überprüfung des Headers
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -50,39 +47,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
 
         try {
+            // 4. Token-Validierung und Benutzeridentifikation
             if (jwtService.validateToken(jwt)) {
                 UUID userId = jwtService.getUserIdFromToken(jwt);
 
-                // User finden oder automatisch erstellen (Just-in-Time Provisioning)
-                User user = userRepository.findById(userId).orElseGet(() -> {
-                    System.out.println("DEBUG: Erstelle neuen User in DB für ID: " + userId);
-                    User newUser = new User();
-                    newUser.setId(userId);
-                    // Falls du die Email extrahieren kannst: jwtService.getEmailFromToken(jwt)
-                    newUser.setEmail("user-" + userId.toString().substring(0, 5) + "@example.com");
-                    return userRepository.save(newUser);
-                });
+                // SSE-PRINZIP: Wir suchen nur den User in der DB. 
+                // Keine automatische Erstellung hier, um SQL-Konflikte (500er Fehler) zu vermeiden.
+                var userOptional = userRepository.findById(userId);
 
-                System.out.println("DEBUG: Authentifiziere User: " + user.getEmail());
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    System.out.println("DEBUG: Erfolgreicher Login für: " + user.getEmail());
 
-                // Token für Spring Security erstellen
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        user,
-                        null,
-                        Collections.emptyList()
-                );
+                    // Authentifizierungstoken für den SecurityContext erstellen
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            user, null, Collections.emptyList());
+                    
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                // WICHTIG: Den User im Sicherheits-Kontext speichern
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    // Authentifizierung im Kontext speichern
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                } else {
+                    // Logge die Warnung, wenn der User in Auth existiert, aber nicht in unserer Tabelle
+                    System.err.println("Sicherheits-Warnung: User ID " + userId + " fehlt in der lokalen Tabelle.");
+                }
             }
         } catch (Exception e) {
-            System.err.println("DEBUG-JWT-ERROR: " + e.getMessage());
+            // SSE-Prinzip: Fail-Safe Handling. Das System stürzt nicht ab, wenn das Token ungültig ist.
+            System.err.println("JWT-Validierungsfehler: " + e.getMessage());
             SecurityContextHolder.clearContext();
         }
 
-        // 5. WICHTIG: Den Request auf jeden Fall weitergeben
+        // 5. WICHTIG: Die Filterkette muss immer fortgesetzt werden
         filterChain.doFilter(request, response);
     }
 }

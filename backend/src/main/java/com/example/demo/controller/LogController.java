@@ -160,7 +160,7 @@ public class LogController {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
-        try {
+        /*try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
             // WICHTIG: Erstelle eine NEUE ResponseEntity NUR mit Body und Status.
@@ -174,6 +174,17 @@ public class LogController {
             return ResponseEntity
                     .status(e.getStatusCode())
                     .body(e.getResponseBodyAsString());
-        }
+        }*/
+
+        try {
+        return restTemplate.postForEntity(url, entity, String.class);
+    } catch (HttpClientErrorException e) {
+        return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+    } catch (Exception e) {
+        // SSE-PRINZIP: Abfangen von Netzwerkfehlern (z.B. DNS-Probleme im Docker-Netz)
+        System.err.println("KRITISCHER NETZWERKFEHLER zu Supabase: " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                             .body("Supabase Auth Service ist aktuell nicht erreichbar.");
+    }
     }
 }
