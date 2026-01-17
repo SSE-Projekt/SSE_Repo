@@ -770,7 +770,7 @@
 <h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
 <ul>
 <li><strong>Komponente:</strong> <code>NoteDetailView.vue</code></li>
-<li><strong>Dynamic Routing:</strong> Die Komponente empfängt eine <code>id</code> als Prop über den Vue Router, um die entsprechende Notiz aus dem Datenspeicher (<code>localStorage</code> oder API) zu laden.</li>
+<li><strong>Dynamic Routing:</strong> Die Komponente empfängt eine <code>id</code> als Prop über den Vue Router, um die entsprechende Notiz aus dem Datenspeicher (<code>durch eine selbst programmierte API mit Datenbank</code> oder API) zu laden.</li>
 <li><strong>Markdown &amp; Media Rendering:</strong><ul>
 <li>Einsatz von <code>marked</code> zur Umwandlung von Markdown in HTML.</li>
 <li><strong>Spezial-Renderer:</strong> Ein benutzerdefinierter Renderer erkennt das Präfix <code>embed:</code> in Bild-Syntax-Links, extrahiert die YouTube-Video-ID mittels Regex und wandelt diese in ein sicheres <code>iframe</code> um.</li>
