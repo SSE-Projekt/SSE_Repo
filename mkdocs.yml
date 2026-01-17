@@ -1,0 +1,14 @@
+site_name: Secure Notes Documentation
+theme:
+  name: material
+  palette:
+    primary: black
+    accent: blue
+
+nav:
+  - Home: index.md
+  - Features:
+      - Login: features/login.md
+      - Registrierung: features/registration.md
+      - Passwort zurücksetzen: features/reset-password.md
+  - Sicherheit & Datenschutz: security.md
