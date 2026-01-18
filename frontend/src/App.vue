@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import TopBar from "@/components/viewComponents/topBar.vue";
+import topBar from "@/components/viewComponents/topBar.vue";
 
 const route = useRoute()
 
