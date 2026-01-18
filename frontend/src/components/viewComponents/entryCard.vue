@@ -53,18 +53,22 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { getIcon } from '@/utils/getIcon';
-import DOMPurify from 'dompurify'; // Import für XSS Schutz
+import DOMPurify from 'dompurify';
+import { createNote } from '@/services/api';  // ⭐ NEU!
 
 const noteTitle = ref('');
 const noteText = ref('');
 const isPrivate = ref(true);
-const emit = defineEmits(['add-note', 'success', 'warn', 'error']);
+const saving = ref(false);  // ⭐ NEU!
 
-const saveNote = () => {
+const emit = defineEmits(['add-note', 'success', 'warn', 'error', 'title-error', 'content-error']);
+
+const saveNote = async () => {  // ⭐ async!
   const pre_rawTitle = noteTitle.value?.trim();
   const rawContent = noteText.value?.trim();
+  
   if(!pre_rawTitle) {
     emit('title-error');
     return;
@@ -73,54 +77,63 @@ const saveNote = () => {
     emit('content-error');
     return;
   }
+  
   noteTitle.value = '# ' + noteTitle.value;
   const rawTitle = noteTitle.value?.trim();
 
-  // 1. SCHNITTSTELLE SICHERN: Eingabebereinigung gegen XSS
-  // Entfernt gefährliche HTML-Tags und Attribute (z.B. <script>, onload)
-  // XSS SCHUTZ mit Erlaubnis für iFrames (für YouTube)
-  // Wir erlauben iframes, damit die spätere Ersetzung funktionieren kann
-  const cleanTitle = DOMPurify.sanitize(rawTitle)
+  // XSS SCHUTZ
+  const cleanTitle = DOMPurify.sanitize(rawTitle);
   const cleanContent = DOMPurify.sanitize(rawContent, {
     ADD_TAGS: ["iframe"],
     ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"]
   });
 
   if (!cleanTitle || !cleanContent) {
-    // Feld leeren
-    emit('error')
+    emit('error');
     noteText.value = '';
     return;
   }
-  if (rawTitle !== cleanTitle || rawContent !== cleanContent || (cleanContent.includes('http') && !cleanContent.includes('(image-embed:') && !cleanContent.includes('(embed:')) || (cleanContent.includes('(embed:') && !cleanContent.includes('youtube') && !cleanContent.includes('youtu.be'))) {
-    emit('warn')
+  
+  if (rawTitle !== cleanTitle || rawContent !== cleanContent || 
+      (cleanContent.includes('http') && !cleanContent.includes('(image-embed:') && !cleanContent.includes('(embed:')) || 
+      (cleanContent.includes('(embed:') && !cleanContent.includes('youtube') && !cleanContent.includes('youtu.be'))) {
+    emit('warn');
     return;
   }
 
-  const newNote = {
-    id: self.crypto.randomUUID(), // Sichere ID für Direktlinks
-    title: cleanTitle,
-    content: cleanContent,
-    isPrivate: isPrivate.value,
-    date: new Date().toLocaleString(),
-    author: "Aktueller Nutzer"    // Später durch echten Namen ersetzen
-  };
-  // 3. Im LocalStorage speichern
-  // Zuerst bestehende Notizen laden oder leeres Array erstellen
-  const existingNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-
-  // Neue Notiz am Anfang hinzufügen (unshift) oder Ende (push)
-  existingNotes.unshift(newNote);
-
-  // Array zurück in den LocalStorage schreiben
-  localStorage.setItem('notes', JSON.stringify(existingNotes));
-
-  // 4. Event an Parent senden (damit die UI sich sofort aktualisiert)
-  emit('add-note', newNote);
-  emit('success')
-  // Feld leeren
-  noteText.value = '';
-  noteTitle.value = '';
+  // ⭐ AN BACKEND SENDEN!
+  saving.value = true;
+  
+  try {
+    const noteData = {
+      title: cleanTitle,
+      notizText: cleanContent,  // Backend erwartet "notizText"!
+      isPrivat: isPrivate.value  // Backend erwartet "isPrivat"!
+    };
+    
+    const savedNote = await createNote(noteData);
+    
+    // Event an Parent senden
+    emit('add-note', savedNote);
+    emit('success');
+    
+    // Felder leeren
+    noteText.value = '';
+    noteTitle.value = '';
+    isPrivate.value = true;
+    
+  } catch (error) {
+    console.error('Fehler beim Speichern:', error);
+    
+    if (error.response?.status === 403) {
+      emit('error', 'Keine Schreibrechte!');
+    } else if (error.response?.status === 401) {
+      emit('error', 'Bitte erneut anmelden!');
+    } else {
+      emit('error', 'Fehler beim Speichern: ' + error.message);
+    }
+  } finally {
+    saving.value = false;
+  }
 };
-
 </script>

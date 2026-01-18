@@ -12,6 +12,12 @@
       <div class="space-y-6">
         <div class="space-y-2">
           <label class="text-sm font-semibold text-gray-700">neue Notiz</label>
+          <input
+              v-model="editNote.title"
+              type="text"
+              class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
+              placeholder="Titel deiner Notiz..."
+          />
           <textarea
               v-model="editNote.content"
               rows="12"
@@ -22,7 +28,7 @@
 
         <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
           <div class="flex items-center gap-2">
-            <input type="checkbox" v-model="editNote.isPrivate" id="private-check" class="w-4 h-4 accent-black" />
+            <input type="checkbox" v-model="editNote.isPrivat" id="private-check" class="w-4 h-4 accent-black" />
             <label for="private-check" class="text-sm text-gray-700 cursor-pointer">Privat halten</label>
           </div>
         </div>
@@ -46,18 +52,20 @@
         :type="snackbar.type"
     />
   </div>
+
 </template>
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import DOMPurify from 'dompurify';
-import SnackBar from "@/components/viewComponents/snackBar.vue"; // Import de la SnackBar
+import SnackBar from "@/components/viewComponents/snackBar.vue";
+import { getNote, updateNote } from '@/services/api';  // ⭐ NEU!
 
 const route = useRoute();
 const router = useRouter();
 const editNote = ref(null);
-
+const loading = ref(false);  // ⭐ NEU!
 
 const snackbar = reactive({
   show: false,
@@ -65,14 +73,26 @@ const snackbar = reactive({
   type: 'success'
 });
 
-onMounted(() => {
-  const notes = JSON.parse(localStorage.getItem('notes') || '[]');
-  const note = notes.find(n => n.id === route.params.id);
-
-  if (note) {
-    editNote.value = { ...note };
-  } else {
+// ⭐ NEU: Notiz vom Backend laden
+onMounted(async () => {
+  loading.value = true;
+  try {
+    const note = await getNote(route.params.id);
+    
+    // Backend-Daten für Frontend anpassen
+    editNote.value = {
+      id: note.notizId,
+      content: note.notizText,
+      isPrivat: note.isPrivat,
+      title: note.title
+    };
+    
+  } catch (error) {
+    console.error('Fehler beim Laden:', error);
+    handleError('Notiz nicht gefunden');
     router.push('/my-notes');
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -94,7 +114,8 @@ const handleError = (msg) => {
   snackbar.show = true;
 };
 
-const saveChanges = () => {
+const saveChanges = async () => {
+  const sanitizedTitle = DOMPurify.sanitize(editNote.value.title || '');
   const rawContent = editNote.value.content?.trim();
   if (!rawContent) return;
 
@@ -102,7 +123,6 @@ const saveChanges = () => {
     ADD_TAGS: ["iframe"],
     ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"]
   });
-
 
   if (!cleanContent) {
     handleError('Inhalt ungültig!');
@@ -116,28 +136,35 @@ const saveChanges = () => {
   }
 
 
-  const allNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-  const index = allNotes.findIndex(n => n.id === editNote.value.id);
-
-  if (index !== -1) {
-    allNotes[index] = {
-      ...allNotes[index],
-      content: cleanContent,
-      isPrivate: editNote.value.isPrivate,
-      lastEdit: new Date().toLocaleString()
+  try {
+    const savedNote = {
+      id: editNote.value.id,
+      title: editNote.value.title,
+      notizText: editNote.value.content,
+      isPrivat: editNote.value.isPrivat,
     };
-
-    localStorage.setItem('notes', JSON.stringify(allNotes));
-
+    await updateNote(editNote.value.id, savedNote);
 
     handleSuccess();
 
     setTimeout(() => {
       router.replace({
         path: `/notes/${editNote.value.id}`,
-        query: { from: 'my-notes' }
+        query: {from: '/my-notes'}
       });
     }, 1500);
+  } catch (error) {
+    console.error('Fehler beim Speichern:', error);
+
+    if (error.response?.status === 403) {
+      handleError('Keine Berechtigung zum Bearbeiten!');
+    } else if (error.response?.status === 401) {
+      handleError('Bitte erneut anmelden!');
+    } else {
+      handleError('Fehler beim Speichern: ' + error.message);
+    }
+  } finally {
+    loading.value = false;
   }
-};
+}
 </script>

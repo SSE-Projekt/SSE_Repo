@@ -51,6 +51,21 @@ public class LogController {
         }
     }
 
+    @PostMapping("/reset")
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, Object> payload) {
+        String email = (String) payload.get("email");
+
+        if (email == null || email.isBlank()) {
+            return ResponseEntity.badRequest().body("Email darf nicht leer sein.");
+        }
+
+        Map<String, Object> supabasePayload = new HashMap<>();
+        supabasePayload.put("email", email);
+
+        // Supabase Endpoint für Passwort-Zurücksetzen
+        return forwardToSupabase("/recover", supabasePayload);
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@RequestBody Map<String, Object> payload) {
         String email = (String) payload.get("email");

@@ -8,6 +8,8 @@ import shareNotes from '@/view/shareNoteView.vue'
 import NoteDetailView from '@/view/noteDetailView.vue'
 import Forbidden from '@/view/ForbiddenView.vue'
 import EditNoteView from '@/components/viewComponents/EditNoteView.vue';
+import {getPublicNotes} from "@/services/api.js";
+
 const routes = [
     { path: '/', redirect: '/login' },
     { path: '/search', component: Search },
@@ -27,12 +29,19 @@ const routes = [
         props: true,
         meta: { requiresRole: 'autor' }
     },
+    {
+        path: '/reset-password',
+        name: 'ResetPassword',
+        component: () => import('@/view/ResetPasswordView.vue')
+    },
     { path: '/share-notes', component: shareNotes },
     { path: '/notes/:id', component: NoteDetailView, props: true},
     { path: '/403', component: Forbidden, name: 'forbidden' },
     // „Catch-all”-Route für nicht vorhandene Seiten
     { path: '/:pathMatch(.*)*', redirect: '/login' }
 ]
+
+const noteData = getPublicNotes()
 
 const router = createRouter({
     history: createWebHashHistory('#/my-app'), // Nutzt Hash-Modus für einfaches Deployment
@@ -59,6 +68,11 @@ router.beforeEach((to, from, next) => {
     // 3. VÉRIFICATION DES RÔLES
     if (to.meta.requiresRole === 'autor' && user?.user_metadata.user_rolle !== 2) {
         return next({ name: 'forbidden' });
+    }
+
+    // 4. Forbidden Notes
+    if ((to.path === '/notes:id' && from.path === '/register')) {
+        return next('/home');
     }
 
     // Sinon, on laisse passer
