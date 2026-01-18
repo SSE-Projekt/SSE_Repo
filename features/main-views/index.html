@@ -429,6 +429,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deployment-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐳 Deployment &amp; Docker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#schwachstellen-vorbeugung" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -872,6 +883,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deployment-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐳 Deployment &amp; Docker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#schwachstellen-vorbeugung" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -924,7 +946,8 @@
 <h1 id="hauptansichten-rollenkonzept-home-my-notes-shared">Hauptansichten &amp; Rollenkonzept (Home, My Notes, Shared)</h1>
 <p>Dieses Dokument beschreibt die Architektur der Hauptansichten der Applikation und wie der Zugriff basierend auf Benutzerrollen und Berechtigungen gesteuert wird.</p>
 <h2 id="rollenbasierte-zugriffskontrolle-rbac">👥 Rollenbasierte Zugriffskontrolle (RBAC)</h2>
-<p>Die Anwendung unterscheidet strikt zwischen zwei Nutzertypen, um die Integrität der Daten zu gewährleisten:</p>
+<p>Die Anwendung unterscheidet strikt zwischen zwei Nutzertypen, um die Integrität der Daten zu gewährleisten:
+Diese Rollen werden im JWT-Token mitgeführt und sowohl im Vue-Frontend als auch in den <strong>Supabase RLS Policies</strong> geprüft.</p>
 <table>
 <thead>
 <tr>
@@ -970,6 +993,10 @@
 <p>Die Anzeige der Notizen erfolgt über eine reaktive Filterkette:
 1. <strong>Suche:</strong> Textvergleich zwischen <code>searchQuery</code> und den Titeln/Inhalten der Notizen.
 2. <strong>Status-Filter:</strong> Selektion nach <code>all</code>, <code>private</code> oder <code>public</code>.</p>
+<h2 id="deployment-docker">🐳 Deployment &amp; Docker</h2>
+<p>Die gesamte Anwendung (Frontend &amp; Backend) ist <strong>Docker-ready</strong>.
+- <strong>Portabilität:</strong> Die App läuft identisch auf jedem System.
+- <strong>Sicherheit:</strong> Docker-Container isolieren die Applikationslogik vom Host-System.</p>
 <hr />
 <h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
 <table>

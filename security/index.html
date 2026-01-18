@@ -623,6 +623,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#datenbank-sicherheit-row-level-security-rls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗄️ Datenbank-Sicherheit (Row Level Security - RLS)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🗄️ Datenbank-Sicherheit (Row Level Security - RLS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sicherheits-policys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sicherheits-Policys
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sicherheitsarchitektur" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -646,10 +674,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-authentifizierung-autorisierung" class="md-nav__link">
+  <a href="#2-authentifizierung-autorisierung-backend-sicherheit-mit-spring-boot" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Authentifizierung &amp; Autorisierung
+        2. Authentifizierung &amp; Autorisierung - Backend-Sicherheit mit Spring Boot
       
     </span>
   </a>
@@ -669,6 +697,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#infrastruktur-mit-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastruktur mit Docker
+      
+    </span>
+  </a>
   
 </li>
       
@@ -757,6 +796,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#datenbank-sicherheit-row-level-security-rls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗄️ Datenbank-Sicherheit (Row Level Security - RLS)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🗄️ Datenbank-Sicherheit (Row Level Security - RLS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sicherheits-policys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sicherheits-Policys
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sicherheitsarchitektur" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -780,10 +847,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-authentifizierung-autorisierung" class="md-nav__link">
+  <a href="#2-authentifizierung-autorisierung-backend-sicherheit-mit-spring-boot" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Authentifizierung &amp; Autorisierung
+        2. Authentifizierung &amp; Autorisierung - Backend-Sicherheit mit Spring Boot
       
     </span>
   </a>
@@ -803,6 +870,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#infrastruktur-mit-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastruktur mit Docker
+      
+    </span>
+  </a>
   
 </li>
       
@@ -875,20 +953,35 @@
 
 <h1 id="sicherheit-und-datenschutz">Sicherheit und Datenschutz</h1>
 <p>Dieses Dokument beschreibt die globalen Sicherheitsmaßnahmen und Datenschutz-Prinzipien, die in der gesamten Applikation angewendet werden.</p>
+<h2 id="datenbank-sicherheit-row-level-security-rls">🗄️ Datenbank-Sicherheit (Row Level Security - RLS)</h2>
+<p>Um sicherzustellen, dass Nutzer niemals Zugriff auf Daten anderer Nutzer erhalten, setzen wir auf <strong>Row Level Security (RLS)</strong> direkt in der PostgreSQL-Datenbank (Supabase).</p>
+<p>In <strong>Supabase</strong> haben wir eine strikte <strong>Row Level Security (RLS)</strong> implementiert. Dies bedeutet, dass die Sicherheit nicht nur im Code, sondern direkt in der Datenbank verankert ist.</p>
+<h3 id="sicherheits-policys">Sicherheits-Policys</h3>
+<p>Jede Tabelle verfügt über strikte Zugriffsregeln:
+- <strong>Tabelle <code>users</code>:</strong> Nutzer können alle Profile sehen (für das Teilen-Feature), aber nur ihr eigenes Profil bearbeiten oder löschen (<code>auth.uid() = id</code>).
+- <strong>Tabelle <code>notiz</code>:</strong> Nur der Besitzer einer Notiz (<code>owner_id</code>) hat die Berechtigung, diese zu aktualisieren, einzufügen oder zu löschen.
+- <strong>Tabelle <code>shared_notiz</code>:</strong> Diese Tabelle steuert den Zugriff auf geteilte Inhalte. Ein Zugriff ist nur erlaubt, wenn der Nutzer entweder der <strong>Sender</strong> oder der <strong>Empfänger</strong> der Notiz ist.</p>
+<blockquote>
+<p><strong>Sicherheits-Vorteil:</strong> Selbst wenn ein Angreifer versucht, die API direkt aufzurufen oder den Frontend-Code zu manipulieren, blockiert die Datenbank jede Anfrage, die nicht durch eine RLS-Policy autorisiert ist.</p>
+</blockquote>
 <h2 id="sicherheitsarchitektur">🛡️ Sicherheitsarchitektur</h2>
 <h3 id="1-cross-site-scripting-xss-pravention">1. Cross-Site Scripting (XSS) Prävention</h3>
 <p>Um die Einschleusung von bösartigem Code zu verhindern, setzen wir auf eine mehrschichtige Verteidigung:
 - <strong>Sanitizing:</strong> Alle Benutzereingaben werden mit <code>DOMPurify</code> bereinigt, bevor sie verarbeitet oder versendet werden.
 - <strong>Input Filtering:</strong> Kritische Felder (wie Passwörter oder Nutzername) werden zusätzlich durch reguläre Ausdrücke (Regex) gefiltert, um gefährliche Zeichen wie <code>&lt; &gt; ' " ( ) -</code> von vornherein auszuschließen.</p>
-<h3 id="2-authentifizierung-autorisierung">2. Authentifizierung &amp; Autorisierung</h3>
-<p>Die Sicherheit der Nutzersitzungen wird durch moderne Standards gewährleistet:
+<h3 id="2-authentifizierung-autorisierung-backend-sicherheit-mit-spring-boot">2. Authentifizierung &amp; Autorisierung - Backend-Sicherheit mit Spring Boot</h3>
+<p>Das Backend wurde mit <strong>Spring Boot</strong> entwickelt und nutzt <strong>Maven</strong> zur Abhängigkeitsverwaltung.
 - <strong>JWT (JSON Web Tokens):</strong> Nach dem Login wird ein verschlüsselter Token im <code>Datenank</code> gespeichert. Dieser Token wird bei jedem API-Aufruf im Authorization-Header mitgesendet.
-- <strong>Role-Based Access Control (RBAC):</strong> Die Anwendung unterscheidet strikt zwischen Rollen (z.B. Leser vs. Autor). Funktionen wie das Erstellen von Notizen werden im Frontend (UI-Elemente ausgeblendet) und im Backend (Route-Guards) geschützt.</p>
+- <strong>Role-Based Access Control (RBAC):</strong> Die Anwendung unterscheidet strikt zwischen Rollen (z.B. Leser vs. Autor). Funktionen wie das Erstellen von Notizen werden im Frontend (UI-Elemente ausgeblendet) und im Backend (Route-Guards) geschützt.
+- <strong>Validierung:</strong> Spring Boot validiert alle eingehenden Datenmodelle, bevor sie verarbeitet werden.</p>
 <h3 id="3-passwort-sicherheit">3. Passwort-Sicherheit</h3>
 <ul>
 <li><strong>Komplexität:</strong> Wir erzwingen eine Mindestlänge von 8 Zeichen, Groß-/Kleinschreibung, Zahlen und Sonderzeichen.</li>
 <li><strong>Hashing:</strong> (Backend-Hinweis) Passwörter werden niemals im Klartext gespeichert, sondern mit einem modernen Hashing-Algorithmus (z.B. BCrypt) serverseitig verschlüsselt.</li>
 </ul>
+<hr />
+<h2 id="infrastruktur-mit-docker">Infrastruktur mit Docker</h2>
+<p>Durch den Einsatz von <strong>Docker</strong> wird die Anwendung in einer isolierten Umgebung ausgeführt. Dies minimiert Abhängigkeitskonflikte und erhöht die Sicherheit durch Container-Isolierung.</p>
 <hr />
 <h2 id="datenschutz-gdpr-dsgvo">🔒 Datenschutz (GDPR / DSGVO)</h2>
 <p>Wir folgen dem Prinzip der <strong>Datensparsamkeit</strong>. Es werden nur Daten erhoben, die für den Betrieb der Anwendung absolut notwendig sind.</p>
