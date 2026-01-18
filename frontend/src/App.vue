@@ -15,7 +15,7 @@ const showTopbar = computed(() => {
 
 <template>
   <div class="min-h-screen bg-[#fafafa]">
-    <topbar v-if="showTopbar" :active-view="route.path" />
+    <top-bar v-if="showTopbar" :active-view="route.path" />
 
     <router-view/>
   </div>
