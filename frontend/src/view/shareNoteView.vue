@@ -39,7 +39,7 @@
           <div v-for="(n, idx) in existingNotes" :key="n.id" class="relative mb-4">
             <note-card :note="n" />
             <span class="absolute top-4 right-4 text-xs font-semibold text-gray-400">
-              Geteilt von: {{ n.sharedBy }}
+              Geteilt von: {{ n.sharedBy.email }}
             </span>
           </div>
         </div>

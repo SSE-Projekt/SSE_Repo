@@ -17,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     // Zählt User, deren Name mit dem Prefix beginnt
     long countByNameStartingWith(String prefix);
     Optional<User> findByName(String loginIdentifier);
+    String findEmailById(UUID userId);
 }

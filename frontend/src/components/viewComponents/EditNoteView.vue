@@ -28,7 +28,7 @@
 
         <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
           <div class="flex items-center gap-2">
-            <input type="checkbox" v-model="editNote.isPrivate" id="private-check" class="w-4 h-4 accent-black" />
+            <input type="checkbox" v-model="editNote.isPrivat" id="private-check" class="w-4 h-4 accent-black" />
             <label for="private-check" class="text-sm text-gray-700 cursor-pointer">Privat halten</label>
           </div>
         </div>
@@ -83,7 +83,7 @@ onMounted(async () => {
     editNote.value = {
       id: note.notizId,
       content: note.notizText,
-      isPrivate: note.isPrivat,
+      isPrivat: note.isPrivat,
       title: note.title
     };
     
@@ -114,7 +114,7 @@ const handleError = (msg) => {
   snackbar.show = true;
 };
 
-const saveChanges = () => {
+const saveChanges = async () => {
   const sanitizedTitle = DOMPurify.sanitize(editNote.value.title || '');
   const rawContent = editNote.value.content?.trim();
   if (!rawContent) return;
@@ -136,32 +136,26 @@ const saveChanges = () => {
   }
 
 
-  const allNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-  const index = allNotes.findIndex(n => n.id === editNote.value.id);
-
-  if (index !== -1) {
-    allNotes[index] = {
-      ...allNotes[index],
-      title: sanitizedTitle,
-      content: cleanContent,
-      isPrivate: editNote.value.isPrivate,
-      lastEdit: new Date().toLocaleString()
+  try {
+    const savedNote = {
+      id: editNote.value.id,
+      title: editNote.value.title,
+      notizText: editNote.value.content,
+      isPrivat: editNote.value.isPrivat,
     };
-    
-    await updateNote(editNote.value.id, noteData);
-    
+    await updateNote(editNote.value.id, savedNote);
+
     handleSuccess();
 
     setTimeout(() => {
       router.replace({
         path: `/notes/${editNote.value.id}`,
-        query: { from: 'my-notes' }
+        query: {from: '/my-notes'}
       });
     }, 1500);
-    
   } catch (error) {
     console.error('Fehler beim Speichern:', error);
-    
+
     if (error.response?.status === 403) {
       handleError('Keine Berechtigung zum Bearbeiten!');
     } else if (error.response?.status === 401) {
@@ -172,5 +166,5 @@ const saveChanges = () => {
   } finally {
     loading.value = false;
   }
-};
+}
 </script>

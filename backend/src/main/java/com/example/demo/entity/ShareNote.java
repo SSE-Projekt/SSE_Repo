@@ -20,18 +20,39 @@ public class ShareNote {
     @Column(name = "sender_id")
     private UUID senderId;
 
-    @Column(name = "senderName")
-    private String senderName; // Hier speichern wir deinen Namen
+    //@Column(name = "senderName")
+    //private String senderName; // Hier speichern wir deinen Namen
 
     // Standard-Konstruktor (für JPA)
-    public ShareNote() {}
+    public ShareNote() {
+    }
 
     // Getter und Setter
-    public Long getId() { return id; }
-    public UUID getNoteId() { return noteId; }
-    public void setNoteId(UUID noteId) { this.noteId = noteId; }
-    public UUID getSharedWithUserId() { return sharedWithUserId; }
-    public void setSharedWithUserId(UUID sharedWithUserId) { this.sharedWithUserId = sharedWithUserId; }
-    public String getOwnerName() { return senderName; }
-    public void setOwnerName(String ownerName) { this.senderName = ownerName; }
+    public Long getId() {
+        return id;
+    }
+
+    public UUID getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(UUID noteId) {
+        this.noteId = noteId;
+    }
+
+    public UUID getSharedWithUserId() {
+        return sharedWithUserId;
+    }
+
+    public void setSharedWithUserId(UUID sharedWithUserId) {
+        this.sharedWithUserId = sharedWithUserId;
+    }
+
+    public UUID getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(UUID sender_id) {
+        this.senderId = sender_id;
+    }
 }

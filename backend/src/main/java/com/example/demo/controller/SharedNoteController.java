@@ -60,7 +60,7 @@ public ResponseEntity<?> shareNote(@RequestBody Map<String, String> request, Aut
             ShareNote share = new ShareNote();
             share.setNoteId(noteId);
             share.setSharedWithUserId(targetUser.getId());
-            share.setOwnerName(currentUser.getName());
+            share.setSenderId(currentUser.getId());
 
             sharedNoteRepository.save(share);
             
@@ -91,7 +91,7 @@ public ResponseEntity<?> shareNote(@RequestBody Map<String, String> request, Aut
                 noteRepository.findByNotizId(share.getNoteId()).ifPresent(note -> {
                     Map<String, Object> map = new HashMap<>();
                     map.put("note", note);
-                    map.put("sharedBy", share.getOwnerName());
+                    map.put("sharedBy", userRepository.findById(share.getSenderId()));
                     result.add(map);
                 });
             }
