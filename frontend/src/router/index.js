@@ -8,6 +8,7 @@ import shareNotes from '@/view/shareNoteView.vue'
 import NoteDetailView from '@/view/noteDetailView.vue'
 import Forbidden from '@/view/ForbiddenView.vue'
 import EditNoteView from '@/components/viewComponents/EditNoteView.vue';
+import ResetPassword from '@/view/ResetPasswordView.vue'
 import {getPublicNotes} from "@/services/api.js";
 
 const routes = [
@@ -15,6 +16,7 @@ const routes = [
     { path: '/search', component: Search },
     { path: '/login', component: Anmeldung },
     { path: '/register', component: Registrierung },
+    { path: '/reset', component: ResetPassword },
     { path: '/home', component: Start },
     {
         path: '/my-notes',
