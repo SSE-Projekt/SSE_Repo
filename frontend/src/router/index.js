@@ -8,6 +8,7 @@ import shareNotes from '@/view/shareNoteView.vue'
 import NoteDetailView from '@/view/noteDetailView.vue'
 import Forbidden from '@/view/ForbiddenView.vue'
 import EditNoteView from '@/components/viewComponents/EditNoteView.vue';
+import {getPublicNotes} from "@/services/api.js";
 
 const routes = [
     { path: '/', redirect: '/login' },
@@ -40,6 +41,8 @@ const routes = [
     { path: '/:pathMatch(.*)*', redirect: '/login' }
 ]
 
+const noteData = getPublicNotes()
+
 const router = createRouter({
     history: createWebHashHistory('#/my-app'), // Nutzt Hash-Modus für einfaches Deployment
     routes
@@ -65,6 +68,11 @@ router.beforeEach((to, from, next) => {
     // 3. VÉRIFICATION DES RÔLES
     if (to.meta.requiresRole === 'autor' && user?.user_metadata.user_rolle !== 2) {
         return next({ name: 'forbidden' });
+    }
+
+    // 4. Forbidden Notes
+    if ((to.path === '/notes:id' && from.path === '/register')) {
+        return next('/home');
     }
 
     // Sinon, on laisse passer

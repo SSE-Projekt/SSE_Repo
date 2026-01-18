@@ -39,21 +39,6 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Verwendung: GET /api/users
-     * Header: Authorization: Bearer <token>
-     */
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUser(Authentication authentication) {
-
-        // User aus Spring Security Context holen
-        User user = (User) authentication.getPrincipal();
-
-        // Response bauen
-        List<User> response = userRepository.findAll();
-
-        return ResponseEntity.ok(response);
-    }
 
     /**
      * Health-Check Endpoint (öffentlich zugänglich)
