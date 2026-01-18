@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import topBar from "@/components/viewComponents/topBar.vue";
+import TopBar from "@/components/viewComponents/topBar.vue";
 
 const route = useRoute()
 
@@ -15,7 +15,7 @@ const showTopbar = computed(() => {
 
 <template>
   <div class="min-h-screen bg-[#fafafa]">
-    <top-bar v-if="showTopbar" :active-view="route.path" />
+    <topbar v-if="showTopbar" :active-view="route.path" />
 
     <router-view/>
   </div>
