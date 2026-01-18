@@ -882,7 +882,7 @@
 - <strong>Input Filtering:</strong> Kritische Felder (wie Passwörter oder Nutzername) werden zusätzlich durch reguläre Ausdrücke (Regex) gefiltert, um gefährliche Zeichen wie <code>&lt; &gt; ' " ( ) -</code> von vornherein auszuschließen.</p>
 <h3 id="2-authentifizierung-autorisierung">2. Authentifizierung &amp; Autorisierung</h3>
 <p>Die Sicherheit der Nutzersitzungen wird durch moderne Standards gewährleistet:
-- <strong>JWT (JSON Web Tokens):</strong> Nach dem Login wird ein verschlüsselter Token im <code>localStorage</code> gespeichert. Dieser Token wird bei jedem API-Aufruf im Authorization-Header mitgesendet.
+- <strong>JWT (JSON Web Tokens):</strong> Nach dem Login wird ein verschlüsselter Token im <code>Datenank</code> gespeichert. Dieser Token wird bei jedem API-Aufruf im Authorization-Header mitgesendet.
 - <strong>Role-Based Access Control (RBAC):</strong> Die Anwendung unterscheidet strikt zwischen Rollen (z.B. Leser vs. Autor). Funktionen wie das Erstellen von Notizen werden im Frontend (UI-Elemente ausgeblendet) und im Backend (Route-Guards) geschützt.</p>
 <h3 id="3-passwort-sicherheit">3. Passwort-Sicherheit</h3>
 <ul>

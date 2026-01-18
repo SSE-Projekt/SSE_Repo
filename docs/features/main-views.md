@@ -5,6 +5,7 @@ Dieses Dokument beschreibt die Architektur der Hauptansichten der Applikation un
 ## 👥 Rollenbasierte Zugriffskontrolle (RBAC)
 
 Die Anwendung unterscheidet strikt zwischen zwei Nutzertypen, um die Integrität der Daten zu gewährleisten:
+Diese Rollen werden im JWT-Token mitgeführt und sowohl im Vue-Frontend als auch in den **Supabase RLS Policies** geprüft.
 
 | Rolle | ID | Berechtigungen | Einschränkungen                                                        |
 | :--- | :--- | :--- |:-----------------------------------------------------------------------|
@@ -42,6 +43,10 @@ Die Anzeige der Notizen erfolgt über eine reaktive Filterkette:
 1. **Suche:** Textvergleich zwischen `searchQuery` und den Titeln/Inhalten der Notizen.
 2. **Status-Filter:** Selektion nach `all`, `private` oder `public`.
 
+## 🐳 Deployment & Docker
+Die gesamte Anwendung (Frontend & Backend) ist **Docker-ready**.
+- **Portabilität:** Die App läuft identisch auf jedem System.
+- **Sicherheit:** Docker-Container isolieren die Applikationslogik vom Host-System.
 ---
 
 ## 🛡️ Schwachstellen & Vorbeugung

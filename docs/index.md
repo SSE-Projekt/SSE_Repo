@@ -15,18 +15,26 @@ Besonderes Augenmerk liegt auf:
 
 ---
 
-## 💻 Technologie-Stack
+## 🛠 Technology Stack
 
-Die Anwendung basiert auf modernen Industriestandards:
+Wir nutzen einen modernen **Technology Stack**, um Performance und Sicherheit zu garantieren:
 
-| Bereich | Technologie |
+| Ebene | Technologie |
 | :--- | :--- |
-| **Frontend Framework** | [Vue.js 3](https://vuejs.org/) (Composition API) |
-| **Styling** | [Tailwind CSS](https://tailwindcss.com/) (Utility-first) |
-| **Routing** | Vue Router |
-| **Sicherheit** | [DOMPurify](https://github.com/cure53/dompurify), Regex-Validierung |
+| **Frontend** | Vue.js 3 (Composition API) |
+| **Backend** | **Spring Boot** mit **Maven** |
+| **Datenbank** | **Supabase** (PostgreSQL) |
+| **Infrastruktur** | **Docker** (Containerisierung) |
+| **Sicherheit** | JWT Token & **RLS Policies** (Row Level Security) [DOMPurify](https://github.com/cure53/dompurify), Regex-Validierung|
 | **Markdown Parsing** | [Marked.js](https://marked.js.org/) |
 | **Dokumentation** | MkDocs mit Material Theme |
+
+
+## 🎯 Kernfokus: Sicherheit
+Das Projekt implementiert eine "Defense-in-Depth"-Strategie:
+1. **Frontend-Ebene:** Bereinigung durch DOMPurify.
+2. **Übertragung:** JWT-Authentifizierung.
+3. **Datenbank-Ebene:** **RLS (Row Level Security)** in Supabase sorgt dafür, dass Daten auf Zeilenebene geschützt sind.
 
 ---
 

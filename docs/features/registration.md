@@ -23,4 +23,4 @@ Die Registrierung ermöglicht neuen Nutzern die Erstellung eines Kontos unter st
 
 - **Passwort-Hashing:** Passwörter werden niemals im Klartext an die Datenbank gesendet.
 - **Einwilligung:** Durch eine Checkbox (`agreement`) bestätigt der Nutzer aktiv, dass er die Berechtigungen seiner gewählten Rolle verstanden hat.
-- **E-Mail Verifizierung:** (Optional/Geplant) Ein Hinweis informiert den Nutzer darüber, dass er eine Verifizierungs-E-Mail erhält, um die Echtheit des Kontos zu bestätigen.
+- **E-Mail Verifizierung:** Ein Hinweis informiert den Nutzer darüber, dass er eine Verifizierungs-E-Mail mit seinem Username erhält, um die Echtheit des Kontos zu bestätigen und durch diese zwei Faktoren Identifizierung mehr Sicherheit zu gewahrleisten.
