@@ -18,7 +18,7 @@ Diese Rollen werden im JWT-Token mitgeführt und sowohl im Vue-Frontend als auch
 
 ### 1. Home & My Notes (`MyNotes.vue`)
 Dies ist das persönliche Dashboard für Nutzer mit der Rolle **Autor**.
-- **Technische Umsetzung:** Die Seite lädt Notizen aus dem `localStorage` (oder der API) und filtert diese primär nach der Zugehörigkeit zum aktuellen Nutzer.
+- **Technische Umsetzung:** Die Seite lädt Notizen aus dem `Supabase` (oder der API) und filtert diese primär nach der Zugehörigkeit zum aktuellen Nutzer.
 - **Interaktion:** Enthält die `entry-card` Komponente, die als Schnittstelle für die Erstellung neuer Inhalte dient.
 - **Navigation:** Nutzt URL-Parameter (`?from=my-notes`), um den Kontext beim Öffnen einer Notiz-Detailseite beizubehalten.
 

@@ -273,10 +273,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#technologie-stack" class="md-nav__link">
+  <a href="#technology-stack" class="md-nav__link">
     <span class="md-ellipsis">
       
-        💻 Technologie-Stack
+        🛠 Technology Stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kernfokus-sicherheit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Kernfokus: Sicherheit
       
     </span>
   </a>
@@ -712,10 +723,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#technologie-stack" class="md-nav__link">
+  <a href="#technology-stack" class="md-nav__link">
     <span class="md-ellipsis">
       
-        💻 Technologie-Stack
+        🛠 Technology Stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kernfokus-sicherheit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Kernfokus: Sicherheit
       
     </span>
   </a>
@@ -770,31 +792,35 @@
 - <strong>Sicheres Passwort-Management:</strong> Durch Komplexitätsregeln und geschützte Reset-Flows.
 - <strong>Rollenbasierte Zugriffskontrolle:</strong> Klare Trennung zwischen Lesern und Autoren.</p>
 <hr />
-<h2 id="technologie-stack">💻 Technologie-Stack</h2>
-<p>Die Anwendung basiert auf modernen Industriestandards:</p>
+<h2 id="technology-stack">🛠 Technology Stack</h2>
+<p>Wir nutzen einen modernen <strong>Technology Stack</strong>, um Performance und Sicherheit zu garantieren:</p>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Bereich</th>
+<th style="text-align: left;">Ebene</th>
 <th style="text-align: left;">Technologie</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>Frontend Framework</strong></td>
-<td style="text-align: left;"><a href="https://vuejs.org/">Vue.js 3</a> (Composition API)</td>
+<td style="text-align: left;"><strong>Frontend</strong></td>
+<td style="text-align: left;">Vue.js 3 (Composition API)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Styling</strong></td>
-<td style="text-align: left;"><a href="https://tailwindcss.com/">Tailwind CSS</a> (Utility-first)</td>
+<td style="text-align: left;"><strong>Backend</strong></td>
+<td style="text-align: left;"><strong>Spring Boot</strong> mit <strong>Maven</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Routing</strong></td>
-<td style="text-align: left;">Vue Router</td>
+<td style="text-align: left;"><strong>Datenbank</strong></td>
+<td style="text-align: left;"><strong>Supabase</strong> (PostgreSQL)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Infrastruktur</strong></td>
+<td style="text-align: left;"><strong>Docker</strong> (Containerisierung)</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Sicherheit</strong></td>
-<td style="text-align: left;"><a href="https://github.com/cure53/dompurify">DOMPurify</a>, Regex-Validierung</td>
+<td style="text-align: left;">JWT Token &amp; <strong>RLS Policies</strong> (Row Level Security) <a href="https://github.com/cure53/dompurify">DOMPurify</a>, Regex-Validierung</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Markdown Parsing</strong></td>
@@ -806,6 +832,11 @@
 </tr>
 </tbody>
 </table>
+<h2 id="kernfokus-sicherheit">🎯 Kernfokus: Sicherheit</h2>
+<p>Das Projekt implementiert eine "Defense-in-Depth"-Strategie:
+1. <strong>Frontend-Ebene:</strong> Bereinigung durch DOMPurify.
+2. <strong>Übertragung:</strong> JWT-Authentifizierung.
+3. <strong>Datenbank-Ebene:</strong> <strong>RLS (Row Level Security)</strong> in Supabase sorgt dafür, dass Daten auf Zeilenebene geschützt sind.</p>
 <hr />
 <h2 id="hauptfunktionen">🛠 Hauptfunktionen</h2>
 <p>Die Applikation ist in verschiedene Module unterteilt:</p>

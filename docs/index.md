@@ -19,15 +19,15 @@ Besonderes Augenmerk liegt auf:
 
 Wir nutzen einen modernen **Technology Stack**, um Performance und Sicherheit zu garantieren:
 
-| Ebene | Technologie |
-| :--- | :--- |
-| **Frontend** | Vue.js 3 (Composition API) |
-| **Backend** | **Spring Boot** mit **Maven** |
-| **Datenbank** | **Supabase** (PostgreSQL) |
-| **Infrastruktur** | **Docker** (Containerisierung) |
-| **Sicherheit** | JWT Token & **RLS Policies** (Row Level Security) [DOMPurify](https://github.com/cure53/dompurify), Regex-Validierung|
-| **Markdown Parsing** | [Marked.js](https://marked.js.org/) |
-| **Dokumentation** | MkDocs mit Material Theme |
+| Ebene | Technologie                                                                                                                                                                        |
+| :--- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Frontend** | Vue.js 3 (Composition API)                                                                                                                                                         |
+| **Backend** | **Spring Boot** mit **Maven**                                                                                                                                                      |
+| **Datenbank** | **Supabase** (PostgreSQL)                                                                                                                                                          |
+| **Infrastruktur** | **Docker** (Containerisierung)                                                                                                                                                     |
+| **Sicherheit** | 2FA durch Generierung von Username und senden an User-Email ,JWT Token & **RLS Policies** (Row Level Security) [DOMPurify](https://github.com/cure53/dompurify), Regex-Validierung |
+| **Markdown Parsing** | [Marked.js](https://marked.js.org/)                                                                                                                                                |
+| **Dokumentation** | MkDocs mit Material Theme                                                                                                                                                          |
 
 
 ## 🎯 Kernfokus: Sicherheit
