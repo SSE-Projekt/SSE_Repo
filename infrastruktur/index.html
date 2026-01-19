@@ -9,28 +9,28 @@
       
       
       
-        <link rel="prev" href="../top-bar/">
+        <link rel="prev" href="..">
       
       
-        <link rel="next" href="../CI%26CD/">
+        <link rel="next" href="../features/Auswahlsprozess/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>Docker - Secure Notes Documentation</title>
+        <title>Infrastruktur - Secure Notes Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -49,7 +49,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#infrastruktur-deployment-docker" class="md-skip">
+        <a href="#infrastruktur-entwicklungsprozess" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Secure Notes Documentation" class="md-header__button md-logo" aria-label="Secure Notes Documentation" data-md-component="logo">
+    <a href=".." title="Secure Notes Documentation" class="md-header__button md-logo" aria-label="Secure Notes Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Docker
+              Infrastruktur
             
           </span>
         </div>
@@ -186,7 +186,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Secure Notes Documentation" class="md-nav__button md-logo" aria-label="Secure Notes Documentation" data-md-component="logo">
+    <a href=".." title="Secure Notes Documentation" class="md-nav__button md-logo" aria-label="Secure Notes Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -204,7 +204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -228,10 +228,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../infrastruktur/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastruktur
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -247,6 +274,137 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#entwicklungsumgebung-ide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Entwicklungsumgebung (IDE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projektmanagement-github-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Projektmanagement &amp; GitHub-Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Projektmanagement &amp; GitHub-Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#meilenstein-planung-milestones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meilenstein-Planung (Milestones)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-branch-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature-Branch Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#einsatz-von-ki-sicherheitsvorkehrungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ki-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KI-Dokumentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sicherheitsmanahmen-ki-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sicherheitsmaßnahmen (KI-Governance)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-infrastruktur-automatisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ CI/CD &amp; Infrastruktur-Automatisierung
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fazit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Fazit
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -255,20 +413,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -289,7 +445,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -307,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Auswahlsprozess/" class="md-nav__link">
+      <a href="../features/Auswahlsprozess/" class="md-nav__link">
         
   
   
@@ -335,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Fehler/" class="md-nav__link">
+      <a href="../features/Fehler/" class="md-nav__link">
         
   
   
@@ -363,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../main-views/" class="md-nav__link">
+      <a href="../features/main-views/" class="md-nav__link">
         
   
   
@@ -391,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../login/" class="md-nav__link">
+      <a href="../features/login/" class="md-nav__link">
         
   
   
@@ -419,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../registration/" class="md-nav__link">
+      <a href="../features/registration/" class="md-nav__link">
         
   
   
@@ -447,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reset-password/" class="md-nav__link">
+      <a href="../features/reset-password/" class="md-nav__link">
         
   
   
@@ -475,7 +631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../forgot-password-request/" class="md-nav__link">
+      <a href="../features/forgot-password-request/" class="md-nav__link">
         
   
   
@@ -503,7 +659,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../notes/" class="md-nav__link">
+      <a href="../features/notes/" class="md-nav__link">
         
   
   
@@ -531,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../note-card/" class="md-nav__link">
+      <a href="../features/note-card/" class="md-nav__link">
         
   
   
@@ -559,7 +715,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../note-details/" class="md-nav__link">
+      <a href="../features/note-details/" class="md-nav__link">
         
   
   
@@ -587,7 +743,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../search-bar/" class="md-nav__link">
+      <a href="../features/search-bar/" class="md-nav__link">
         
   
   
@@ -615,7 +771,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../top-bar/" class="md-nav__link">
+      <a href="../features/top-bar/" class="md-nav__link">
         
   
   
@@ -640,37 +796,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Docker
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../features/Docker/" class="md-nav__link">
         
   
   
@@ -686,148 +815,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#technische-umsetzung-docker-compose" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛠 Technische Umsetzung (Docker Compose)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🛠 Technische Umsetzung (Docker Compose)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-backend-service-sse_backend_app" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Backend Service (sse_backend_app)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-frontend-service-sse_frontend_app" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Frontend Service (sse_frontend_app)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-mail-testing-service-sse_mailpit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Mail-Testing Service (sse_mailpit)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#netzwerk-architektur-sicherheit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🌐 Netzwerk-Architektur &amp; Sicherheit
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#schwachstellen-vorbeugung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛡️ Schwachstellen &amp; Vorbeugung
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#datenschutz" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔒 Datenschutz
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deployment-befehle" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        💡 Deployment-Befehle
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="💡 Deployment-Befehle">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#starten-der-infrastruktur-im-hintergrund" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Starten der Infrastruktur im Hintergrund
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#status-der-container-prufen" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Status der Container prüfen
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -840,7 +827,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CI%26CD/" class="md-nav__link">
+      <a href="../features/CI%26CD/" class="md-nav__link">
         
   
   
@@ -875,7 +862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../security/" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
         
   
   
@@ -922,22 +909,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#technische-umsetzung-docker-compose" class="md-nav__link">
+  <a href="#entwicklungsumgebung-ide" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠 Technische Umsetzung (Docker Compose)
+        🛠️ Entwicklungsumgebung (IDE)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🛠 Technische Umsetzung (Docker Compose)">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projektmanagement-github-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Projektmanagement &amp; GitHub-Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Projektmanagement &amp; GitHub-Workflows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-backend-service-sse_backend_app" class="md-nav__link">
+  <a href="#meilenstein-planung-milestones" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Backend Service (sse_backend_app)
+        Meilenstein-Planung (Milestones)
       
     </span>
   </a>
@@ -945,21 +943,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-frontend-service-sse_frontend_app" class="md-nav__link">
+  <a href="#feature-branch-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Frontend Service (sse_frontend_app)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-mail-testing-service-sse_mailpit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Mail-Testing Service (sse_mailpit)
+        Feature-Branch Workflow
       
     </span>
   </a>
@@ -972,55 +959,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#netzwerk-architektur-sicherheit" class="md-nav__link">
+  <a href="#einsatz-von-ki-sicherheitsvorkehrungen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🌐 Netzwerk-Architektur &amp; Sicherheit
+        🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#schwachstellen-vorbeugung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛡️ Schwachstellen &amp; Vorbeugung
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#datenschutz" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔒 Datenschutz
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deployment-befehle" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        💡 Deployment-Befehle
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="💡 Deployment-Befehle">
+    <nav class="md-nav" aria-label="🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#starten-der-infrastruktur-im-hintergrund" class="md-nav__link">
+  <a href="#ki-dokumentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Starten der Infrastruktur im Hintergrund
+        KI-Dokumentation
       
     </span>
   </a>
@@ -1028,10 +982,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#status-der-container-prufen" class="md-nav__link">
+  <a href="#sicherheitsmanahmen-ki-governance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Status der Container prüfen
+        Sicherheitsmaßnahmen (KI-Governance)
       
     </span>
   </a>
@@ -1040,6 +994,28 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-infrastruktur-automatisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ CI/CD &amp; Infrastruktur-Automatisierung
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fazit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Fazit
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1060,72 +1036,54 @@
 
 
 
-<h1 id="infrastruktur-deployment-docker">Infrastruktur &amp; Deployment (Docker)</h1>
-<p>Die Architektur von <strong>Secure Notes</strong> ist vollständig containerisiert. Dies garantiert eine konsistente Laufzeitumgebung und eine strikte Trennung der Dienste zwischen Frontend, Backend, E-Mail-Service und der Datenbank.</p>
-<h2 id="technische-umsetzung-docker-compose">🛠 Technische Umsetzung (Docker Compose)</h2>
-<p>Die Orchestrierung erfolgt über <strong>Docker Compose</strong>, wobei drei Hauptdienste in einem isolierten Netzwerk zusammenarbeiten.</p>
-<h3 id="1-backend-service-sse_backend_app">1. Backend Service (<code>sse_backend_app</code>)</h3>
+<h1 id="infrastruktur-entwicklungsprozess">Infrastruktur &amp; Entwicklungsprozess</h1>
+<p>Dieses Dokument beschreibt die technologische Basis, die methodischen Abläufe und die Meilenstein-Planung, die bei der Entwicklung von <strong>Secure Notes</strong> zum Einsatz kamen.</p>
+<hr />
+<h2 id="entwicklungsumgebung-ide">🛠️ Entwicklungsumgebung (IDE)</h2>
+<p>Für eine konsistente Entwicklung über das gesamte Stack hinweg wurde folgende Umgebung genutzt:</p>
 <ul>
-<li><strong>Technologie</strong>: <strong>Spring Boot</strong> mit <strong>Maven</strong>.</li>
-<li><strong>Port</strong>: Erreichbar über Port <code>8080</code>.</li>
-<li><strong>Datenbank-Anbindung</strong>: Die Verbindung erfolgt über JDBC an die Supabase-PostgreSQL-Instanz innerhalb des Docker-Netzwerks.</li>
-<li><strong>Sicherheit</strong>: Sensible Anmeldedaten für die Datenbank werden als Umgebungsvariablen (<code>SPRING_DATASOURCE</code>) direkt im Container verwaltet und nicht im Quellcode exponiert.</li>
-</ul>
-<h3 id="2-frontend-service-sse_frontend_app">2. Frontend Service (<code>sse_frontend_app</code>)</h3>
-<ul>
-<li><strong>Technologie</strong>: <strong>Vue.js 3</strong>.</li>
-<li><strong>Port</strong>: Erreichbar über Port <code>80</code> (Standard HTTP).</li>
-<li><strong>Verantwortung</strong>: Dient als Einstiegspunkt für den Nutzer und kommuniziert mit dem Backend-Container über das interne Netzwerk.</li>
-</ul>
-<h3 id="3-mail-testing-service-sse_mailpit">3. Mail-Testing Service (<code>sse_mailpit</code>)</h3>
-<ul>
-<li><strong>Image</strong>: Nutzt das <code>axllent/mailpit</code> Image.</li>
-<li><strong>Ports</strong>: <code>8025</code> für das Web-Interface und <code>1025</code> für den SMTP-Versand.</li>
-<li><strong>Zweck</strong>: Fängt alle ausgehenden E-Mails (z. B. Passwort-Reset) lokal ab, um die Sicherheit und den Datenschutz während der Entwicklung zu gewährleisten, ohne echte E-Mails versenden zu müssen.</li>
+<li><strong>Backend-Entwicklung:</strong> <strong>IntelliJ IDEA</strong> zur Verwaltung des Spring Boot Frameworks und der Maven-Abhängigkeiten.</li>
+<li><strong>Frontend-Entwicklung:</strong> <strong>Visual Studio Code</strong> für die reaktive Vue.js-Entwicklung.</li>
+<li><strong>Tools:</strong> Einsatz von <strong>Docker Desktop</strong> zur lokalen Container-Orchestrierung und <strong>Postman</strong> zur Verifizierung der API-Endpunkte.</li>
 </ul>
 <hr />
-<h2 id="netzwerk-architektur-sicherheit">🌐 Netzwerk-Architektur &amp; Sicherheit</h2>
-<p>Das System nutzt ein externes Netzwerk, um eine Brücke zur <strong>Supabase-Infrastruktur</strong> zu schlagen.</p>
+<h2 id="projektmanagement-github-workflows">📋 Projektmanagement &amp; GitHub-Workflows</h2>
+<p>Die Steuerung des Projekts erfolgte agil über GitHub, wobei der Fokus auf einer klaren Etappenziel-Planung lag.</p>
+<h3 id="meilenstein-planung-milestones">Meilenstein-Planung (Milestones)</h3>
+<p>Die Entwicklung wurde in fünf zentrale Phasen unterteilt, um den Fortschritt messbar zu machen:
+1.  <strong>Content-Backend-Einrichtung:</strong> Aufbau der Kern-API und Datenbankstruktur.
+2.  <strong>Zugriffskontrolle-Backend-Einrichtung:</strong> Implementierung von JWT-Authentifizierung und Row Level Security (RLS).
+3.  <strong>Frontend-Content:</strong> Entwicklung der Benutzeroberfläche und Anbindung an die API-Services.
+4.  <strong>Testen:</strong> Durchführung automatisierter Unit- und Integrationstests für Frontend und Backend.
+5.  <strong>Dockerisierung:</strong> Finalisierung der Dockerfiles und Integration in die CI/CD-Pipeline.</p>
+<h3 id="feature-branch-workflow">Feature-Branch Workflow</h3>
+<p>Um die Integrität des <code>main</code>-Branches zu schützen, wurde ein strikter Branching-Prozess angewandt:
+* <strong>Feature Branches:</strong> Jede neue Funktion wurde isoliert in einem Branch entwickelt (z. B. <code>feature/access-control</code>).
+* <strong>Pull Requests (PR):</strong> Vor dem Merge in den Hauptzweig wurde jeder Code-Abschnitt geprüft.
+* <strong>CI-Integration:</strong> GitHub Actions validierte jeden PR automatisch durch Build- und Testläufe.</p>
+<hr />
+<h2 id="einsatz-von-ki-sicherheitsvorkehrungen">🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen</h2>
+<p>Künstliche Intelligenz wurde als Werkzeug zur Effizienzsteigerung eingesetzt, jedoch unter strengen Sicherheitsauflagen.</p>
+<h3 id="ki-dokumentation">KI-Dokumentation</h3>
 <ul>
-<li><strong>Externes Netzwerk</strong>: Die Anbindung erfolgt über das bestehende <code>supabase_network_SSE_Repo</code>.</li>
-<li><strong>Isolation</strong>: Da das Netzwerk als <code>external</code> markiert ist, können die Container sicher auf die Datenbank-Instanz zugreifen, ohne den Datenbank-Port (<code>5432</code>) nach außen für das öffentliche Internet öffnen zu müssen.</li>
+<li><strong>Einsatzzweck:</strong> Unterstützung beim Refactoring von Code, Generierung von Boilerplate-Code für Controller und Erstellung von komplexen Regex-Mustern für den Markdown-Renderer.</li>
+<li><strong>Verwendete Modelle:</strong> ChatGPT / Gemini-AI.</li>
 </ul>
-<h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Schwachstelle</th>
-<th style="text-align: left;">Vorbeugung</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>Exposure von DB-Credentials</strong></td>
-<td style="text-align: left;"><strong>Implementiert</strong>: Passwörter stehen nicht im Quellcode (Hardcoded), sondern werden erst beim Container-Start über die Docker-Umgebung injiziert.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Man-in-the-Middle (Intern)</strong></td>
-<td style="text-align: left;"><strong>Implementiert</strong>: Die Kommunikation zwischen Backend und Datenbank findet im privaten Docker-Netzwerk statt, das von externen Zugriffen isoliert ist.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Unbefugter Zugriff (DB)</strong></td>
-<td style="text-align: left;"><strong>RLS &amp; Auth</strong>: Selbst bei Netzwerkzugriff schützt die <strong>Row Level Security</strong> (RLS) in der Datenbank die Zeilen vor unbefugtem Zugriff durch falsche Identitäten.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="datenschutz">🔒 Datenschutz</h2>
+<h3 id="sicherheitsmanahmen-ki-governance">Sicherheitsmaßnahmen (KI-Governance)</h3>
 <ul>
-<li><strong>E-Mail-Privatsphäre</strong>: Durch den Einsatz von <strong>Mailpit</strong> verlassen keine Test-E-Mails die lokale Umgebung. Es werden keine echten SMTP-Relays genutzt, was den Abfluss von Nutzerdaten während der Testphase verhindert.</li>
-<li><strong>Daten-Souveränität</strong>: Durch die Containerisierung ist die Applikation portabel und kann auf eigenen Servern betrieben werden, was die volle Kontrolle über die Datenhaltung ermöglicht.</li>
+<li><strong>Datenschutz:</strong> Es wurden <strong>keine</strong> sensitiven Daten (API-Keys, Passwörter, echte Nutzerdaten) an KI-Modelle übermittelt.</li>
+<li><strong>Manuelle Validierung:</strong> Jeder KI-generierte Code-Vorschlag wurde einem manuellen Security-Review unterzogen, um sicherzustellen, dass keine Schwachstellen (wie fehlerhafte Validierungen) übernommen wurden.</li>
+<li><strong>Integritätsprüfung:</strong> Vorschläge für externe Abhängigkeiten wurden manuell auf ihre Existenz und Sicherheit geprüft, um "AI Hallucinations" vorzubeugen.</li>
 </ul>
 <hr />
-<h2 id="deployment-befehle">💡 Deployment-Befehle</h2>
-<p>Um die gesamte Umgebung zu starten:</p>
-<h6 id="starten-der-infrastruktur-im-hintergrund">Starten der Infrastruktur im Hintergrund</h6>
-<p>npx supabase start</p>
-<p>docker-compose up -d</p>
-<h6 id="status-der-container-prufen">Status der Container prüfen</h6>
-<p>docker ps</p>
+<h2 id="cicd-infrastruktur-automatisierung">🛡️ CI/CD &amp; Infrastruktur-Automatisierung</h2>
+<p>Die Pipeline bildet das Rückgrat für Qualität und Sicherheit:
+* <strong>Automatisierung:</strong> Bei jedem Push werden die definierten Milestones durch automatisierte Tests validiert.
+* <strong>Container-Registry:</strong> Automatisierter Build und Push der Images mittels der GitHub Action <code>docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567</code>.
+* <strong>Vulnerability Scanning:</strong> Integration von <strong>Trivy</strong> in der Dockerisierungs-Phase, um bekannte Sicherheitslücken in Container-Images zu finden.</p>
+<hr />
+<h2 id="fazit">💡 Fazit</h2>
+<p>Durch die Strukturierung in <strong>Milestones</strong> wurde eine zielgerichtete Entwicklung ermöglicht, die von der ersten Backend-Einrichtung bis zur finalen Dockerisierung reichte. Die Kombination aus modernem Branching-Workflow und verantwortungsvollem KI-Einsatz garantiert eine hohe Softwarequalität bei gleichzeitiger Einhaltung strenger Sicherheitsstandards.</p>
 
 
 
@@ -1175,10 +1133,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
