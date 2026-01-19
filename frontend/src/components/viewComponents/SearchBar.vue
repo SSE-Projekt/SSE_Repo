@@ -4,7 +4,7 @@
       <div class="relative flex-1">
         <input
             :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)"
+            @input="handleInput"
             type="text"
             placeholder="Notizen durchsuchen..."
             class="w-full pl-4 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
@@ -23,7 +23,6 @@
         </select>
       </div>
     </div>
-
     <div v-if="modelValue" class="mt-4 text-sm text-gray-600">
       Ergebnisse für: <span class="font-bold">"{{ modelValue }}"</span>
       <span v-if="filterValue !== 'all'" class="italic"> (Filter: {{ filterValue }})</span>
@@ -32,7 +31,15 @@
 </template>
 
 <script setup>
-// On définit les propriétés pour le "v-model" double
-defineProps(['modelValue', 'filterValue']);
-defineEmits(['update:modelValue', 'update:filterValue']);
+import DOMPurify from 'dompurify';
+
+const props = defineProps(['modelValue', 'filterValue']);
+const emit = defineEmits(['update:modelValue', 'update:filterValue']);
+
+const handleInput = (event) => {
+  const rawValue = event.target.value;
+  const cleanValue = DOMPurify.sanitize(rawValue);
+
+  emit('update:modelValue', cleanValue);
+};
 </script>
