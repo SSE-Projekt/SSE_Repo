@@ -21,6 +21,7 @@ Fehlgeschlagenes Login wird der User darüber informiert, dass seine Eingabe fal
 | **XSS Attacken**         | Der Nutzername wird mittels `DOMPurify` bereinigt, um Skript-Injektionen im Login-Log zu verhindern.                           |
 | **Brute-Force Angriffe** | Die Schaltfläche wird nach dem Klicken deaktiviert. .                                                                          |
 | **Session-Fixierung**    | Der Token wird vom BAckend generiert, lokal sicher gespeichert und beim Logout durch `localStorage.clear()` sofort vernichtet. |
+
 ## 🔒 Datenschutz
 
 - **HTTPS:** Die Übertragung der Anmeldedaten erfolgt ausschließlich über verschlüsselte Verbindungen.
