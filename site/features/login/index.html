@@ -854,7 +854,7 @@
 <h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
 <ul>
 <li><strong>Frontend:</strong> Die Komponente <code>Anmeldung.vue</code> verwaltet den Status der Eingabefelder <code>username</code> und <code>password</code>.</li>
-<li><strong>Authentifizierung:</strong> Beim Absenden wird eine <code>POST</code>-Anfrage an den <code>/api/auth/login</code> Endpunkt gesendet.</li>
+<li><strong>Authentifizierung &amp; Autorisierung:</strong> Beim Absenden wird eine <code>POST</code>-Anfrage an den <code>/api/auth/login</code> Endpunkt gesendet. Danach soll der User auf den Ressourzen zugreifen, die seiner Rolle entspricht</li>
 <li><strong>Session-Management:</strong> - Bei Erfolg liefert das Backend einen <strong>JWT (JSON Web Token)</strong> sowie das Nutzerprofil zurück.<ul>
 <li>Der Token wird im <code>Supabase</code> gespeichert und dient als Autorisierung für alle zukünftigen API-Anfragen.</li>
 </ul>

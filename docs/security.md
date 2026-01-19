@@ -61,5 +61,6 @@ Im Browser des Nutzers werden lediglich folgende Daten gespeichert:
 ---
 
 ## 🚀 Bekannte Schwachstellen & zukünftige Verbesserungen
+- **Konto löschen:** Aktuell kann der User sein Konto nicht löschen. Dies sollte in einer zukünftigen Version implementiert werden.
 - **Rate Limiting:** Aktuell gibt es keine strikte Begrenzung für Login-Versuche (Schutz gegen Brute-Force). Dies sollte in einer zukünftigen Version serverseitig implementiert werden.
 - **Zwei-Faktor-Authentifizierung (2FA):** Zur Erhöhung der Sicherheit wäre die Implementierung von TOTP (Google Authenticator) ein sinnvoller nächster Schritt.

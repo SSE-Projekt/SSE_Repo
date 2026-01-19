@@ -6,7 +6,8 @@ Diese Kernfunktion ermöglicht es Nutzern, Inhalte sicher zu speichern, zu kateg
 
 ### Erstellung & Bearbeitung
 - **Komponenten:** `entryCard.vue` (Erstellung) und `EditNoteView.vue` (Bearbeitung).
-- **Markdown-Integration:** Die App unterstützt Markdown-Syntax für die Textformatierung.
+- **Markdown & HTML-Integration:** Die App unterstützt Markdown-Syntax und HTML-Syntax(außer bei hohem Risiko, für das die Warnung angezeigt wurde) für die Textformatierung.
+- **Notizen-Art: Notizen können entweder `public` oder `private` eingestellt** 
 - **Medien-Syntax:** Um Sicherheitsrisiken durch direktes HTML zu vermeiden, nutzt die App eine spezielle Syntax für eingebettete Medien:
     * **Bilder:** `![Titel](image-embed:URL)`
     * **Videos:** `![Titel](embed:YouTube-URL)`

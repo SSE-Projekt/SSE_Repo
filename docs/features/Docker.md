@@ -54,9 +54,11 @@ Das System nutzt ein externes Netzwerk, um eine Brücke zur **Supabase-Infrastru
 
 Um die gesamte Umgebung zu starten:
 
-```bash
-# Starten der Infrastruktur im Hintergrund
+
+###### Starten der Infrastruktur im Hintergrund
+npx supabase start
+
 docker-compose up -d
 
-# Status der Container prüfen
+###### Status der Container prüfen
 docker ps
