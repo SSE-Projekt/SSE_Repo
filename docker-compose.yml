@@ -9,6 +9,9 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://supabase_db_SSE_Repo:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
+      # PasswordController:
+      - SUPABASE_AUTH_URL=http://supabase_kong_SSE_Repo:8000/auth/v1
+      - SUPABASE_ANON_KEY=sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH
     networks:
       - supabase_network
 

@@ -96,15 +96,6 @@ const requirements = ref({
   number: false, special: false, forbidden: true
 });
 
-onMounted(() => {
-  email.value = route.query.email || '';
-  token.value = route.query.token || '';
-
-  if (!token.value) {
-    handleError("Ungültiger oder fehlender Sicherheits-Token.");
-  }
-});
-
 const checkPasswordStrength = () => {
   const p = password.value;
   const hasForbidden = /[<>'"()\- ]/.test(p);
@@ -141,12 +132,11 @@ const handleReset = async () => {
     handleError("Sicherheitsproblem: Ungültige Zeichen im Passwort.");
     return;
   }
-
+  token.value = localStorage.getItem('supabase')
   isLoading.value = true;
   try {
     await axios.post('http://localhost:8080/api/auth/reset', {
       token: token.value,
-      email: email.value,
       newPassword: password.value
     });
 
