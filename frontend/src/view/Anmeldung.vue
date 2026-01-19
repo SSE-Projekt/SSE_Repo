@@ -186,7 +186,7 @@ const handleLogin = async () => {
     }, 1000);
 
   } catch (err) {
-    errorMessage.value = "\"Anmeldung fehlgeschlagen. Bitte überprüfe deine Daten.\"";
+    errorMessage.value = "Anmeldung fehlgeschlagen. Bitte überprüfe deine Daten.";
     successMessage.value = null
   } finally {
     isLoading.value = false;

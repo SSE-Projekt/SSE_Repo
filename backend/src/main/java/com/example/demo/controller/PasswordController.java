@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,29 +37,46 @@ public class PasswordController {
         Map<String, Object> supabasePayload = new HashMap<>();
         supabasePayload.put("email", email);
 
-        // Endpoint für Passwort-Reset
-        return forwardToSupabase("/recover", supabasePayload);
+        // Backend empfängt den Token direkt
+        String targetUrl = "http://localhost:8080/api/auth/reset-password";
+        String encodedUrl = URLEncoder.encode(targetUrl, StandardCharsets.UTF_8);
+
+        return forwardToSupabase("/recover?redirect_to=" + encodedUrl, supabasePayload);
+    }
+
+    @GetMapping("/reset-password")
+    public ResponseEntity<String> resetPasswordToken(@RequestParam("access_token") String token) {
+        // Token kommt direkt hier an
+        if (token == null || token.isBlank()) {
+            return ResponseEntity.badRequest().body("Kein Token übergeben.");
+        }
+
+        // Du kannst den Token jetzt verwenden, z.B.:
+        // - Passwort-Reset-Form ausliefern
+        // - Oder direkt ein neues Passwort setzen via Supabase Admin-API
+
+        return ResponseEntity.ok("Token empfangen: " + token);
     }
 
     /**
      * Step 2: Passwort zurücksetzen (Reset Password)
      */
-    @PostMapping("/reset")
-    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> payload) {
-        String token = payload.get("token");
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam("access_token") String token,
+                                                @RequestBody Map<String, String> payload) {
         String newPassword = payload.get("newPassword");
 
         if (token == null || token.isBlank() || newPassword == null || newPassword.isBlank()) {
             return ResponseEntity.badRequest().body("Token und Passwort dürfen nicht leer sein.");
         }
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("password", newPassword);
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(token);
         headers.set("apikey", supabaseAnonKey);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("password", newPassword);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
@@ -69,9 +88,8 @@ public class PasswordController {
                     String.class
             );
 
-            return ResponseEntity.status(response.getStatusCode()).body("Passwort erfolgreich geändert!");
+            return ResponseEntity.ok("Passwort erfolgreich geändert!");
         } catch (HttpClientErrorException e) {
-            // z.B. Token abgelaufen oder ungültig
             return ResponseEntity.status(e.getStatusCode())
                     .body("Fehler beim Zurücksetzen des Passworts: " + e.getResponseBodyAsString());
         }

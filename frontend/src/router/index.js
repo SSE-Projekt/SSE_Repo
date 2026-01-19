@@ -8,15 +8,12 @@ import shareNotes from '@/view/shareNoteView.vue'
 import NoteDetailView from '@/view/noteDetailView.vue'
 import Forbidden from '@/view/ForbiddenView.vue'
 import EditNoteView from '@/components/viewComponents/EditNoteView.vue';
-import ResetPassword from '@/view/ResetPasswordView.vue'
-import {getPublicNotes} from "@/services/api.js";
 
 const routes = [
     { path: '/', redirect: '/login' },
     { path: '/search', component: Search },
     { path: '/login', component: Anmeldung },
     { path: '/register', component: Registrierung },
-    { path: '/reset', component: ResetPassword },
     { path: '/home', component: Start },
     {
         path: '/my-notes',
@@ -43,23 +40,39 @@ const routes = [
     { path: '/:pathMatch(.*)*', redirect: '/login' }
 ]
 
-const noteData = getPublicNotes()
-
 const router = createRouter({
     history: createWebHashHistory('#/my-app'), // Nutzt Hash-Modus für einfaches Deployment
     routes
 })
 //DER NAVIGATION GUARD
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/login', '/register'];
+    const publicPages = ['/reset-password', '/login', '/register'];
     const authRequired = !publicPages.includes(to.path);
 
-     const user = JSON.parse(localStorage.getItem('user'))?? null
+    const user = JSON.parse(localStorage.getItem('user'))?? null
 
     // 1. SI PAS CONNECTÉ et tente d'aller ailleurs que Login/Register
     if (authRequired && !user) {
         // On force l'arrêt sur login
         return next('/login');
+    }
+
+    if (to.query.type === 'recovery') {
+        next('/reset-password')
+    } else {
+        next()
+    }
+
+    if (next.query.type === 'recovery') {
+        next('/reset-password')
+    } else {
+        next()
+    }
+
+    if (from.query.type === 'recovery') {
+        next('/reset-password')
+    } else {
+        next()
     }
 
     // 2. SI DÉJÀ CONNECTÉ et tente d'aller sur Login
@@ -70,11 +83,6 @@ router.beforeEach((to, from, next) => {
     // 3. VÉRIFICATION DES RÔLES
     if (to.meta.requiresRole === 'autor' && user?.user_metadata.user_rolle !== 2) {
         return next({ name: 'forbidden' });
-    }
-
-    // 4. Forbidden Notes
-    if ((to.path === '/notes:id' && from.path === '/register')) {
-        return next('/home');
     }
 
     // Sinon, on laisse passer
