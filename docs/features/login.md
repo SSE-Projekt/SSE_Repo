@@ -5,7 +5,7 @@ Der Login-Prozess ist das Tor zur Applikation und stellt sicher, dass nur authen
 ## 🛠 Technische Umsetzung
 
 - **Frontend:** Die Komponente `Anmeldung.vue` verwaltet den Status der Eingabefelder `username` und `password`.
-- **Authentifizierung:** Beim Absenden wird eine `POST`-Anfrage an den `/api/auth/login` Endpunkt gesendet.
+- **Authentifizierung & Autorisierung:** Beim Absenden wird eine `POST`-Anfrage an den `/api/auth/login` Endpunkt gesendet. Danach soll der User auf den Ressourzen zugreifen, die seiner Rolle entspricht
 - **Session-Management:** - Bei Erfolg liefert das Backend einen **JWT (JSON Web Token)** sowie das Nutzerprofil zurück.
     - Der Token wird im `Supabase` gespeichert und dient als Autorisierung für alle zukünftigen API-Anfragen.
 - **UX-Elemente:** Ein Lade-Spinner (`isLoading`) verhindert Mehrfacheingaben während der Serverantwort.
