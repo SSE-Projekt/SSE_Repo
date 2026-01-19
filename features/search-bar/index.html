@@ -592,6 +592,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#anforderungen-checkliste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Anforderungen &amp; Checkliste
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#technische-umsetzung" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -789,6 +800,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#anforderungen-checkliste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Anforderungen &amp; Checkliste
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#technische-umsetzung" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -851,13 +873,25 @@
 
 <h1 id="feature-suche-und-filterung-searchbar">Feature: Suche und Filterung (SearchBar)</h1>
 <p>Die <code>SearchBar</code>-Komponente ist ein zentrales Steuerungselement, das es Nutzern ermöglicht, ihre Notizen-Sammlung effizient nach Stichworten zu durchsuchen und die Ansicht basierend auf der Sichtbarkeit (Privat vs. Öffentlich) zu filtern.</p>
+<h2 id="anforderungen-checkliste">📋 Anforderungen &amp; Checkliste</h2>
+<p>Um eine intuitive und sichere Suche zu gewährleisten, wurden folgende Anforderungen implementiert:
+* [x] <strong>Multifunktionale Suche</strong>: Es ist möglich, sowohl nach öffentlichen als auch nach eigenen Notizen zu suchen.
+* [x] <strong>Dynamische Anzeige</strong>: Der eingegebene Suchbegriff wird in Echtzeit über den Ergebnissen eingeblendet.
+* [x] <strong>URL-Synchronisation</strong>: Der Suchbegriff wird als Query-Parameter in der URL geführt (z. B. <code>?q=suchbegriff</code>).
+* [x] <strong>Security-First</strong>: Eingaben werden vor der Verarbeitung bereinigt, um Angriffe zu verhindern.</p>
+<hr />
 <h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
 <ul>
 <li><strong>Komponente:</strong> <code>SearchBar.vue</code></li>
 <li><strong>Reaktive Bindung:</strong> Die Komponente nutzt ein doppeltes <code>v-model</code> Bindungsmuster (<code>modelValue</code> für den Text und <code>filterValue</code> für den Status).</li>
-<li><strong>Input-Validierung:</strong> Anstatt einer direkten Bindung wird ein <code>@input</code>-Handler (<code>handleInput</code>) verwendet. Dieser fängt jede Tastatureingabe ab und bereinigt sie sofort, bevor sie an die übergeordnete Komponente weitergegeben wird.</li>
-<li><strong>Zustandsanzeige:</strong> Falls ein Suchbegriff aktiv ist, wird dieser unterhalb der Suchleiste dynamisch eingeblendet, um dem Nutzer den aktuellen Filterkontext zu bestätigen.</li>
+<li><strong>URL-Query-Parameter:</strong> - Die Suche ist mit dem Vue Router synchronisiert. Beim Tippen wird die URL via <code>router.replace({ query: { q: searchTerm } })</code> aktualisiert.<ul>
+<li>Dies ermöglicht es Nutzern, Suchergebnisse zu verlinken oder die Seite neu zu laden, ohne den Filterkontext zu verlieren (Beispiel: <code>https://my-app.de/search?q=geheim</code>).</li>
 </ul>
+</li>
+<li><strong>Input-Validierung:</strong> Anstatt einer direkten Bindung wird ein <code>@input</code>-Handler (<code>handleInput</code>) verwendet. Dieser fängt jede Tastatureingabe ab und bereinigt sie sofort.</li>
+<li><strong>Zustandsanzeige:</strong> Falls ein Suchbegriff aktiv ist, wird dieser unterhalb der Suchleiste dynamisch eingeblendet (z. B. <em>Ergebnisse für: "Mein Projekt"</em>).</li>
+</ul>
+<hr />
 <h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
 <table>
 <thead>
@@ -876,25 +910,27 @@
 <td style="text-align: left;"><strong>Echtzeit-Sanitizing:</strong> Die Methode <code>handleInput</code> nutzt <code>DOMPurify.sanitize()</code>, um jede Eingabe sofort von potenziell gefährlichen HTML-Tags oder JavaScript-Event-Handlern zu reinigen.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>SQL-/Log-Injection</strong></td>
-<td style="text-align: left;">Manipulation der Suchanfrage, um Datenbanken oder Log-Dateien anzugreifen.</td>
+<td style="text-align: left;"><strong>URL-Manipulation</strong></td>
+<td style="text-align: left;">Ein Nutzer könnte versuchen, schädliche Skripte direkt über den Query-Parameter <code>?q=</code> in die URL einzuschleusen.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Vorbeugung</strong></td>
-<td style="text-align: left;">Durch die Bereinigung bereits im Frontend gelangen keine kritischen Steuerzeichen in die Datenverarbeitungskette.</td>
+<td style="text-align: left;">Beim Laden der Seite wird der Query-Parameter ebenfalls durch <code>DOMPurify</code> gefiltert, bevor er in den internen State übernommen wird.</td>
 </tr>
 </tbody>
 </table>
+<hr />
 <h2 id="datenschutz">🔒 Datenschutz</h2>
 <ul>
 <li><strong>Lokale Verarbeitung:</strong> Die Filterung der Notizen findet clientseitig statt. Die Suchbegriffe dienen lediglich der Filterung der bereits autorisierten Daten im Arbeitsspeicher des Browsers.</li>
-<li><strong>Datensparsamkeit:</strong> Es werden keine Suchhistorien oder Nutzer-Anfragen auf dem Server gespeichert, sofern dies nicht explizit für analytische Zwecke (hier nicht der Fall) vorgesehen ist.</li>
+<li><strong>Datensparsamkeit:</strong> Es werden keine Suchhistorien oder Nutzer-Anfragen auf dem Server gespeichert. Die URL-Query dient lediglich der lokalen Navigation und dem User-Experience-Komfort.</li>
 </ul>
 <hr />
 <h2 id="ux-details">💡 UX Details</h2>
 <ul>
 <li><strong>Klares Design:</strong> Die Suchleiste nutzt ein abgerundetes Design (<code>rounded-3xl</code>) und dezente Schatten, um sich visuell von den Inhaltskarten abzuheben.</li>
 <li><strong>Responsive Layout:</strong> Auf Mobilgeräten stapeln sich Suchfeld und Filter-Dropdown automatisch vertikal (<code>flex-col</code>), während sie auf Desktops nebeneinander stehen (<code>md:flex-row</code>).</li>
+<li><strong>Persistenz:</strong> Durch die URL-Parameter bleibt die Suche auch beim Navigieren im Browserverlauf erhalten.</li>
 </ul>
 
 
