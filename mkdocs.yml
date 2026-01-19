@@ -8,6 +8,7 @@ theme:
 nav:
   - Home: index.md
   - Features:
+      - Fehlerbehandlung & Sicherheitsvalidierung: features/Fehler.md
       - main-views: features/main-views.md
       - Login: features/login.md
       - Registrierung: features/registration.md
@@ -18,4 +19,6 @@ nav:
       - Notizen details: features/note-details.md
       - Suche & Filter: features/search-bar.md
       - top-bar: features/top-bar.md
+      - Docker: features/Docker.md
+      - CI&CD: features/CI&CD.md
   - Sicherheit & Datenschutz: security.md

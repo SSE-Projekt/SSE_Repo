@@ -19,7 +19,7 @@
     
     
       
-        <title>CI&CD - Secure Notes Documentation</title>
+        <title>Dokumentation: Implementierung einer DevSecOps CI/CD-Pipeline - Secure Notes Documentation</title>
       
     
     
@@ -67,6 +67,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#dokumentation-implementierung-einer-devsecops-cicd-pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -99,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CI&CD
+              Dokumentation: Implementierung einer DevSecOps CI/CD-Pipeline
             
           </span>
         </div>
@@ -593,6 +598,127 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#methodik-der-cicd-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Methodik der CI/CD-Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Methodik der CI/CD-Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-build-automatisierung-und-umgebungskonsistenz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Build-Automatisierung und Umgebungskonsistenz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-isolierte-teststrategie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Isolierte Teststrategie
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#devsecops-sicherheitsintegration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ DevSecOps: Sicherheitsintegration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛡️ DevSecOps: Sicherheitsintegration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#containerisierung-mit-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Containerisierung mit Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-scanning-mit-trivy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability Scanning mit Trivy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schwachstellen-vorbeugung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ Schwachstellen &amp; Vorbeugung
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datenschutz-integritat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔒 Datenschutz &amp; Integrität
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fazit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Fazit
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -609,9 +735,65 @@
 
 
 
-  <h1>CI&CD</h1>
-
-
+<h1 id="dokumentation-implementierung-einer-devsecops-cicd-pipeline">Dokumentation: Implementierung einer DevSecOps CI/CD-Pipeline</h1>
+<p>Dieses Dokument beschreibt die Architektur und Umsetzung der automatisierten CI/CD-Pipeline. Das Hauptziel ist die Sicherstellung der Softwareintegrität sowie die Einhaltung von Sicherheitsstandards durch automatisierte Prüfzyklen (Shift-Left Security).</p>
+<h2 id="methodik-der-cicd-pipeline">🚀 Methodik der CI/CD-Pipeline</h2>
+<p>Um eine plattformunabhängige Ausführung des Codes zu garantieren, wurden separate Workflows für das Frontend und Backend implementiert.</p>
+<h3 id="1-build-automatisierung-und-umgebungskonsistenz">1. Build-Automatisierung und Umgebungskonsistenz</h3>
+<ul>
+<li><strong>Backend-Build:</strong> Verwendung von <strong>Maven</strong> zur Kompilierung und Ausführung von Unit-Tests in einer isolierten Umgebung.</li>
+<li><strong>Frontend-Build:</strong> Nutzung von <strong>Node.js</strong> und <strong>Vite</strong> zur Erstellung eines produktionsbereiten Bundles.</li>
+<li><strong>Synchronisation:</strong> Einführung einer strikten Namenskonvention (Case Sensitivity), um Diskrepanzen zwischen Windows-Entwicklungsumgebungen und Linux-basierten Build-Servern zu eliminieren.</li>
+</ul>
+<h3 id="2-isolierte-teststrategie">2. Isolierte Teststrategie</h3>
+<p>Ein wesentlicher Schritt war die Entkopplung der Tests von externen Abhängigkeiten:
+* <strong>H2-Datenbank:</strong> Integration einer In-Memory-Datenbank (H2) für die Testphase.
+* <strong>Profil-Steuerung:</strong> Konfiguration spezifischer Properties, damit Tests unabhängig von einer persistenten Datenbankinstanz (Supabase) erfolgreich durchlaufen können.</p>
+<hr />
+<h2 id="devsecops-sicherheitsintegration">🛡️ DevSecOps: Sicherheitsintegration</h2>
+<p>Die Sicherheit ist fest in den Bereitstellungsprozess integriert, um Schwachstellen bereits vor dem Release zu identifizieren.</p>
+<h3 id="containerisierung-mit-docker">Containerisierung mit Docker</h3>
+<p>Die Anwendung wird mithilfe von <strong>Docker</strong> containerisiert. Dies stellt sicher, dass alle Abhängigkeiten in einem unveränderlichen Artefakt gekapselt sind und die Ausführung über den gesamten Lebenszyklus konsistent bleibt.</p>
+<h3 id="vulnerability-scanning-mit-trivy">Vulnerability Scanning mit Trivy</h3>
+<p>Als zentrales Sicherheits-Gate wurde der Scanner <strong>Trivy</strong> integriert:
+* <strong>Automatisierter Scan:</strong> Jedes erstellte Docker-Image wird automatisch auf bekannte Schwachstellen (CVEs) untersucht.
+* <strong>Security Gate:</strong> Die Pipeline ist so konfiguriert, dass der Prozess bei Funden mit hohem Kritikalitätsgrad (High/Critical) sofort gestoppt wird. Dies schützt die Software-Supply-Chain aktiv.</p>
+<hr />
+<h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Prozessschritt</th>
+<th style="text-align: left;">Sicherheitsmaßnahme</th>
+<th style="text-align: left;">Ziel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Build-Phase</strong></td>
+<td style="text-align: left;">Isolierte Umgebungen</td>
+<td style="text-align: left;">Ausschluss von "Man-in-the-Middle"-Angriffen während der Kompilierung.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Test-Phase</strong></td>
+<td style="text-align: left;">H2 In-Memory DB</td>
+<td style="text-align: left;">Schutz von Produktionsdaten; keine暴露 von Datenbank-Credentials in Test-Logs.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Release-Phase</strong></td>
+<td style="text-align: left;">Trivy Image Scanning</td>
+<td style="text-align: left;">Verhindert das Deployment von Containern mit bekannten Sicherheitslücken.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="datenschutz-integritat">🔒 Datenschutz &amp; Integrität</h2>
+<ul>
+<li><strong>Geheimnisverwaltung:</strong> Alle API-Keys und Datenbank-Passwörter für Supabase werden während der Pipeline über verschlüsselte Umgebungsvariablen (Secrets) injiziert.</li>
+<li><strong>Plattformunabhängigkeit:</strong> Durch die Docker-Kapselung wird sichergestellt, dass keine sicherheitsrelevanten Fehlkonfigurationen des Host-Systems die Anwendung beeinflussen.</li>
+</ul>
+<hr />
+<h2 id="fazit">💡 Fazit</h2>
+<p>Durch die Implementierung dieser Pipeline wurde der Entwicklungsprozess von einer manuellen Bereitstellung zu einem automatisierten, sicherheitsorientierten Workflow überführt. Die technische Konsistenz und die automatisierte Erkennung von Schwachstellen bilden das Fundament für ein sicheres Software-Release-Management.</p>
 
 
 
