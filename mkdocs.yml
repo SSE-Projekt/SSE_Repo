@@ -7,7 +7,9 @@ theme:
 
 nav:
   - Home: index.md
+  - Infrastruktur: infrastruktur.md
   - Features:
+      - Auswahlprozesse: features/Auswahlsprozess.md
       - Fehlerbehandlung & Sicherheitsvalidierung: features/Fehler.md
       - main-views: features/main-views.md
       - Login: features/login.md

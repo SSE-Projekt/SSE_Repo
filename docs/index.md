@@ -2,7 +2,10 @@
 
 **Secure Notes** ist eine moderne, webbasierte Plattform zur sicheren Verwaltung persönlicher und geteilter Notizen. Dieses Projekt wurde im Rahmen einer technischen Leistungsfeststellung entwickelt, mit einem besonderen Fokus auf **Cybersecurity**, **Clean Code** und **datenschutzkonforme Implementierung**.
 
-
+## Projekt-Miglieder:
+    - Clint Bryan Nguena
+    - Kingsley-Le-Sage Azanbou Nguena
+    - Joelle Kamwa
 
 ## 🎯 Projektziel
 

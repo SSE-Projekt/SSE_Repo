@@ -676,6 +676,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#anforderungen-checkliste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Anforderungen &amp; Checkliste
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#methodik-der-cicd-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -688,10 +699,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-build-automatisierung-und-umgebungskonsistenz" class="md-nav__link">
+  <a href="#1-build-automatisierung-und-teststrategie" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Build-Automatisierung und Umgebungskonsistenz
+        1. Build-Automatisierung und Teststrategie
       
     </span>
   </a>
@@ -699,10 +710,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-isolierte-teststrategie" class="md-nav__link">
+  <a href="#2-dependency-management-security" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Isolierte Teststrategie
+        2. Dependency Management &amp; Security
       
     </span>
   </a>
@@ -715,22 +726,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#devsecops-sicherheitsintegration" class="md-nav__link">
+  <a href="#devsecops-sicherheitsintegration-registry" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡️ DevSecOps: Sicherheitsintegration
+        🛡️ DevSecOps: Sicherheitsintegration &amp; Registry
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🛡️ DevSecOps: Sicherheitsintegration">
+    <nav class="md-nav" aria-label="🛡️ DevSecOps: Sicherheitsintegration &amp; Registry">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#containerisierung-mit-docker" class="md-nav__link">
+  <a href="#containerisierung-registry-push" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Containerisierung mit Docker
+        Containerisierung &amp; Registry-Push
       
     </span>
   </a>
@@ -856,6 +867,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#anforderungen-checkliste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Anforderungen &amp; Checkliste
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#methodik-der-cicd-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -868,10 +890,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-build-automatisierung-und-umgebungskonsistenz" class="md-nav__link">
+  <a href="#1-build-automatisierung-und-teststrategie" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Build-Automatisierung und Umgebungskonsistenz
+        1. Build-Automatisierung und Teststrategie
       
     </span>
   </a>
@@ -879,10 +901,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-isolierte-teststrategie" class="md-nav__link">
+  <a href="#2-dependency-management-security" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Isolierte Teststrategie
+        2. Dependency Management &amp; Security
       
     </span>
   </a>
@@ -895,22 +917,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#devsecops-sicherheitsintegration" class="md-nav__link">
+  <a href="#devsecops-sicherheitsintegration-registry" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡️ DevSecOps: Sicherheitsintegration
+        🛡️ DevSecOps: Sicherheitsintegration &amp; Registry
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🛡️ DevSecOps: Sicherheitsintegration">
+    <nav class="md-nav" aria-label="🛡️ DevSecOps: Sicherheitsintegration &amp; Registry">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#containerisierung-mit-docker" class="md-nav__link">
+  <a href="#containerisierung-registry-push" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Containerisierung mit Docker
+        Containerisierung &amp; Registry-Push
       
     </span>
   </a>
@@ -985,27 +1007,36 @@
 
 <h1 id="dokumentation-implementierung-einer-devsecops-cicd-pipeline">Dokumentation: Implementierung einer DevSecOps CI/CD-Pipeline</h1>
 <p>Dieses Dokument beschreibt die Architektur und Umsetzung der automatisierten CI/CD-Pipeline. Das Hauptziel ist die Sicherstellung der Softwareintegrität sowie die Einhaltung von Sicherheitsstandards durch automatisierte Prüfzyklen (Shift-Left Security).</p>
+<h2 id="anforderungen-checkliste">📋 Anforderungen &amp; Checkliste</h2>
+<ul>
+<li>[x] <strong>Automatische Dependency Updates</strong>: Implementiert über automatisierte Tools (z.B. Dependabot).</li>
+<li>[x] <strong>Vulnerability Warning</strong>: Warnsystem für Sicherheitslücken in Abhängigkeiten.</li>
+<li>[x] <strong>Automatisierte Tests</strong>: Integration von Tests für Frontend und Backend.</li>
+<li>[x] <strong>Container-Registry</strong>: Automatisierter Build und Push der Docker-Container bei Main-Push und Releases.</li>
+</ul>
+<hr />
 <h2 id="methodik-der-cicd-pipeline">🚀 Methodik der CI/CD-Pipeline</h2>
 <p>Um eine plattformunabhängige Ausführung des Codes zu garantieren, wurden separate Workflows für das Frontend und Backend implementiert.</p>
-<h3 id="1-build-automatisierung-und-umgebungskonsistenz">1. Build-Automatisierung und Umgebungskonsistenz</h3>
+<h3 id="1-build-automatisierung-und-teststrategie">1. Build-Automatisierung und Teststrategie</h3>
 <ul>
-<li><strong>Backend-Build:</strong> Verwendung von <strong>Maven</strong> zur Kompilierung und Ausführung von Unit-Tests in einer isolierten Umgebung.</li>
-<li><strong>Frontend-Build:</strong> Nutzung von <strong>Node.js</strong> und <strong>Vite</strong> zur Erstellung eines produktionsbereiten Bundles.</li>
-<li><strong>Synchronisation:</strong> Einführung einer strikten Namenskonvention (Case Sensitivity), um Diskrepanzen zwischen Windows-Entwicklungsumgebungen und Linux-basierten Build-Servern zu eliminieren.</li>
+<li><strong>Backend (Java/Spring Boot):</strong> Verwendung von <strong>Maven</strong> zur Kompilierung. Es ist mindestens ein automatisierter Unit-Test integriert, der in einer isolierten Umgebung mit einer <strong>H2 In-Memory-Datenbank</strong> ausgeführt wird, um Unabhängigkeit von der Produktionsdatenbank (Supabase) zu gewährleisten.</li>
+<li><strong>Frontend (Vue.js):</strong> Nutzung von <strong>Node.js</strong> und <strong>Vite</strong>. Ein automatisierter Frontend-Test stellt die Integrität der Benutzeroberfläche vor dem Build-Prozess sicher.</li>
+<li><strong>Synchronisation:</strong> Einführung einer strikten Namenskonvention (Case Sensitivity), um Diskrepanzen zwischen verschiedenen Betriebssystemen zu eliminieren.</li>
 </ul>
-<h3 id="2-isolierte-teststrategie">2. Isolierte Teststrategie</h3>
-<p>Ein wesentlicher Schritt war die Entkopplung der Tests von externen Abhängigkeiten:
-* <strong>H2-Datenbank:</strong> Integration einer In-Memory-Datenbank (H2) für die Testphase.
-* <strong>Profil-Steuerung:</strong> Konfiguration spezifischer Properties, damit Tests unabhängig von einer persistenten Datenbankinstanz (Supabase) erfolgreich durchlaufen können.</p>
+<h3 id="2-dependency-management-security">2. Dependency Management &amp; Security</h3>
+<ul>
+<li><strong>Automatisierte Updates:</strong> Das Projekt ist so konfiguriert, dass genutzte Bibliotheken (Dependencies) automatisch auf dem neuesten Stand gehalten werden.</li>
+<li><strong>Sicherheitswarnungen:</strong> Ein automatisiertes Monitoring-System scannt die <code>pom.xml</code> (Backend) und <code>package.json</code> (Frontend) auf bekannte Schwachstellen in Drittanbieter-Bibliotheken und gibt bei Funden sofortige Warnungen aus.</li>
+</ul>
 <hr />
-<h2 id="devsecops-sicherheitsintegration">🛡️ DevSecOps: Sicherheitsintegration</h2>
-<p>Die Sicherheit ist fest in den Bereitstellungsprozess integriert, um Schwachstellen bereits vor dem Release zu identifizieren.</p>
-<h3 id="containerisierung-mit-docker">Containerisierung mit Docker</h3>
-<p>Die Anwendung wird mithilfe von <strong>Docker</strong> containerisiert. Dies stellt sicher, dass alle Abhängigkeiten in einem unveränderlichen Artefakt gekapselt sind und die Ausführung über den gesamten Lebenszyklus konsistent bleibt.</p>
+<h2 id="devsecops-sicherheitsintegration-registry">🛡️ DevSecOps: Sicherheitsintegration &amp; Registry</h2>
+<h3 id="containerisierung-registry-push">Containerisierung &amp; Registry-Push</h3>
+<p>Die Anwendung wird mithilfe von <strong>Docker</strong> containerisiert. Bei jedem Push auf den <strong>Main Branch</strong> sowie bei offiziellen <strong>Releases</strong> werden die Container automatisch gebaut und in einer Container-Registry gespeichert.
+* <strong>Authentifizierung:</strong> Hierfür wird die GitHub Action <code>docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567</code> eingesetzt, um eine sichere Verbindung zur Registry zu gewährleisten.</p>
 <h3 id="vulnerability-scanning-mit-trivy">Vulnerability Scanning mit Trivy</h3>
 <p>Als zentrales Sicherheits-Gate wurde der Scanner <strong>Trivy</strong> integriert:
-* <strong>Automatisierter Scan:</strong> Jedes erstellte Docker-Image wird automatisch auf bekannte Schwachstellen (CVEs) untersucht.
-* <strong>Security Gate:</strong> Die Pipeline ist so konfiguriert, dass der Prozess bei Funden mit hohem Kritikalitätsgrad (High/Critical) sofort gestoppt wird. Dies schützt die Software-Supply-Chain aktiv.</p>
+* <strong>Automatisierter Scan:</strong> Jedes erstellte Docker-Image wird vor dem finalen Speichern auf CVEs untersucht.
+* <strong>Security Gate:</strong> Die Pipeline stoppt den Prozess sofort, falls Schwachstellen mit hohem Kritikalitätsgrad gefunden werden.</p>
 <hr />
 <h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
 <table>
@@ -1018,14 +1049,19 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>Build-Phase</strong></td>
-<td style="text-align: left;">Isolierte Umgebungen</td>
-<td style="text-align: left;">Ausschluss von "Man-in-the-Middle"-Angriffen während der Kompilierung.</td>
+<td style="text-align: left;"><strong>Dependency Check</strong></td>
+<td style="text-align: left;">Automatisierte Scans</td>
+<td style="text-align: left;">Früherkennung von Schwachstellen in externen Bibliotheken.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Test-Phase</strong></td>
-<td style="text-align: left;">H2 In-Memory DB</td>
-<td style="text-align: left;">Schutz von Produktionsdaten; keine暴露 von Datenbank-Credentials in Test-Logs.</td>
+<td style="text-align: left;">Isolierte H2-Datenbank</td>
+<td style="text-align: left;">Vermeidung von Datenlecks und Schutz von Credentials während der Testläufe.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Registry-Push</strong></td>
+<td style="text-align: left;">Token-basierte Auth</td>
+<td style="text-align: left;">Sicherer Artefakt-Speicher durch verifizierte GitHub Actions.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Release-Phase</strong></td>
@@ -1036,12 +1072,12 @@
 </table>
 <h2 id="datenschutz-integritat">🔒 Datenschutz &amp; Integrität</h2>
 <ul>
-<li><strong>Geheimnisverwaltung:</strong> Alle API-Keys und Datenbank-Passwörter für Supabase werden während der Pipeline über verschlüsselte Umgebungsvariablen (Secrets) injiziert.</li>
-<li><strong>Plattformunabhängigkeit:</strong> Durch die Docker-Kapselung wird sichergestellt, dass keine sicherheitsrelevanten Fehlkonfigurationen des Host-Systems die Anwendung beeinflussen.</li>
+<li><strong>Geheimnisverwaltung:</strong> Alle sensiblen Daten werden während der Pipeline über verschlüsselte GitHub Secrets injiziert.</li>
+<li><strong>Supply-Chain-Schutz:</strong> Durch die Kombination aus automatisierten Updates und Image-Scanning wird die gesamte Kette vom Code bis zum fertigen Container abgesichert.</li>
 </ul>
 <hr />
 <h2 id="fazit">💡 Fazit</h2>
-<p>Durch die Implementierung dieser Pipeline wurde der Entwicklungsprozess von einer manuellen Bereitstellung zu einem automatisierten, sicherheitsorientierten Workflow überführt. Die technische Konsistenz und die automatisierte Erkennung von Schwachstellen bilden das Fundament für ein sicheres Software-Release-Management.</p>
+<p>Vom automatisierten Testen über das Scannen von Abhängigkeiten bis hin zum gesicherten Push in die Container-Registry: Diese Pipeline überführt den Entwicklungsprozess in einen modernen, sicherheitsorientierten Workflow. Dies garantiert, dass nur geprüfte und sichere Software-Artefakte veröffentlicht werden.</p>
 
 
 
