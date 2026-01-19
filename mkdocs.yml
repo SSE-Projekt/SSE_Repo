@@ -1,0 +1,26 @@
+site_name: Secure Notes Documentation
+theme:
+  name: material
+  palette:
+    primary: black
+    accent: blue
+
+nav:
+  - Home: index.md
+  - Infrastruktur: infrastruktur.md
+  - Features:
+      - Auswahlprozesse: features/Auswahlsprozess.md
+      - Fehlerbehandlung & Sicherheitsvalidierung: features/Fehler.md
+      - main-views: features/main-views.md
+      - Login: features/login.md
+      - Registrierung: features/registration.md
+      - Passwort zurücksetzen: features/reset-password.md
+      - Passwort vergessen: features/forgot-password-request.md
+      - Notizen erstellen und bearbeiten: features/notes.md
+      - Notizen anzeigen: features/note-card.md
+      - Notizen details: features/note-details.md
+      - Suche & Filter: features/search-bar.md
+      - top-bar: features/top-bar.md
+      - Docker: features/Docker.md
+      - CI&CD: features/CI&CD.md
+  - Sicherheit & Datenschutz: security.md

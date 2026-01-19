@@ -1,0 +1,1143 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../features/Auswahlsprozess/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Infrastruktur - Secure Notes Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#infrastruktur-entwicklungsprozess" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Secure Notes Documentation" class="md-header__button md-logo" aria-label="Secure Notes Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Secure Notes Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Infrastruktur
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Secure Notes Documentation" class="md-nav__button md-logo" aria-label="Secure Notes Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Secure Notes Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastruktur
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastruktur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#entwicklungsumgebung-ide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Entwicklungsumgebung (IDE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projektmanagement-github-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Projektmanagement &amp; GitHub-Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Projektmanagement &amp; GitHub-Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#meilenstein-planung-milestones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meilenstein-Planung (Milestones)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-branch-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature-Branch Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#einsatz-von-ki-sicherheitsvorkehrungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ki-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KI-Dokumentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sicherheitsmanahmen-ki-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sicherheitsmaßnahmen (KI-Governance)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-infrastruktur-automatisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ CI/CD &amp; Infrastruktur-Automatisierung
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fazit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Fazit
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/Auswahlsprozess/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auswahlprozesse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/Fehler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fehlerbehandlung & Sicherheitsvalidierung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/main-views/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    main-views
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/login/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Login
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/registration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registrierung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/reset-password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Passwort zurücksetzen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/forgot-password-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Passwort vergessen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notizen erstellen und bearbeiten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/note-card/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notizen anzeigen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/note-details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notizen details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/search-bar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Suche & Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/top-bar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    top-bar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/Docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/CI%26CD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI&CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sicherheit & Datenschutz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#entwicklungsumgebung-ide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ Entwicklungsumgebung (IDE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projektmanagement-github-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Projektmanagement &amp; GitHub-Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Projektmanagement &amp; GitHub-Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#meilenstein-planung-milestones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meilenstein-Planung (Milestones)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-branch-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature-Branch Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#einsatz-von-ki-sicherheitsvorkehrungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ki-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KI-Dokumentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sicherheitsmanahmen-ki-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sicherheitsmaßnahmen (KI-Governance)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-infrastruktur-automatisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ CI/CD &amp; Infrastruktur-Automatisierung
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fazit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Fazit
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="infrastruktur-entwicklungsprozess">Infrastruktur &amp; Entwicklungsprozess</h1>
+<p>Dieses Dokument beschreibt die technologische Basis, die methodischen Abläufe und die Meilenstein-Planung, die bei der Entwicklung von <strong>Secure Notes</strong> zum Einsatz kamen.</p>
+<hr />
+<h2 id="entwicklungsumgebung-ide">🛠️ Entwicklungsumgebung (IDE)</h2>
+<p>Für eine konsistente Entwicklung über das gesamte Stack hinweg wurde folgende Umgebung genutzt:</p>
+<ul>
+<li><strong>Backend-Entwicklung:</strong> <strong>IntelliJ IDEA</strong> zur Verwaltung des Spring Boot Frameworks und der Maven-Abhängigkeiten.</li>
+<li><strong>Frontend-Entwicklung:</strong> <strong>Visual Studio Code</strong> für die reaktive Vue.js-Entwicklung.</li>
+<li><strong>Tools:</strong> Einsatz von <strong>Docker Desktop</strong> zur lokalen Container-Orchestrierung und <strong>Postman</strong> zur Verifizierung der API-Endpunkte.</li>
+</ul>
+<hr />
+<h2 id="projektmanagement-github-workflows">📋 Projektmanagement &amp; GitHub-Workflows</h2>
+<p>Die Steuerung des Projekts erfolgte agil über GitHub, wobei der Fokus auf einer klaren Etappenziel-Planung lag.</p>
+<h3 id="meilenstein-planung-milestones">Meilenstein-Planung (Milestones)</h3>
+<p>Die Entwicklung wurde in fünf zentrale Phasen unterteilt, um den Fortschritt messbar zu machen:
+1.  <strong>Content-Backend-Einrichtung:</strong> Aufbau der Kern-API und Datenbankstruktur.
+2.  <strong>Zugriffskontrolle-Backend-Einrichtung:</strong> Implementierung von JWT-Authentifizierung und Row Level Security (RLS).
+3.  <strong>Frontend-Content:</strong> Entwicklung der Benutzeroberfläche und Anbindung an die API-Services.
+4.  <strong>Testen:</strong> Durchführung automatisierter Unit- und Integrationstests für Frontend und Backend.
+5.  <strong>Dockerisierung:</strong> Finalisierung der Dockerfiles und Integration in die CI/CD-Pipeline.</p>
+<h3 id="feature-branch-workflow">Feature-Branch Workflow</h3>
+<p>Um die Integrität des <code>main</code>-Branches zu schützen, wurde ein strikter Branching-Prozess angewandt:
+* <strong>Feature Branches:</strong> Jede neue Funktion wurde isoliert in einem Branch entwickelt (z. B. <code>feature/access-control</code>).
+* <strong>Pull Requests (PR):</strong> Vor dem Merge in den Hauptzweig wurde jeder Code-Abschnitt geprüft.
+* <strong>CI-Integration:</strong> GitHub Actions validierte jeden PR automatisch durch Build- und Testläufe.</p>
+<hr />
+<h2 id="einsatz-von-ki-sicherheitsvorkehrungen">🤖 Einsatz von KI &amp; Sicherheitsvorkehrungen</h2>
+<p>Künstliche Intelligenz wurde als Werkzeug zur Effizienzsteigerung eingesetzt, jedoch unter strengen Sicherheitsauflagen.</p>
+<h3 id="ki-dokumentation">KI-Dokumentation</h3>
+<ul>
+<li><strong>Einsatzzweck:</strong> Unterstützung beim Refactoring von Code, Generierung von Boilerplate-Code für Controller und Erstellung von komplexen Regex-Mustern für den Markdown-Renderer.</li>
+<li><strong>Verwendete Modelle:</strong> ChatGPT / Gemini-AI.</li>
+</ul>
+<h3 id="sicherheitsmanahmen-ki-governance">Sicherheitsmaßnahmen (KI-Governance)</h3>
+<ul>
+<li><strong>Datenschutz:</strong> Es wurden <strong>keine</strong> sensitiven Daten (API-Keys, Passwörter, echte Nutzerdaten) an KI-Modelle übermittelt.</li>
+<li><strong>Manuelle Validierung:</strong> Jeder KI-generierte Code-Vorschlag wurde einem manuellen Security-Review unterzogen, um sicherzustellen, dass keine Schwachstellen (wie fehlerhafte Validierungen) übernommen wurden.</li>
+<li><strong>Integritätsprüfung:</strong> Vorschläge für externe Abhängigkeiten wurden manuell auf ihre Existenz und Sicherheit geprüft, um "AI Hallucinations" vorzubeugen.</li>
+</ul>
+<hr />
+<h2 id="cicd-infrastruktur-automatisierung">🛡️ CI/CD &amp; Infrastruktur-Automatisierung</h2>
+<p>Die Pipeline bildet das Rückgrat für Qualität und Sicherheit:
+* <strong>Automatisierung:</strong> Bei jedem Push werden die definierten Milestones durch automatisierte Tests validiert.
+* <strong>Container-Registry:</strong> Automatisierter Build und Push der Images mittels der GitHub Action <code>docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567</code>.
+* <strong>Vulnerability Scanning:</strong> Integration von <strong>Trivy</strong> in der Dockerisierungs-Phase, um bekannte Sicherheitslücken in Container-Images zu finden.</p>
+<hr />
+<h2 id="fazit">💡 Fazit</h2>
+<p>Durch die Strukturierung in <strong>Milestones</strong> wurde eine zielgerichtete Entwicklung ermöglicht, die von der ersten Backend-Einrichtung bis zur finalen Dockerisierung reichte. Die Kombination aus modernem Branching-Workflow und verantwortungsvollem KI-Einsatz garantiert eine hohe Softwarequalität bei gleichzeitiger Einhaltung strenger Sicherheitsstandards.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
