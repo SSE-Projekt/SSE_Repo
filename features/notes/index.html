@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-notizen-erstellen-und-bearbeiten" class="md-skip">
+        <a href="#feature-notizen-erstellen-und-bearbeiten-rich-media-support" class="md-skip">
           Skip to content
         </a>
       
@@ -492,10 +492,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#erstellungsprozess" class="md-nav__link">
+  <a href="#erstellung-bearbeitung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Erstellungsprozess
+        Erstellung &amp; Bearbeitung
       
     </span>
   </a>
@@ -503,10 +503,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bearbeitungsprozess" class="md-nav__link">
+  <a href="#rendering-prozess" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bearbeitungsprozess
+        Rendering-Prozess
       
     </span>
   </a>
@@ -542,10 +542,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sensibilitat-der-daten" class="md-nav__link">
+  <a href="#sensibilitat-medien" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sensibilität der Daten
+        Sensibilität &amp; Medien
       
     </span>
   </a>
@@ -762,10 +762,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#erstellungsprozess" class="md-nav__link">
+  <a href="#erstellung-bearbeitung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Erstellungsprozess
+        Erstellung &amp; Bearbeitung
       
     </span>
   </a>
@@ -773,10 +773,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bearbeitungsprozess" class="md-nav__link">
+  <a href="#rendering-prozess" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bearbeitungsprozess
+        Rendering-Prozess
       
     </span>
   </a>
@@ -812,10 +812,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sensibilitat-der-daten" class="md-nav__link">
+  <a href="#sensibilitat-medien" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sensibilität der Daten
+        Sensibilität &amp; Medien
       
     </span>
   </a>
@@ -855,21 +855,25 @@
 
 
 
-<h1 id="feature-notizen-erstellen-und-bearbeiten">Feature: Notizen erstellen und bearbeiten</h1>
-<p>Diese Kernfunktion ermöglicht es Nutzern, Inhalte sicher zu speichern, zu kategorisieren und bestehende Einträge zu aktualisieren.</p>
+<h1 id="feature-notizen-erstellen-und-bearbeiten-rich-media-support">Feature: Notizen erstellen und bearbeiten (Rich Media Support)</h1>
+<p>Diese Kernfunktion ermöglicht es Nutzern, Inhalte sicher zu speichern, zu kategorisieren und mit Medien wie Bildern oder Videos zu bereichern.</p>
 <h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
-<h3 id="erstellungsprozess">Erstellungsprozess</h3>
+<h3 id="erstellung-bearbeitung">Erstellung &amp; Bearbeitung</h3>
 <ul>
-<li><strong>Komponente:</strong> <code>entryCard.vue</code></li>
-<li><strong>Datenfluss:</strong> Ein reaktives Vue-Objekt fängt Titel, Inhalt und Kategorie auf. Beim Speichern wird eine <code>POST</code>-Anfrage an <code>/api/notes</code> gesendet.</li>
-<li><strong>Feedback:</strong> Nach erfolgreichem Speichern wird der Nutzer mittels <code>router.push</code> zurück zur Übersicht geleitet.</li>
+<li><strong>Komponenten:</strong> <code>entryCard.vue</code> (Erstellung) und <code>EditNoteView.vue</code> (Bearbeitung).</li>
+<li><strong>Markdown-Integration:</strong> Die App unterstützt Markdown-Syntax für die Textformatierung.</li>
+<li><strong>Medien-Syntax:</strong> Um Sicherheitsrisiken durch direktes HTML zu vermeiden, nutzt die App eine spezielle Syntax für eingebettete Medien:<ul>
+<li><strong>Bilder:</strong> <code>![Titel](image-embed:URL)</code></li>
+<li><strong>Videos:</strong> <code>![Titel](embed:YouTube-URL)</code></li>
 </ul>
-<h3 id="bearbeitungsprozess">Bearbeitungsprozess</h3>
-<ul>
-<li><strong>Komponente:</strong> <code>EditNoteView.vue</code></li>
-<li><strong>Navigation:</strong> Die ID der Notiz wird als URL-Parameter übergeben. Beim Laden der Seite werden die aktuellen Daten via <code>GET</code>-Anfrage abgerufen.</li>
-<li><strong>History-Management:</strong> Nach dem Speichern wird <code>router.replace</code> verwendet, um den Browserverlauf sauber zu halten und zu verhindern, dass der "Zurück"-Button den Nutzer erneut auf das Bearbeitungsformular führt.</li>
+</li>
 </ul>
+<h3 id="rendering-prozess">Rendering-Prozess</h3>
+<ol>
+<li>Der Nutzer gibt die Notiz mit der Spezial-Syntax ein.</li>
+<li>Beim Speichern wird der Inhalt durch <strong>DOMPurify</strong> bereinigt.</li>
+<li>In der Detailansicht extrahiert ein benutzerdefinierter <strong>Markdown-Renderer</strong> die Video-ID (z. B. von YouTube) und wandelt sie in ein sicheres, isoliertes <code>iframe</code> um.</li>
+</ol>
 <h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
 <table>
 <thead>
@@ -881,29 +885,36 @@
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>XSS in Notizinhalten</strong></td>
-<td style="text-align: left;">Da Notizen oft Sonderzeichen enthalten, ist <code>DOMPurify</code> hier kritisch. Jeder Titel und jeder Textkörper wird vor dem Speichern und vor der Anzeige bereinigt.</td>
+<td style="text-align: left;"><strong>Aktiv:</strong> <code>DOMPurify</code> bereinigt jeden Titel und Textkörper vor dem Speichern und vor der Anzeige.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Bösartige Video-Iframes</strong></td>
+<td style="text-align: left;"><strong>Regex-Validierung:</strong> Nur validierte YouTube-IDs sind erlaubt. Das System blockiert unbekannte oder schädliche Quellen innerhalb des <code>embed:</code> Befehls.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Insecure Direct Object Reference (IDOR)</strong></td>
-<td style="text-align: left;">(Backend-Schutz) Das System prüft bei jedem <code>GET</code> oder <code>PUT</code> Request auf eine Notiz-ID, ob die <code>user_id</code> des anfragenden JWT-Tokens mit dem Besitzer der Notiz übereinstimmt.</td>
+<td style="text-align: left;"><strong>Backend-Schutz:</strong> Das System prüft bei jedem Request, ob die <code>user_id</code> des JWT-Tokens mit dem Besitzer der Notiz übereinstimmt.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Datenverlust</strong></td>
-<td style="text-align: left;">Implementierung von "Cancel"-Buttons und Validierung der Pflichtfelder, um leere Notizen zu verhindern.</td>
+<td style="text-align: left;"><strong>Unbefugtes Teilen</strong></td>
+<td style="text-align: left;"><strong>RLS Policies:</strong> Row Level Security in der Datenbank stellt sicher, dass nur Besitzer (<code>owner_id</code>) oder autorisierte Empfänger Zugriff haben.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="datenschutz">🔒 Datenschutz</h2>
-<h3 id="sensibilitat-der-daten">Sensibilität der Daten</h3>
-<p>Notizen enthalten oft die privatesten Informationen der Nutzer. Daher gelten folgende Regeln:
-- <strong>Keine Indizierung:</strong> Notizen sind privat und werden nicht für Suchmaschinen bereitgestellt.
-- <strong>Inhalts-Integrität:</strong> Die Daten werden so gespeichert, wie der Nutzer sie verfasst hat, jedoch gereinigt von schädlichen Skripten.
-- <strong>Löschkonzept:</strong> Wenn ein Nutzer eine Notiz löscht, wird sie (je nach Backend-Logik) entweder als <code>deleted</code> markiert oder vollständig aus der Datenbank entfernt, um dem "Recht auf Vergessenwerden" nachzukommen.</p>
+<h3 id="sensibilitat-medien">Sensibilität &amp; Medien</h3>
+<ul>
+<li><strong>Keine Indizierung:</strong> Notizen sind privat und für Suchmaschinen unsichtbar.</li>
+<li><strong>YouTube No-Cookie:</strong> Eingebettete Videos werden über <code>youtube-nocookie.com</code> geladen, um das Tracking der Nutzer durch Drittanbieter-Cookies zu unterbinden.</li>
+<li><strong>Daten-Integrität:</strong> Die Daten werden gereinigt von schädlichen Skripten gespeichert, wobei die ursprüngliche Formatierung des Nutzers erhalten bleibt.</li>
+<li><strong>Löschkonzept:</strong> Ein Löschbefehl entfernt die Notiz gemäß der RLS-Policy dauerhaft aus der Datenbank ("Recht auf Vergessenwerden").</li>
+</ul>
 <hr />
 <h2 id="ux-besonderheiten">💡 UX-Besonderheiten</h2>
 <ul>
-<li><strong>Kategorisierung:</strong> Nutzer können Notizen Labels zuordnen, um die Organisation zu verbessern.</li>
-<li><strong>Echtzeit-Validierung:</strong> Felder werden bereits während der Eingabe auf Länge und nach klicken auf Speichern auf unzulässige Zeichen geprüft.</li>
+<li><strong>Vorschau-Logik:</strong> Die spezialisierte Syntax erlaubt eine klare Trennung zwischen Textinhalt und Medienanhängen.</li>
+<li><strong>Echtzeit-Validierung:</strong> Felder werden bereits während der Eingabe auf Länge und beim Speichern auf unzulässige Zeichen (XSS) geprüft.</li>
+<li><strong>Zustands-Management:</strong> Nach dem Speichern wird <code>router.replace</code> verwendet, um den Browserverlauf sauber zu halten und doppelte Formularabsendungen zu verhindern.</li>
 </ul>
 
 

@@ -976,7 +976,7 @@ Diese Rollen werden im JWT-Token mitgeführt und sowohl im Vue-Frontend als auch
 <h2 id="ubersicht-der-ansichten">🏠 Übersicht der Ansichten</h2>
 <h3 id="1-home-my-notes-mynotesvue">1. Home &amp; My Notes (<code>MyNotes.vue</code>)</h3>
 <p>Dies ist das persönliche Dashboard für Nutzer mit der Rolle <strong>Autor</strong>.
-- <strong>Technische Umsetzung:</strong> Die Seite lädt Notizen aus dem <code>localStorage</code> (oder der API) und filtert diese primär nach der Zugehörigkeit zum aktuellen Nutzer.
+- <strong>Technische Umsetzung:</strong> Die Seite lädt Notizen aus dem <code>Supabase</code> (oder der API) und filtert diese primär nach der Zugehörigkeit zum aktuellen Nutzer.
 - <strong>Interaktion:</strong> Enthält die <code>entry-card</code> Komponente, die als Schnittstelle für die Erstellung neuer Inhalte dient.
 - <strong>Navigation:</strong> Nutzt URL-Parameter (<code>?from=my-notes</code>), um den Kontext beim Öffnen einer Notiz-Detailseite beizubehalten.</p>
 <h3 id="2-shared-notes-sharednotesvue">2. Shared Notes (<code>SharedNotes.vue</code>)</h3>

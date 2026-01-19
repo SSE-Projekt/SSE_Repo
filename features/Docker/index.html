@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../main-views/">
-      
-      
-        <link rel="next" href="../registration/">
       
       
         
@@ -23,7 +19,7 @@
     
     
       
-        <title>Login - Secure Notes Documentation</title>
+        <title>Infrastruktur & Deployment (Docker) - Secure Notes Documentation</title>
       
     
     
@@ -72,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-login-anmeldung" class="md-skip">
+        <a href="#infrastruktur-deployment-docker" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Login
+              Infrastruktur &amp; Deployment (Docker)
             
           </span>
         </div>
@@ -228,20 +224,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -262,7 +256,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -305,37 +299,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Login
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../login/" class="md-nav__link">
         
   
   
@@ -351,59 +318,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#technische-umsetzung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛠 Technische Umsetzung
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fehlgeschlagenes-login" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fehlgeschlagenes Login:
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#schwachstellen-vorbeugung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛡️ Schwachstellen &amp; Vorbeugung
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -694,21 +608,60 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#technische-umsetzung" class="md-nav__link">
+  <a href="#technische-umsetzung-docker-compose" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠 Technische Umsetzung
+        🛠 Technische Umsetzung (Docker Compose)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠 Technische Umsetzung (Docker Compose)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-backend-service-sse_backend_app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Backend Service (sse_backend_app)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#fehlgeschlagenes-login" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#2-frontend-service-sse_frontend_app" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fehlgeschlagenes Login:
+        2. Frontend Service (sse_frontend_app)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-mail-testing-service-sse_mailpit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Mail-Testing Service (sse_mailpit)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netzwerk-architektur-sicherheit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🌐 Netzwerk-Architektur &amp; Sicherheit
       
     </span>
   </a>
@@ -720,6 +673,28 @@
     <span class="md-ellipsis">
       
         🛡️ Schwachstellen &amp; Vorbeugung
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datenschutz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔒 Datenschutz
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-befehle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Deployment-Befehle
       
     </span>
   </a>
@@ -743,20 +718,36 @@
 
 
 
-<h1 id="feature-login-anmeldung">Feature: Login (Anmeldung)</h1>
-<p>Der Login-Prozess ist das Tor zur Applikation und stellt sicher, dass nur authentifizierte Nutzer Zugriff auf ihre privaten Notizen erhalten.</p>
-<h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
+<h1 id="infrastruktur-deployment-docker">Infrastruktur &amp; Deployment (Docker)</h1>
+<p>Die Architektur von <strong>Secure Notes</strong> ist vollständig containerisiert. Dies garantiert eine konsistente Laufzeitumgebung und eine strikte Trennung der Dienste zwischen Frontend, Backend, E-Mail-Service und der Datenbank.</p>
+<h2 id="technische-umsetzung-docker-compose">🛠 Technische Umsetzung (Docker Compose)</h2>
+<p>Die Orchestrierung erfolgt über <strong>Docker Compose</strong>, wobei drei Hauptdienste in einem isolierten Netzwerk zusammenarbeiten.</p>
+<h3 id="1-backend-service-sse_backend_app">1. Backend Service (<code>sse_backend_app</code>)</h3>
 <ul>
-<li><strong>Frontend:</strong> Die Komponente <code>Anmeldung.vue</code> verwaltet den Status der Eingabefelder <code>username</code> und <code>password</code>.</li>
-<li><strong>Authentifizierung:</strong> Beim Absenden wird eine <code>POST</code>-Anfrage an den <code>/api/auth/login</code> Endpunkt gesendet.</li>
-<li><strong>Session-Management:</strong> - Bei Erfolg liefert das Backend einen <strong>JWT (JSON Web Token)</strong> sowie das Nutzerprofil zurück.<ul>
-<li>Der Token wird im <code>Supabase</code> gespeichert und dient als Autorisierung für alle zukünftigen API-Anfragen.</li>
+<li><strong>Technologie</strong>: <strong>Spring Boot</strong> mit <strong>Maven</strong>.</li>
+<li><strong>Port</strong>: Erreichbar über Port <code>8080</code>.</li>
+<li><strong>Datenbank-Anbindung</strong>: Die Verbindung erfolgt über JDBC an die Supabase-PostgreSQL-Instanz innerhalb des Docker-Netzwerks.</li>
+<li><strong>Sicherheit</strong>: Sensible Anmeldedaten für die Datenbank werden als Umgebungsvariablen (<code>SPRING_DATASOURCE</code>) direkt im Container verwaltet und nicht im Quellcode exponiert.</li>
 </ul>
-</li>
-<li><strong>UX-Elemente:</strong> Ein Lade-Spinner (<code>isLoading</code>) verhindert Mehrfacheingaben während der Serverantwort.</li>
+<h3 id="2-frontend-service-sse_frontend_app">2. Frontend Service (<code>sse_frontend_app</code>)</h3>
+<ul>
+<li><strong>Technologie</strong>: <strong>Vue.js 3</strong>.</li>
+<li><strong>Port</strong>: Erreichbar über Port <code>80</code> (Standard HTTP).</li>
+<li><strong>Verantwortung</strong>: Dient als Einstiegspunkt für den Nutzer und kommuniziert mit dem Backend-Container über das interne Netzwerk.</li>
 </ul>
-<h2 id="fehlgeschlagenes-login">Fehlgeschlagenes Login:</h2>
-<p>Fehlgeschlagenes Login wird der User darüber informiert, dass seine Eingabe falsch sind oder ein Sicherheitsrisiko verursachen kann</p>
+<h3 id="3-mail-testing-service-sse_mailpit">3. Mail-Testing Service (<code>sse_mailpit</code>)</h3>
+<ul>
+<li><strong>Image</strong>: Nutzt das <code>axllent/mailpit</code> Image.</li>
+<li><strong>Ports</strong>: <code>8025</code> für das Web-Interface und <code>1025</code> für den SMTP-Versand.</li>
+<li><strong>Zweck</strong>: Fängt alle ausgehenden E-Mails (z. B. Passwort-Reset) lokal ab, um die Sicherheit und den Datenschutz während der Entwicklung zu gewährleisten, ohne echte E-Mails versenden zu müssen.</li>
+</ul>
+<hr />
+<h2 id="netzwerk-architektur-sicherheit">🌐 Netzwerk-Architektur &amp; Sicherheit</h2>
+<p>Das System nutzt ein externes Netzwerk, um eine Brücke zur <strong>Supabase-Infrastruktur</strong> zu schlagen.</p>
+<ul>
+<li><strong>Externes Netzwerk</strong>: Die Anbindung erfolgt über das bestehende <code>supabase_network_SSE_Repo</code>.</li>
+<li><strong>Isolation</strong>: Da das Netzwerk als <code>external</code> markiert ist, können die Container sicher auf die Datenbank-Instanz zugreifen, ohne den Datenbank-Port (<code>5432</code>) nach außen für das öffentliche Internet öffnen zu müssen.</li>
+</ul>
 <h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
 <table>
 <thead>
@@ -767,27 +758,32 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>XSS Attacken</strong></td>
-<td style="text-align: left;">Der Nutzername wird mittels <code>DOMPurify</code> bereinigt, um Skript-Injektionen im Login-Log zu verhindern.</td>
+<td style="text-align: left;"><strong>Exposure von DB-Credentials</strong></td>
+<td style="text-align: left;"><strong>Implementiert</strong>: Passwörter stehen nicht im Quellcode (Hardcoded), sondern werden erst beim Container-Start über die Docker-Umgebung injiziert.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Brute-Force Angriffe</strong></td>
-<td style="text-align: left;">Die Schaltfläche wird nach dem Klicken deaktiviert. .</td>
+<td style="text-align: left;"><strong>Man-in-the-Middle (Intern)</strong></td>
+<td style="text-align: left;"><strong>Implementiert</strong>: Die Kommunikation zwischen Backend und Datenbank findet im privaten Docker-Netzwerk statt, das von externen Zugriffen isoliert ist.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Session-Fixierung</strong></td>
-<td style="text-align: left;">Der Token wird vom BAckend generiert, lokal sicher gespeichert und beim Logout durch <code>localStorage.clear()</code> sofort vernichtet.</td>
-</tr>
-<tr>
-<td style="text-align: left;">## 🔒 Datenschutz</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><strong>Unbefugter Zugriff (DB)</strong></td>
+<td style="text-align: left;"><strong>RLS &amp; Auth</strong>: Selbst bei Netzwerkzugriff schützt die <strong>Row Level Security</strong> (RLS) in der Datenbank die Zeilen vor unbefugtem Zugriff durch falsche Identitäten.</td>
 </tr>
 </tbody>
 </table>
+<h2 id="datenschutz">🔒 Datenschutz</h2>
 <ul>
-<li><strong>HTTPS:</strong> Die Übertragung der Anmeldedaten erfolgt ausschließlich über verschlüsselte Verbindungen.</li>
-<li><strong>Minimale Datenspeicherung:</strong> Im Browser werden nur die für die Session notwendigen Metadaten (Username, Rolle) zwischengespeichert.</li>
+<li><strong>E-Mail-Privatsphäre</strong>: Durch den Einsatz von <strong>Mailpit</strong> verlassen keine Test-E-Mails die lokale Umgebung. Es werden keine echten SMTP-Relays genutzt, was den Abfluss von Nutzerdaten während der Testphase verhindert.</li>
+<li><strong>Daten-Souveränität</strong>: Durch die Containerisierung ist die Applikation portabel und kann auf eigenen Servern betrieben werden, was die volle Kontrolle über die Datenhaltung ermöglicht.</li>
 </ul>
+<hr />
+<h2 id="deployment-befehle">💡 Deployment-Befehle</h2>
+<p>Um die gesamte Umgebung zu starten:</p>
+<p>```bash</p>
+<h1 id="starten-der-infrastruktur-im-hintergrund">Starten der Infrastruktur im Hintergrund</h1>
+<p>docker-compose up -d</p>
+<h1 id="status-der-container-prufen">Status der Container prüfen</h1>
+<p>docker ps</p>
 
 
 

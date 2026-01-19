@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-notiz-details-interaktionen" class="md-skip">
+        <a href="#feature-notiz-details-interaktionen-api-anbindung" class="md-skip">
           Skip to content
         </a>
       
@@ -765,18 +765,20 @@
 
 
 
-<h1 id="feature-notiz-details-interaktionen">Feature: Notiz-Details &amp; Interaktionen</h1>
-<p>Die Detailansicht ermöglicht das vollständige Lesen einer Notiz inklusive gerenderter Medieninhalte (Markdown, Videos) sowie die Verwaltung der Notiz (Teilen, Bearbeiten, Löschen).</p>
+<h1 id="feature-notiz-details-interaktionen-api-anbindung">Feature: Notiz-Details &amp; Interaktionen (API-Anbindung)</h1>
+<p>Die Detailansicht ermöglicht das vollständige Lesen einer Notiz inklusive gerenderter Medieninhalte sowie die Verwaltung (Teilen, Bearbeiten, Löschen) über eine gesicherte API-Schnittstelle.</p>
 <h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
 <ul>
 <li><strong>Komponente:</strong> <code>NoteDetailView.vue</code></li>
-<li><strong>Dynamic Routing:</strong> Die Komponente empfängt eine <code>id</code> als Prop über den Vue Router, um die entsprechende Notiz aus dem Datenspeicher (<code>durch eine selbst programmierte API mit Datenbank</code> oder API) zu laden.</li>
-<li><strong>Markdown &amp; Media Rendering:</strong><ul>
+<li><strong>Dynamic Routing &amp; Data Fetching:</strong></li>
+<li>Die Komponente empfängt eine <code>id</code> als Prop über den Vue Router.</li>
+<li><strong>API-Integration:</strong> Beim Laden (<code>onMounted</code>) werden die Daten asynchron über den Service <code>getNote(props.id)</code> von einer <strong>selbst programmierten API (Spring Boot)</strong> abgerufen, die direkt mit <strong>Supabase</strong> kommuniziert.</li>
+<li><strong>Markdown &amp; Media Rendering:</strong></li>
 <li>Einsatz von <code>marked</code> zur Umwandlung von Markdown in HTML.</li>
 <li><strong>Spezial-Renderer:</strong> Ein benutzerdefinierter Renderer erkennt das Präfix <code>embed:</code> in Bild-Syntax-Links, extrahiert die YouTube-Video-ID mittels Regex und wandelt diese in ein sicheres <code>iframe</code> um.</li>
-</ul>
-</li>
-<li><strong>Teilen-Funktion:</strong> Ein integriertes Modal erlaubt es einem Autor, seine Notizen mit anderen registrierten Nutzern zu verknüpfen (simuliert über die <code>otherUsers</code> Liste).</li>
+<li><strong>Echtes Sharing-System:</strong></li>
+<li>Ein integriertes Modal lädt eine dynamische Benutzerliste vom Server via <code>getAllUsers()</code>.</li>
+<li>Die Methode <code>shareWith(user)</code> sendet einen Request an den <code>SharedNoteController</code>, um die Notiz sicher für andere E-Mail-Adressen freizugeben.</li>
 <li><strong>Kontextbasierte UI:</strong> Über <code>route.query.from</code> wird geprüft, ob der Nutzer von seinen eigenen Notizen kommt. Nur dann werden die Aktions-Buttons (Bearbeiten, Löschen, Teilen) eingeblendet.</li>
 </ul>
 <h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
@@ -797,27 +799,20 @@
 <td style="text-align: left;"><strong>DOMPurify mit Whitelist:</strong> Das gerenderte HTML wird durch <code>DOMPurify.sanitize</code> bereinigt. Nur spezifische Attribute wie <code>allowfullscreen</code> und die Domain <code>youtube-nocookie.com</code> sind erlaubt.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Malicious Video IDs</strong></td>
-<td style="text-align: left;">Versuch, bösartigen Code in die Video-URL einzuschleusen.</td>
+<td style="text-align: left;"><strong>Unbefugtes Löschen / IDOR</strong></td>
+<td style="text-align: left;">Ein Nutzer manipuliert die URL/ID, um eine fremde Notiz zu löschen.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Vorbeugung</strong></td>
-<td style="text-align: left;"><strong>Regex-Validierung:</strong> Die extrahierte Video-ID wird mit <code>/^[a-zA-Z0-9_-]+$/</code> geprüft, um sicherzustellen, dass keine Sonderzeichen für Injektionen genutzt werden.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Unbefugtes Löschen</strong></td>
-<td style="text-align: left;">Ein Nutzer manipuliert die URL, um eine Notiz zu löschen, die ihm nicht gehört.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Vorbeugung</strong></td>
-<td style="text-align: left;">Das UI prüft den Kontext (<code>from === 'my-notes'</code>). (Empfehlung: Serverseitige Prüfung der Eigentümerschaft vor dem Löschvorgang).</td>
+<td style="text-align: left;"><strong>Backend-Sicherung:</strong> Das Spring Boot Backend prüft bei jedem Löschbefehl die Eigentümerschaft (<code>owner_id</code>) gegen den JWT-Token des Nutzers.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="datenschutz">🔒 Datenschutz</h2>
 <ul>
-<li><strong>YouTube No-Cookie:</strong> Eingebettete Videos nutzen die Domain <code>www.youtube-nocookie.com</code>, um das Setzen von Tracking-Cookies durch Google zu verhindern, bevor der Nutzer das Video aktiv startet.</li>
-<li><strong>Sichtbarkeits-Status:</strong> Die Komponente zeigt deutlich an, ob die Notiz über einen "Privaten Link" oder "Öffentlich" erreichbar ist.</li>
+<li><strong>YouTube No-Cookie:</strong> Eingebettete Videos nutzen die Domain <code>www.youtube-nocookie.com</code>, um das Setzen von Tracking-Cookies zu verhindern, bevor der Nutzer das Video aktiv startet.</li>
+<li><strong>Dynamische Benutzerfilterung:</strong> In der Benutzerliste für das Teilen wird der aktuell angemeldete Nutzer automatisch gefiltert, um "Selbst-Teilen" zu vermeiden.</li>
+<li><strong>Sichtbarkeits-Status:</strong> Die UI zeigt explizit an, ob die Notiz als "Privater Link" oder "Öffentlich" in der Datenbank markiert ist.</li>
 <li><strong>Sicheres Löschen:</strong> Beim Löschen wird eine Bestätigung (<code>confirm</code>) abgefragt, um versehentlichen Datenverlust zu vermeiden.</li>
 </ul>
 <hr />
@@ -825,7 +820,7 @@
 <ul>
 <li><strong>Backdrop-Blur:</strong> Das Teilen-Modal nutzt <code>backdrop-blur-sm</code> und eine <code>fade</code>-Transition für ein fokussiertes Nutzererlebnis.</li>
 <li><strong>Responsive Media:</strong> Der <code>.video-container</code> sorgt über CSS-Tricks (<code>padding-bottom: 56.25%</code>) dafür, dass Videos immer im 16:9 Format bleiben, unabhängig von der Bildschirmgröße.</li>
-<li><strong>User Feedback:</strong> Eine "Slide-up" Toast-Benachrichtigung bestätigt erfolgreiche Aktionen wie das Teilen oder Löschen.</li>
+<li><strong>User Feedback:</strong> Eine "Slide-up" Toast-Benachrichtigung (SnackBar) bestätigt erfolgreiche Aktionen wie das Teilen oder Löschen.</li>
 </ul>
 
 

@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../main-views/">
-      
-      
-        <link rel="next" href="../registration/">
       
       
         
@@ -23,7 +19,7 @@
     
     
       
-        <title>Login - Secure Notes Documentation</title>
+        <title>Fehlerbehandlung & Sicherheitsvalidierung - Secure Notes Documentation</title>
       
     
     
@@ -72,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-login-anmeldung" class="md-skip">
+        <a href="#fehlerbehandlung-sicherheitsvalidierung" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Login
+              Fehlerbehandlung &amp; Sicherheitsvalidierung
             
           </span>
         </div>
@@ -228,20 +224,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -262,7 +256,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -305,37 +299,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Login
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../login/" class="md-nav__link">
         
   
   
@@ -351,59 +318,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#technische-umsetzung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛠 Technische Umsetzung
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fehlgeschlagenes-login" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fehlgeschlagenes Login:
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#schwachstellen-vorbeugung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛡️ Schwachstellen &amp; Vorbeugung
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -694,32 +608,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#technische-umsetzung" class="md-nav__link">
+  <a href="#validierungslogik-fehlertypen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛠 Technische Umsetzung
+        ⚠️ Validierungslogik &amp; Fehlertypen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Validierungslogik &amp; Fehlertypen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-formular-und-logikfehler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Formular- und Logikfehler
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#fehlgeschlagenes-login" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#2-sicherheitswarnungen-xss-link-schutz" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fehlgeschlagenes Login:
+        2. Sicherheitswarnungen (XSS &amp; Link-Schutz)
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#schwachstellen-vorbeugung" class="md-nav__link">
+  <a href="#serverseitige-fehler-rls-blockaden" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡️ Schwachstellen &amp; Vorbeugung
+        🔒 Serverseitige Fehler &amp; RLS-Blockaden
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔒 Serverseitige Fehler &amp; RLS-Blockaden">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#szenarien-fur-blockierte-aktionen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Szenarien für blockierte Aktionen:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technische-umsetzung-der-fehlermeldungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠 Technische Umsetzung der Fehlermeldungen
       
     </span>
   </a>
@@ -743,51 +702,88 @@
 
 
 
-<h1 id="feature-login-anmeldung">Feature: Login (Anmeldung)</h1>
-<p>Der Login-Prozess ist das Tor zur Applikation und stellt sicher, dass nur authentifizierte Nutzer Zugriff auf ihre privaten Notizen erhalten.</p>
-<h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
-<ul>
-<li><strong>Frontend:</strong> Die Komponente <code>Anmeldung.vue</code> verwaltet den Status der Eingabefelder <code>username</code> und <code>password</code>.</li>
-<li><strong>Authentifizierung:</strong> Beim Absenden wird eine <code>POST</code>-Anfrage an den <code>/api/auth/login</code> Endpunkt gesendet.</li>
-<li><strong>Session-Management:</strong> - Bei Erfolg liefert das Backend einen <strong>JWT (JSON Web Token)</strong> sowie das Nutzerprofil zurück.<ul>
-<li>Der Token wird im <code>Supabase</code> gespeichert und dient als Autorisierung für alle zukünftigen API-Anfragen.</li>
-</ul>
-</li>
-<li><strong>UX-Elemente:</strong> Ein Lade-Spinner (<code>isLoading</code>) verhindert Mehrfacheingaben während der Serverantwort.</li>
-</ul>
-<h2 id="fehlgeschlagenes-login">Fehlgeschlagenes Login:</h2>
-<p>Fehlgeschlagenes Login wird der User darüber informiert, dass seine Eingabe falsch sind oder ein Sicherheitsrisiko verursachen kann</p>
-<h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
+<h1 id="fehlerbehandlung-sicherheitsvalidierung">Fehlerbehandlung &amp; Sicherheitsvalidierung</h1>
+<p>Diese Seite beschreibt, wie die Anwendung auf fehlerhafte Eingaben, unbefugte Zugriffsversuche oder Verletzungen der Geschäftslogik reagiert. Das Ziel ist es, dem Nutzer hilfreiches Feedback zu geben und gleichzeitig die Integrität des Systems zu schützen.</p>
+<h2 id="validierungslogik-fehlertypen">⚠️ Validierungslogik &amp; Fehlertypen</h2>
+<p>Die Anwendung nutzt ein mehrstufiges System, um Fehler abzufangen. Dabei wird zwischen einfachen Formularfehlern und kritischen Sicherheitswarnungen unterschieden.</p>
+<h3 id="1-formular-und-logikfehler">1. Formular- und Logikfehler</h3>
+<p>Diese Fehler treten auf, wenn der Nutzer notwendige Felder übersieht oder die Erwartungen der UI nicht erfüllt.</p>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Schwachstelle</th>
-<th style="text-align: left;">Vorbeugung</th>
+<th style="text-align: left;">Ereignis</th>
+<th style="text-align: left;">Reaktion der Applikation</th>
+<th style="text-align: left;">UI-Komponente</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>XSS Attacken</strong></td>
-<td style="text-align: left;">Der Nutzername wird mittels <code>DOMPurify</code> bereinigt, um Skript-Injektionen im Login-Log zu verhindern.</td>
+<td style="text-align: left;"><strong>Leerer Titel</strong></td>
+<td style="text-align: left;">"Titel fehlt" Fehlermeldung wird angezeigt.</td>
+<td style="text-align: left;">SnackBar (Failed)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Brute-Force Angriffe</strong></td>
-<td style="text-align: left;">Die Schaltfläche wird nach dem Klicken deaktiviert. .</td>
+<td style="text-align: left;"><strong>Leerer Inhalt</strong></td>
+<td style="text-align: left;">"Text Content fehlt" Fehlermeldung wird angezeigt.</td>
+<td style="text-align: left;">SnackBar (Failed)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Session-Fixierung</strong></td>
-<td style="text-align: left;">Der Token wird vom BAckend generiert, lokal sicher gespeichert und beim Logout durch <code>localStorage.clear()</code> sofort vernichtet.</td>
+<td style="text-align: left;"><strong>Notiz nicht gefunden</strong></td>
+<td style="text-align: left;">Umleitung auf eine Fehlerseite mit Link zum Dashboard.</td>
+<td style="text-align: left;">NoteDetailView (v-else)</td>
 </tr>
 <tr>
-<td style="text-align: left;">## 🔒 Datenschutz</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><strong>Ungültiger Login</strong></td>
+<td style="text-align: left;">Hinweis auf falsche Anmeldedaten ohne Details preiszugeben.</td>
+<td style="text-align: left;">LoginView</td>
 </tr>
 </tbody>
 </table>
+<h3 id="2-sicherheitswarnungen-xss-link-schutz">2. Sicherheitswarnungen (XSS &amp; Link-Schutz)</h3>
+<p>Wenn das System potenziell gefährliche Inhalte erkennt, die durch <code>DOMPurify</code> oder unsere Regex-Filter abgefangen werden, erfolgt eine abgestufter Warnmechanismus.</p>
 <ul>
-<li><strong>HTTPS:</strong> Die Übertragung der Anmeldedaten erfolgt ausschließlich über verschlüsselte Verbindungen.</li>
-<li><strong>Minimale Datenspeicherung:</strong> Im Browser werden nur die für die Session notwendigen Metadaten (Username, Rolle) zwischengespeichert.</li>
+<li><strong>Warnung (Potenzielles Risiko):</strong> Tritt auf, wenn das System Inhalte bereinigt hat (z. B. unbekannte HTML-Tags entfernt) oder wenn ein Link nicht dem sicheren Format <code>(embed:)</code> oder <code>(image-embed:)</code> entspricht.<ul>
+<li><em>Meldung:</em> "Potentielles Sicherheitsrisiko erkannt!"</li>
 </ul>
+</li>
+<li><strong>Fehler (Kritisches Risiko):</strong> Tritt auf, wenn die Bereinigung dazu führt, dass kein valider Inhalt mehr übrig bleibt (z. B. nur bösartiger Code eingegeben wurde).<ul>
+<li><em>Meldung:</em> "Tatsächliches Sicherheitsrisiko erkannt und entfernt!"</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="serverseitige-fehler-rls-blockaden">🔒 Serverseitige Fehler &amp; RLS-Blockaden</h2>
+<p>Dank der <strong>Row Level Security (RLS)</strong> in der Datenbank und der Logik im <strong>Spring Boot Backend</strong> werden unlogische Aktionen auf technischer Ebene blockiert, selbst wenn die UI umgangen wird.</p>
+<h3 id="szenarien-fur-blockierte-aktionen">Szenarien für blockierte Aktionen:</h3>
+<ol>
+<li><strong>Unbefugtes Bearbeiten:</strong> Ein Nutzer versucht, die ID einer Notiz in der URL zu ändern, die ihm nicht gehört.<ul>
+<li><em>Reaktion:</em> Die RLS-Policy <code>update the notes</code> gibt keinen Datensatz zurück oder das Backend verweigert die Transaktion.</li>
+</ul>
+</li>
+<li><strong>Unbefugtes Löschen:</strong> Ein Nutzer sendet einen Löschbefehl für eine fremde Notiz.<ul>
+<li><em>Reaktion:</em> Die Datenbank prüft <code>auth.uid() = owner_id</code>. Da dies fehlschlägt, wird die Zeile nicht gelöscht.</li>
+</ul>
+</li>
+<li><strong>Fremde geteilte Notizen:</strong> Zugriff auf <code>shared_notiz</code> ohne Absender- oder Empfänger-ID zu sein.<ul>
+<li><em>Reaktion:</em> Die Abfrage liefert ein leeres Ergebnis zurück (<code>404</code> oder leere Liste).</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="technische-umsetzung-der-fehlermeldungen">🛠 Technische Umsetzung der Fehlermeldungen</h2>
+<p>Die Fehlermeldungen werden zentral über die <code>SnackBar</code>-Komponente gesteuert, um ein konsistentes Design zu gewährleisten.</p>
+<p>```javascript
+// Beispiel für die Fehlersteuerung in der Logik
+const handleWarn = (msg) =&gt; {
+  snackbar.message = msg || 'Sicherheitsrisiko erkannt!';
+  snackbar.type = 'warn'; // Gelbes Design
+  snackbar.show = true;
+};</p>
+<p>const handleError = (msg) =&gt; {
+  snackbar.message = msg || 'Fehler beim Speichern!';
+  snackbar.type = 'failed'; // Rotes Design
+  snackbar.show = true;
+};</p>
 
 
 
