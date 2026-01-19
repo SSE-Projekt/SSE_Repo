@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Automatische Updates für Maven (Backend)
+  - package-ecosystem: "maven"
+    directory: "/backend"
+    schedule:
+      interval: "daily"
+
+  # Automatische Updates für NPM (Frontend)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "daily"

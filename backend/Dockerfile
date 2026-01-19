@@ -14,6 +14,16 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
+# FIX: OS-Pakete aktualisieren, um gnupg und libpng Lücken zu schließen
+USER root
+RUN apk update && apk upgrade --no-cache
+
+# Die fertig gebaute .jar Datei aus der Build-Stage kopieren
+# Dies ist eine Sicherheitsmaßnahme (Multi-Stage Build), damit der Quellcode nicht im Image landet
+COPY --from=build /app/target/*.jar app.jar
+
+# Sicherheits-Best-Practice: Erstellen eines Non-Root-Users
+# Die Anwendung wird nicht mit Root-Rechten ausgeführt, um das Risiko bei Container-Ausbrüchen zu minimieren
 # Non-Root User erstellen
 RUN addgroup -S ssegroup && adduser -S sseuser -G ssegroup
 
