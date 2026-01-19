@@ -25,52 +25,54 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            // CSRF deaktivieren für API (JWT-basiert)
-            .csrf(AbstractHttpConfigurer::disable)
+   @Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(AbstractHttpConfigurer::disable)
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        
+        // NEU: Explizite Fehlerbehandlung hinzufügen
+        // Wenn Spring Security den Zugriff verweigert, gibt es standardmäßig 403.
+        // Mit diesem EntryPoint können wir sicherstellen, dass wir 401 statt 403 bekommen,
+        // wenn der Token einfach nur fehlt oder ungültig ist.
+        .exceptionHandling(ex -> ex
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Nicht autorisiert: " + authException.getMessage());
+            })
+        )
 
-            // CORS konfigurieren
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .sessionManagement(session ->
+            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        )
 
-                // Ergänzung: Falls ein Auth-Fehler auftritt, wird dieser oft als 403 getarnt
-                /*.exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Nicht autorisiert");
-                        })
-                )*/
-            // Session Management: Stateless (kein Session-Cookie)
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
+        .authorizeHttpRequests(auth -> auth
+            // WICHTIG: Erlaube den Zugriff auf /error, damit Fehlermeldungen vom Backend 
+            // nicht durch eine 403-Security-Sperre ersetzt werden.
+            .requestMatchers("/error").permitAll()
+            
+            .requestMatchers("/api/public/**", "/api/auth/**", "/api/notes/**").permitAll()
+            .requestMatchers("/api/health").permitAll()
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/notes/public").permitAll()
 
-            // Autorisierungs-Regeln
-            .authorizeHttpRequests(auth -> auth
-                // Öffentliche Endpoints (kein Login nötig)
-                .requestMatchers("/api/public/**", "/api/auth/**", "/api/notes/**").permitAll()
-                .requestMatchers("/api/health").permitAll()
-                    // Sicherheitsnetz: Erlaube explizit GET für diesen Pfad
-                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/notes/public").permitAll()
+            .anyRequest().authenticated()
+        )
 
-                // Alle anderen Endpoints brauchen Authentication
-                .anyRequest().authenticated()
-            )
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-            // JWT-Filter VOR dem Standard-Auth-Filter
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
-
+    return http.build();
+}
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Erlaube Frontend-URL (Vue.js läuft auf Port 5173)
-        configuration.setAllowedOrigins(Arrays.asList("""
-                http://localhost:5173""", """
-                http://localhost:3000"""));
+        configuration.setAllowedOrigins(Arrays.asList(
+          "http://localhost:5173",  // Lokale Entwicklung (Vite Standard-Port)
+                "http://localhost:3000", // Lokale Entwicklung (Standard-Port 80)
+                "http://localhost"       // Docker-Umgebung (Standard-Port 80)
+        ));
+           
 
         // Erlaube alle HTTP-Methoden
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));

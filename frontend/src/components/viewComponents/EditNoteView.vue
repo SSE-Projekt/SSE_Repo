@@ -29,23 +29,11 @@
           ></textarea>
         </div>
 
-        <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-          <button
-              @click="editNote.isPrivate = !editNote.isPrivate"
-              class="flex items-center gap-2 text-gray-500 text-sm"
-          >
-            <svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current">
-              <path :d="editNote.isPrivate ? getIcon('lock-outline') : getIcon('earth')" />
-            </svg>
-            {{ editNote.isPrivate ? 'Private' : 'Public' }}
-          </button>
-
-          <button
-              @click="saveChanges"
-              class="bg-black text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-800 transition-all shadow-lg active:scale-[0.98]"
-          >
-            Änderungen speichern
-          </button>
+        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" v-model="editNote.isPrivat" id="private-check" class="w-4 h-4 accent-black" />
+            <label for="private-check" class="text-sm text-gray-700 cursor-pointer">Privat halten</label>
+          </div>
         </div>
 
         <div class="flex items-center justify-center gap-1 mt-6 text-gray-400 text-xs">
@@ -68,6 +56,7 @@
         :type="snackbar.type"
     />
   </div>
+
 </template>
 
 <script setup>
@@ -76,10 +65,12 @@ import { useRoute, useRouter } from 'vue-router';
 import { getIcon } from '@/utils/getIcon';
 import DOMPurify from 'dompurify';
 import SnackBar from "@/components/viewComponents/snackBar.vue";
+import { getNote, updateNote } from '@/services/api';  // ⭐ NEU!
 
 const route = useRoute();
 const router = useRouter();
 const editNote = ref(null);
+const loading = ref(false);  // ⭐ NEU!
 
 const snackbar = reactive({
   show: false,
@@ -87,18 +78,26 @@ const snackbar = reactive({
   type: 'success'
 });
 
-onMounted(() => {
-  const notes = JSON.parse(localStorage.getItem('notes') || '[]');
-  // On récupère la note sans le "# " au début du titre pour l'input
-  const note = notes.find(n => n.id === route.params.id);
-
-  if (note) {
+// ⭐ NEU: Notiz vom Backend laden
+onMounted(async () => {
+  loading.value = true;
+  try {
+    const note = await getNote(route.params.id);
+    
+    // Backend-Daten für Frontend anpassen
     editNote.value = {
-      ...note,
-      title: note.title.startsWith('# ') ? note.title.substring(2) : note.title
+      id: note.notizId,
+      content: note.notizText,
+      isPrivat: note.isPrivat,
+      title: note.title
     };
-  } else {
+    
+  } catch (error) {
+    console.error('Fehler beim Laden:', error);
+    handleError('Notiz nicht gefunden');
     router.push('/my-notes');
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -108,8 +107,8 @@ const showMsg = (msg, type) => {
   snackbar.show = true;
 };
 
-const saveChanges = () => {
-  const preRawTitle = editNote.value.title?.trim();
+const saveChanges = async () => {
+  const sanitizedTitle = DOMPurify.sanitize(editNote.value.title || '');
   const rawContent = editNote.value.content?.trim();
 
   // Validation des champs vides (comme dans EntryCard)
@@ -132,9 +131,9 @@ const saveChanges = () => {
     ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"]
   });
 
-  // 2. Vérification de sécurité stricte
-  if (!cleanTitle || !cleanContent) {
-    showMsg('Tatsächliches Sicherheitsrisiko erkannt und entfernt!', 'failed');
+  if (!cleanContent) {
+    handleError('Inhalt ungültig!');
+    editNote.value.content = '';
     return;
   }
 
@@ -147,30 +146,35 @@ const saveChanges = () => {
     return;
   }
 
-  // 3. Mise à jour du LocalStorage
-  const allNotes = JSON.parse(localStorage.getItem('notes') || '[]');
-  const index = allNotes.findIndex(n => n.id === editNote.value.id);
 
-  if (index !== -1) {
-    allNotes[index] = {
-      ...allNotes[index],
-      title: cleanTitle,
-      content: cleanContent,
-      isPrivate: editNote.value.isPrivate,
-      date: new Date().toLocaleString() // On met à jour la date
+  try {
+    const savedNote = {
+      id: editNote.value.id,
+      title: editNote.value.title,
+      notizText: editNote.value.content,
+      isPrivat: editNote.value.isPrivat,
     };
-
-    localStorage.setItem('notes', JSON.stringify(allNotes));
-
-    showMsg('Änderungen erfolgreich gespeichert!', 'success');
+    await updateNote(editNote.value.id, savedNote);
 
     // Redirection après succès
     setTimeout(() => {
       router.replace({
         path: `/notes/${editNote.value.id}`,
-        query: { from: 'my-notes' }
+        query: {from: '/my-notes'}
       });
     }, 1500);
+  } catch (error) {
+    console.error('Fehler beim Speichern:', error);
+
+    if (error.response?.status === 403) {
+      handleError('Keine Berechtigung zum Bearbeiten!');
+    } else if (error.response?.status === 401) {
+      handleError('Bitte erneut anmelden!');
+    } else {
+      handleError('Fehler beim Speichern: ' + error.message);
+    }
+  } finally {
+    loading.value = false;
   }
-};
+}
 </script>

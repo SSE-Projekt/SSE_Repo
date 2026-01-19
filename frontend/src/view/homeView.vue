@@ -67,13 +67,15 @@ import SearchBar from "@/components/viewComponents/SearchBar.vue";
 import EntryCard from "@/components/viewComponents/entryCard.vue";
 import NoteCard from "@/components/viewComponents/noteCard.vue";
 import SnackBar from "@/components/viewComponents/snackBar.vue";
+import { getMyNotes, getPublicNotes } from '@/services/api';  // ⭐ NEU!
 
 const route = useRoute();
 const router = useRouter();
 
 const searchQuery = ref('');
 const filter = ref('all');
-const existingNotes = ref(JSON.parse(localStorage.getItem('notes') || '[]'));
+const existingNotes = ref([]);  // ⭐ GEÄNDERT!
+const loading = ref(false);
 
 const snackbar = reactive({
   show: false,
@@ -81,14 +83,63 @@ const snackbar = reactive({
   type: 'success'
 });
 
-const user = ref(null)
+const user = ref(null);
 
-const storedUser = localStorage.getItem('user')
-user.value = storedUser ? JSON.parse(storedUser) : null
+const storedUser = localStorage.getItem('user');
+user.value = storedUser ? JSON.parse(storedUser) : null;
+
+// ⭐ NEU: Notizen vom Backend laden
+const loadNotes = async () => {
+  loading.value = true;
+  try {
+    let myNotes = [];
+    let publicNotes = [];
+    
+    // Immer öffentliche Notizen laden
+    publicNotes = await getPublicNotes();
+    
+    // Eigene Notizen laden (falls eingeloggt)
+    try {
+      myNotes = await getMyNotes();
+    } catch (error) {
+      // Falls nicht eingeloggt, nur öffentliche anzeigen
+      console.log('Eigene Notizen nicht verfügbar');
+    }
+    
+    // Kombinieren ohne Duplikate (basierend auf ID)
+    const allNotes = [...myNotes];
+    publicNotes.forEach(pubNote => {
+      if (!allNotes.find(n => n.notizId === pubNote.notizId)) {
+        allNotes.push(pubNote);
+      }
+    });
+    
+    // Backend-Daten für Frontend anpassen
+    existingNotes.value = allNotes.map(note => ({
+      id: note.notizId,
+      title: note.title,
+      content: note.notizText,
+      isPrivate: note.isPrivat,
+      date: note.createdAt
+    }));
+    
+  } catch (error) {
+    console.error('Fehler beim Laden:', error);
+    snackbar.message = 'Fehler beim Laden der Notizen';
+    snackbar.type = 'failed';
+    snackbar.show = true;
+  } finally {
+    loading.value = false;
+  }
+};
+
 // --- URL Logik ---
-onMounted(() => {
+onMounted(async () => {
   if (route.query.q) searchQuery.value = route.query.q;
   if (route.query.type) filter.value = route.query.type;
+  
+  // ⭐ NEU: Notizen laden
+  await loadNotes();
 });
 
 const updateUrl = () => {
@@ -100,25 +151,30 @@ const updateUrl = () => {
   });
 };
 
-// --- Filterlogik (angepasst an isPrivate) ---
+// --- Filterlogik ---
 const filteredNotes = computed(() => {
+  // Sicherheit: Falls existingNotes noch nicht geladen ist, leeres Array zurückgeben
+  if (!existingNotes.value) return [];
+
   return existingNotes.value.filter(note => {
     // 1. Vorbereitung der Texte für die Recherche
-    const content = (note.title || '').toLowerCase();
+    // Wir nehmen den Titel UND den Text für die Suche
+    const noteTitle = (note.title || '').toLowerCase();
+    const noteText = (note.notizText || '').toLowerCase(); // Falls dein Feld in der DB 'notizText' heißt
     const query = (searchQuery.value || '').toLowerCase();
-    const matchesSearch = content.includes(query);
 
-    // 2. Filterlogik
+    // FEHLER BEHOBEN: Wir nutzen noteTitle statt des undefinierten 'title'
+    const matchesSearch = noteTitle.includes(query) || noteText.includes(query);
+
     let matchesFilter = false;
 
     if (filter.value === 'all') {
       matchesFilter = true;
     } else if (filter.value === 'public') {
-      // Wenn isPrivate falsch ist (oder noch nicht existiert), ist es öffentlich.
-      matchesFilter = note.isPrivate === false;
+      // Prüfe, ob die Property 'isPrivat' (wie in deinem Hibernate-Log) oder 'isPrivate' heißt
+      matchesFilter = note.isPrivat === false || note.isPrivate === false;
     } else if (filter.value === 'private') {
-      // Wenn isPrivate wahr ist
-      matchesFilter = note.isPrivate === true;
+      matchesFilter = note.isPrivat === true || note.isPrivate === true;
     }
 
     return matchesSearch && matchesFilter;
@@ -126,10 +182,13 @@ const filteredNotes = computed(() => {
 });
 
 // --- Handlers ---
-const handleSuccess = () => {
+const handleSuccess = async () => {
   snackbar.message = 'Notiz erfolgreich gespeichert!';
   snackbar.type = 'success';
   snackbar.show = true;
+  
+  // ⭐ NEU: Notizen neu laden
+  await loadNotes();
 };
 
 const handleWarn = (msg) => {
@@ -156,9 +215,9 @@ const handleContentError = (msg) => {
   snackbar.show = true;
 };
 
-const addNewNote = () => {
-  // Liste aus dem lokalen Speicher aktualisieren
-  existingNotes.value = JSON.parse(localStorage.getItem('notes') || '[]');
+const addNewNote = async () => {
+  // ⭐ GEÄNDERT: Vom Backend neu laden
+  await loadNotes();
 };
 </script>
 

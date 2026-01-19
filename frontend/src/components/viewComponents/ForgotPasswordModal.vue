@@ -69,14 +69,14 @@ const submitRequest = async () => {
 
   isLoading.value = true;
   try {
-    await axios.post('http://localhost:8080/api/auth/forgot-password', {
-      email: resetEmail.value
+    await axios.post('http://localhost:8080/api/auth/forgot', {
+      email: resetEmail.toString()
     });
 
     emit('success', "E-Mail wurde gesendet!");
     close();
   } catch (err) {
-    emit('error', "Fehler beim Senden.");
+    emit('error', `Fehler beim Senden: ${err}.`);
   } finally {
     isLoading.value = false;
   }

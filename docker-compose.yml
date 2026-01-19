@@ -1,15 +1,38 @@
-version: '3.8'
-
 services:
-  mailpit:
-    image: public.ecr.aws/supabase/mailpit:v1.22.3
-    container_name: supabase_mailpit
+  # Dein Java Backend
+  backend:
+    build: ./backend
+    container_name: sse_backend_app
     ports:
-      - "54324:8025"   # Web UI
-      - "1025:1025"    # SMTP
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://supabase_db_SSE_Repo:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
     networks:
-      - supabase_net
+      - supabase_network
+
+  # Dein Vue.js Frontend
+  frontend:
+    build: ./frontend
+    container_name: sse_frontend_app
+    ports:
+      - "80:80"
+    networks:
+      - supabase_network
+
+  # Mailpit (Muss unter services stehen!)
+  mailpit:
+    image: axllent/mailpit
+    container_name: sse_mailpit
+    ports:
+      - "8025:8025" # Web-UI
+      - "1025:1025" # SMTP
+    networks:
+      - supabase_network
 
 networks:
-  supabase_net:
-    driver: bridge
+  # Wir verbinden uns mit dem bereits existierenden Supabase-Netzwerk
+  supabase_network:
+    external: true
+    name: supabase_network_SSE_Repo
