@@ -70,7 +70,7 @@ const submitRequest = async () => {
   isLoading.value = true;
   try {
     await axios.post('http://localhost:8080/api/auth/forgot', {
-      email: resetEmail.toString()
+      email: resetEmail.value
     });
 
     emit('success', "E-Mail wurde gesendet!");

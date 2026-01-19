@@ -28,15 +28,17 @@ public class PasswordController {
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> payload) {
         String email = payload.get("email");
 
-        if (email == null || email.isBlank()) {
-            return ResponseEntity.badRequest().body("Email darf nicht leer sein.");
-        }
+        // Wir bauen die URL manuell zusammen, um sicherzustellen, dass das # erhalten bleibt
+        // Supabase akzeptiert URLs in der Whitelist oft besser, wenn sie nicht voll-kodiert sind
+        String targetUrl = "http://localhost:80/#/my-app/reset-password";
 
         Map<String, Object> supabasePayload = new HashMap<>();
         supabasePayload.put("email", email);
 
-        // Endpoint für Passwort-Reset
-        return forwardToSupabase("/recover", supabasePayload);
+        // Wir hängen den redirect_to einfach an den Pfad an
+        String endpoint = "/recover?redirect_to=" + targetUrl;
+
+        return forwardToSupabase(endpoint, supabasePayload);
     }
 
     /**
