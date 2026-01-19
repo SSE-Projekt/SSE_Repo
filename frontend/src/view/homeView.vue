@@ -153,20 +153,28 @@ const updateUrl = () => {
 
 // --- Filterlogik ---
 const filteredNotes = computed(() => {
+  // Sicherheit: Falls existingNotes noch nicht geladen ist, leeres Array zurückgeben
+  if (!existingNotes.value) return [];
+
   return existingNotes.value.filter(note => {
     // 1. Vorbereitung der Texte für die Recherche
-    const content = (note.title || '').toLowerCase();
+    // Wir nehmen den Titel UND den Text für die Suche
+    const noteTitle = (note.title || '').toLowerCase();
+    const noteText = (note.notizText || '').toLowerCase(); // Falls dein Feld in der DB 'notizText' heißt
     const query = (searchQuery.value || '').toLowerCase();
-    const matchesSearch = content.includes(query) || title.includes(query);
+
+    // FEHLER BEHOBEN: Wir nutzen noteTitle statt des undefinierten 'title'
+    const matchesSearch = noteTitle.includes(query) || noteText.includes(query);
 
     let matchesFilter = false;
 
     if (filter.value === 'all') {
       matchesFilter = true;
     } else if (filter.value === 'public') {
-      matchesFilter = note.isPrivate === false;
+      // Prüfe, ob die Property 'isPrivat' (wie in deinem Hibernate-Log) oder 'isPrivate' heißt
+      matchesFilter = note.isPrivat === false || note.isPrivate === false;
     } else if (filter.value === 'private') {
-      matchesFilter = note.isPrivate === true;
+      matchesFilter = note.isPrivat === true || note.isPrivate === true;
     }
 
     return matchesSearch && matchesFilter;
