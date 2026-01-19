@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../main-views/">
-      
-      
-        <link rel="next" href="../registration/">
       
       
         
@@ -23,7 +19,7 @@
     
     
       
-        <title>Login - Secure Notes Documentation</title>
+        <title>CI&CD - Secure Notes Documentation</title>
       
     
     
@@ -71,11 +67,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#feature-login-anmeldung" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -108,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Login
+              CI&CD
             
           </span>
         </div>
@@ -228,20 +219,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -262,7 +251,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -305,37 +294,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Login
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../login/" class="md-nav__link">
         
   
   
@@ -351,59 +313,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#technische-umsetzung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛠 Technische Umsetzung
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fehlgeschlagenes-login" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fehlgeschlagenes Login:
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#schwachstellen-vorbeugung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛡️ Schwachstellen &amp; Vorbeugung
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -684,49 +593,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#technische-umsetzung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛠 Technische Umsetzung
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fehlgeschlagenes-login" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Fehlgeschlagenes Login:
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#schwachstellen-vorbeugung" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛡️ Schwachstellen &amp; Vorbeugung
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -743,51 +609,9 @@
 
 
 
-<h1 id="feature-login-anmeldung">Feature: Login (Anmeldung)</h1>
-<p>Der Login-Prozess ist das Tor zur Applikation und stellt sicher, dass nur authentifizierte Nutzer Zugriff auf ihre privaten Notizen erhalten.</p>
-<h2 id="technische-umsetzung">🛠 Technische Umsetzung</h2>
-<ul>
-<li><strong>Frontend:</strong> Die Komponente <code>Anmeldung.vue</code> verwaltet den Status der Eingabefelder <code>username</code> und <code>password</code>.</li>
-<li><strong>Authentifizierung:</strong> Beim Absenden wird eine <code>POST</code>-Anfrage an den <code>/api/auth/login</code> Endpunkt gesendet.</li>
-<li><strong>Session-Management:</strong> - Bei Erfolg liefert das Backend einen <strong>JWT (JSON Web Token)</strong> sowie das Nutzerprofil zurück.<ul>
-<li>Der Token wird im <code>Supabase</code> gespeichert und dient als Autorisierung für alle zukünftigen API-Anfragen.</li>
-</ul>
-</li>
-<li><strong>UX-Elemente:</strong> Ein Lade-Spinner (<code>isLoading</code>) verhindert Mehrfacheingaben während der Serverantwort.</li>
-</ul>
-<h2 id="fehlgeschlagenes-login">Fehlgeschlagenes Login:</h2>
-<p>Fehlgeschlagenes Login wird der User darüber informiert, dass seine Eingabe falsch sind oder ein Sicherheitsrisiko verursachen kann</p>
-<h2 id="schwachstellen-vorbeugung">🛡️ Schwachstellen &amp; Vorbeugung</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Schwachstelle</th>
-<th style="text-align: left;">Vorbeugung</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>XSS Attacken</strong></td>
-<td style="text-align: left;">Der Nutzername wird mittels <code>DOMPurify</code> bereinigt, um Skript-Injektionen im Login-Log zu verhindern.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Brute-Force Angriffe</strong></td>
-<td style="text-align: left;">Die Schaltfläche wird nach dem Klicken deaktiviert. .</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Session-Fixierung</strong></td>
-<td style="text-align: left;">Der Token wird vom BAckend generiert, lokal sicher gespeichert und beim Logout durch <code>localStorage.clear()</code> sofort vernichtet.</td>
-</tr>
-<tr>
-<td style="text-align: left;">## 🔒 Datenschutz</td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><strong>HTTPS:</strong> Die Übertragung der Anmeldedaten erfolgt ausschließlich über verschlüsselte Verbindungen.</li>
-<li><strong>Minimale Datenspeicherung:</strong> Im Browser werden nur die für die Session notwendigen Metadaten (Username, Rolle) zwischengespeichert.</li>
-</ul>
+  <h1>CI&CD</h1>
+
+
 
 
 
