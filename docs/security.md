@@ -1,66 +1,92 @@
-# Sicherheit und Datenschutz
+# 🚀 TicketSystem: Enterprise Ticket Management System for Support Team
 
-Dieses Dokument beschreibt die globalen Sicherheitsmaßnahmen und Datenschutz-Prinzipien, die in der gesamten Applikation angewendet werden.
-## 🗄️ Datenbank-Sicherheit (Row Level Security - RLS)
-
-Um sicherzustellen, dass Nutzer niemals Zugriff auf Daten anderer Nutzer erhalten, setzen wir auf **Row Level Security (RLS)** direkt in der PostgreSQL-Datenbank (Supabase).
-
-In **Supabase** haben wir eine strikte **Row Level Security (RLS)** implementiert. Dies bedeutet, dass die Sicherheit nicht nur im Code, sondern direkt in der Datenbank verankert ist.
-### Sicherheits-Policys
-Jede Tabelle verfügt über strikte Zugriffsregeln:
-- **Tabelle `users`:** Nutzer können alle Profile sehen (für das Teilen-Feature), aber nur ihr eigenes Profil bearbeiten oder löschen (`auth.uid() = id`).
-- **Tabelle `notiz`:** Nur der Besitzer einer Notiz (`owner_id`) hat die Berechtigung, diese zu aktualisieren, einzufügen oder zu löschen.
-- **Tabelle `shared_notiz`:** Diese Tabelle steuert den Zugriff auf geteilte Inhalte. Ein Zugriff ist nur erlaubt, wenn der Nutzer entweder der **Sender** oder der **Empfänger** der Notiz ist.
-
-
-
-> **Sicherheits-Vorteil:** Selbst wenn ein Angreifer versucht, die API direkt aufzurufen oder den Frontend-Code zu manipulieren, blockiert die Datenbank jede Anfrage, die nicht durch eine RLS-Policy autorisiert ist.
-## 🛡️ Sicherheitsarchitektur
-
-### 1. Cross-Site Scripting (XSS) Prävention
-Um die Einschleusung von bösartigem Code zu verhindern, setzen wir auf eine mehrschichtige Verteidigung:
-- **Sanitizing:** Alle Benutzereingaben werden mit `DOMPurify` bereinigt, bevor sie verarbeitet oder versendet werden.
-- **Input Filtering:** Kritische Felder (wie Passwörter oder Nutzername) werden zusätzlich durch reguläre Ausdrücke (Regex) gefiltert, um gefährliche Zeichen wie `< > ' " ( ) -` von vornherein auszuschließen.
-
-### 2. Authentifizierung & Autorisierung - Backend-Sicherheit mit Spring Boot
-Das Backend wurde mit **Spring Boot** entwickelt und nutzt **Maven** zur Abhängigkeitsverwaltung.
-- **JWT (JSON Web Tokens):** Nach dem Login wird ein verschlüsselter Token im `Datenank` gespeichert. Dieser Token wird bei jedem API-Aufruf im Authorization-Header mitgesendet.
-- **Role-Based Access Control (RBAC):** Die Anwendung unterscheidet strikt zwischen Rollen (z.B. Leser vs. Autor). Funktionen wie das Erstellen von Notizen werden im Frontend (UI-Elemente ausgeblendet) und im Backend (Route-Guards) geschützt.
-- **Validierung:** Spring Boot validiert alle eingehenden Datenmodelle, bevor sie verarbeitet werden.
-
-
-### 3. Passwort-Sicherheit
-- **Komplexität:** Wir erzwingen eine Mindestlänge von 8 Zeichen, Groß-/Kleinschreibung, Zahlen und Sonderzeichen.
-- **Hashing:** (Backend-Hinweis) Passwörter werden niemals im Klartext gespeichert, sondern mit einem modernen Hashing-Algorithmus (z.B. BCrypt) serverseitig verschlüsselt.
+**TicketSystem** is a high-performance full-stack solution designed to optimize customer support workflows. The system combines administrative control, data-driven analytics, and an intuitive user experience within a modern web architecture.
 
 ---
 
-## Infrastruktur mit Docker
+# 🛠 Core Features
 
-Durch den Einsatz von **Docker** wird die Anwendung in einer isolierten Umgebung ausgeführt. Dies minimiert Abhängigkeitskonflikte und erhöht die Sicherheit durch Container-Isolierung.
+## 1. Intelligent Support Dashboard
 
----
-## 🔒 Datenschutz (GDPR / DSGVO)
+The central hub for support agents. It enables efficient ticket management through:
 
-Wir folgen dem Prinzip der **Datensparsamkeit**. Es werden nur Daten erhoben, die für den Betrieb der Anwendung absolut notwendig sind.
-
-### Gespeicherte Daten
-| Datentyp | Verwendungszweck | Schutzmaßnahme |
-| :--- | :--- | :--- |
-| **E-Mail Adresse** | Account-Identifizierung & Passwort-Reset | Verschlüsselte Übertragung (HTTPS) |
-| **Nutzername** | Anzeige in der App & Login | Bereinigung durch DOMPurify |
-| **Notizen** | Kernfunktion der App | Zugriff nur für autorisierte User / Rollen |
-
-### LocalStorage Nutzung
-Im Browser des Nutzers werden lediglich folgende Daten gespeichert:
-- `token`: Der aktive Session-Token.
-- `user`: Ein JSON-Objekt mit ID, Rolle und Nutzername zur UI-Personalisierung.
-
-> **Hinweis:** Beim Logout werden alle Daten im `localStorage` mittels `localStorage.clear()` vollständig gelöscht, um unbefugten Zugriff an öffentlichen Rechnern zu verhindern.
+* **Ticket Lifecycle:** Seamless assigning and unassigning of tickets.
+* **Role-Based Visibility:** Distinct views for **"My Tasks"** versus the global ticket pool.
+* **Real-Time Status Updates:** Immediate feedback on ticket states (`OPEN`, `IN_PROGRESS`, `CLOSED`).
 
 ---
 
-## 🚀 Bekannte Schwachstellen & zukünftige Verbesserungen
-- **Konto löschen:** Aktuell kann der User sein Konto nicht löschen. Dies sollte in einer zukünftigen Version implementiert werden.
-- **Rate Limiting:** Aktuell gibt es keine strikte Begrenzung für Login-Versuche (Schutz gegen Brute-Force). Dies sollte in einer zukünftigen Version serverseitig implementiert werden.
-- **Zwei-Faktor-Authentifizierung (2FA):** Zur Erhöhung der Sicherheit wäre die Implementierung von TOTP (Google Authenticator) ein sinnvoller nächster Schritt.
+## 2. Administrative User Management (Drag and Drop)
+
+A high-end feature for administrators to dynamically manage user roles:
+
+* **Kanban-Style Management:** Move users between the roles `USER`, `SUPPORT`, and `ADMIN` using drag-and-drop.
+* **Security Validation:** Every change is validated in the backend against JWT claims and role permissions.
+* **Responsive UX:** Full drag-and-drop functionality on desktop and intuitive toggle controls on mobile devices.
+
+---
+
+## 3. Business Analytics & Reporting
+
+Make data-driven decisions with visual insights:
+
+* **Live Metrics:** Real-time counters for system users and ticket statistics.
+* **Historical Analysis:** A responsive area chart (Recharts) visualizing ticket trends over several months.
+* **PostgreSQL Optimized:** High-performance data aggregation directly at the database level using optimized `TO_CHAR` queries.
+
+---
+
+# 🧠 AI-Driven Prioritization (Local Engine)
+
+One of the highlights of this project is the **AI-like prioritization logic**, implemented directly within the Spring Boot backend:
+
+* **Zero API Latency:** Unlike external AI services, this approach avoids additional costs and latency. The logic runs natively on the server.
+* **Heuristic Analysis:** The system analyzes ticket content, keywords, and the creator’s history to automatically suggest priorities (`LOW` to `URGENT`).
+* **Business Rules Engine:** Priorities are dynamically adjusted based on time since creation and customer status to maintain SLAs (Service Level Agreements).
+
+---
+
+# 📈 Business Value
+
+| Feature                   | Business Benefit                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------ |
+| **Centralized Dashboard** | Reduces ticket response time (First Response Time) through clear ticket assignments. |
+| **Native Prioritization** | Ensures critical issues (`URGENT`) are handled immediately without manual triage.    |
+| **Admin Analytics**       | Identifies bottlenecks within the support team and supports resource planning.       |
+| **Responsive Design**     | Enables support agents to work efficiently even on mobile devices.                   |
+
+---
+
+# 🗺️ Roadmap: Future Features
+
+To further expand the platform, the following features are planned:
+
+* **Profile Management:** A personal area for users to manage avatars, passwords, and personal preferences.
+* **Email Notifications:** Automatic SMTP notifications for ticket assignments, status changes, or critical escalations.
+* **PDF Exports:** Generation of professional ticket summaries for customers and monthly performance reports for management.
+
+---
+
+# 💻 Tech Stack
+
+* **Frontend:** React 18, Tailwind CSS, Recharts, `@hello-pangea/dnd`
+* **Backend:** Java 21, Spring Boot 3, Spring Security (JWT & OAuth2)
+* **Database:** PostgreSQL
+* **Icons:** Lucide React
+
+---
+
+# ⚙️ Installation & Setup
+
+### 1. Backend
+
+```bash
+./mvnw spring-boot:run
+```
+
+### 2. Frontend
+
+```bash
+npm install
+npm run dev
+```
